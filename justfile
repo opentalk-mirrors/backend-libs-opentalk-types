@@ -16,6 +16,6 @@ _check_cargo_set_version:
 # Prepare a release
 prepare-release VERSION: _check_cargo_set_version
     # Set the version number for all packages in the workspace
-    cargo set-version --workspace {{ VERSION }} --exclude xtask
+    cargo set-version --workspace {{ VERSION }}
     # Regenerate the lockfile
     cargo check
