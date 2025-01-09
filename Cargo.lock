@@ -1706,9 +1706,9 @@ dependencies = [
 
 [[package]]
 name = "redis"
-version = "0.27.6"
+version = "0.28.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "09d8f99a4090c89cc489a94833c901ead69bfbf3877b4867d5482e321ee875bc"
+checksum = "ff21dd025d2d3d2a6ad6788c0f7153f82d063216a7638f70367aac5790fea5da"
 dependencies = [
  "arc-swap",
  "combine",
@@ -1724,9 +1724,9 @@ dependencies = [
 
 [[package]]
 name = "redis-args"
-version = "0.17.0"
+version = "0.18.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b28803bf6b969a54434c0541c2f31ceeb0d2d2b7d1e7f8ddad4d63e7420cd97b"
+checksum = "4d1210da85d4985cea591edb70db7a292008b9b04aff773269f5f45bae2ee2ea"
 dependencies = [
  "redis",
  "redis-args-impl",
@@ -1735,9 +1735,9 @@ dependencies = [
 
 [[package]]
 name = "redis-args-impl"
-version = "0.17.0"
+version = "0.18.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "827c1131cc2b31763ee6c7bbb11abc03766eb01bfe4a677b1ce2b9ea182c1e4c"
+checksum = "4b0adfe3f70a3eab84aaa218d2a52fbaa1597ead22b710545662ad910d04b281"
 dependencies = [
  "darling",
  "proc-macro2",
