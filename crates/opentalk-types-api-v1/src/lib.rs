@@ -22,6 +22,7 @@
 
 pub mod assets;
 pub mod auth;
+pub mod error;
 pub mod events;
 pub mod pagination;
 pub mod rooms;
