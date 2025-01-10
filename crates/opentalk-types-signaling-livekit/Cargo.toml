@@ -14,6 +14,12 @@ publish = true
 repository.workspace = true
 version.workspace = true
 
+[package.metadata.docs.rs]
+all-features = true
+
+[lints]
+workspace = true
+
 [features]
 backend = ["serde"]
 frontend = ["serde"]
@@ -27,6 +33,3 @@ serde = [
 opentalk-types-common.workspace = true
 opentalk-types-signaling.workspace = true
 serde = { workspace = true, optional = true }
-
-[lints]
-workspace = true
