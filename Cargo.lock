@@ -1285,6 +1285,29 @@ dependencies = [
 ]
 
 [[package]]
+name = "opentalk-types"
+version = "0.30.0-alpha"
+dependencies = [
+ "opentalk-types-api-v1",
+ "opentalk-types-common",
+ "opentalk-types-signaling",
+ "opentalk-types-signaling-breakout",
+ "opentalk-types-signaling-chat",
+ "opentalk-types-signaling-control",
+ "opentalk-types-signaling-livekit",
+ "opentalk-types-signaling-meeting-notes",
+ "opentalk-types-signaling-meeting-report",
+ "opentalk-types-signaling-moderation",
+ "opentalk-types-signaling-polls",
+ "opentalk-types-signaling-recording",
+ "opentalk-types-signaling-recording-service",
+ "opentalk-types-signaling-shared-folder",
+ "opentalk-types-signaling-subroom-audio",
+ "opentalk-types-signaling-timer",
+ "opentalk-types-signaling-whiteboard",
+]
+
+[[package]]
 name = "opentalk-types-api-v1"
 version = "0.30.0-alpha"
 dependencies = [

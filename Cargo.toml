@@ -17,6 +17,7 @@ kustos-shared = { path = "crates/kustos-shared", version = "0.30.0-alpha" }
 opentalk-client-shared = { path = "crates/opentalk-client-shared", version = "0.30.0-alpha" }
 opentalk-kustos-prefix = { path = "crates/opentalk-kustos-prefix", version = "0.30.0-alpha" }
 opentalk-kustos-prefix-impl = { path = "crates/opentalk-kustos-prefix-impl", version = "0.30.0-alpha" }
+opentalk-types = { path = "crates/opentalk-types", version = "0.30.0-alpha" }
 opentalk-types-api-v1 = { path = "crates/opentalk-types-api-v1", version = "0.30.0-alpha" }
 opentalk-types-common = { path = "crates/opentalk-types-common", version = "0.30.0-alpha" }
 opentalk-types-signaling = { path = "crates/opentalk-types-signaling", version = "0.30.0-alpha" }
