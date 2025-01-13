@@ -37,6 +37,7 @@ opentalk-types-signaling-timer = { path = "crates/opentalk-types-signaling-timer
 opentalk-types-signaling-whiteboard = { path = "crates/opentalk-types-signaling-whiteboard", version = "0.30.0-alpha" }
 
 actix-http = "3"
+actix-web = "4"
 actix-web-httpauth = "0.8"
 async-trait = "0.1"
 base64 = "0.22"
@@ -50,7 +51,9 @@ diesel = "2"
 email_address = "0.2.4"
 http = "1"
 http-request-derive = { version = "0.3.1", default-features = false }
+http0 = { version = "0.2", package = "http" }
 itertools = "0.14"
+log = "0.4"
 opentalk-diesel-newtype = "0.13"
 pretty_assertions = "1"
 proc-macro-crate = "3"

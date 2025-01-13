@@ -13,6 +13,7 @@ test:opentalk-types-api-v1:
       - FEATURES:
           [
           '',
+            actix,
             backend,
             diesel,
             frontend,
