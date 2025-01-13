@@ -1204,7 +1204,7 @@ dependencies = [
 
 [[package]]
 name = "kustos-shared"
-version = "0.30.0"
+version = "0.31.0-alpha"
 dependencies = [
  "http 1.2.0",
  "itertools",
@@ -1348,7 +1348,7 @@ checksum = "1261fe7e33c73b354eab43b1273a57c8f967d0391e80353e51f764ac02cf6775"
 
 [[package]]
 name = "opentalk-client-shared"
-version = "0.30.0"
+version = "0.31.0-alpha"
 dependencies = [
  "async-trait",
  "bytes",
@@ -1386,7 +1386,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-kustos-prefix"
-version = "0.30.0"
+version = "0.31.0-alpha"
 dependencies = [
  "kustos-shared",
  "opentalk-kustos-prefix-impl",
@@ -1394,7 +1394,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-kustos-prefix-impl"
-version = "0.30.0"
+version = "0.31.0-alpha"
 dependencies = [
  "proc-macro-crate",
  "proc-macro2",
@@ -1404,7 +1404,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types"
-version = "0.30.0"
+version = "0.31.0-alpha"
 dependencies = [
  "opentalk-types-api-v1",
  "opentalk-types-common",
@@ -1427,7 +1427,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-api-v1"
-version = "0.30.0"
+version = "0.31.0-alpha"
 dependencies = [
  "actix-web",
  "base64",
@@ -1450,7 +1450,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-common"
-version = "0.30.0"
+version = "0.31.0-alpha"
 dependencies = [
  "actix-http",
  "actix-web-httpauth",
@@ -1483,7 +1483,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling"
-version = "0.30.0"
+version = "0.31.0-alpha"
 dependencies = [
  "derive_more 1.0.0",
  "opentalk-types-common",
@@ -1497,7 +1497,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling-breakout"
-version = "0.30.0"
+version = "0.31.0-alpha"
 dependencies = [
  "opentalk-types-common",
  "opentalk-types-signaling",
@@ -1508,7 +1508,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling-chat"
-version = "0.30.0"
+version = "0.31.0-alpha"
 dependencies = [
  "chrono",
  "derive_more 1.0.0",
@@ -1523,7 +1523,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling-control"
-version = "0.30.0"
+version = "0.31.0-alpha"
 dependencies = [
  "chrono",
  "opentalk-types-common",
@@ -1536,7 +1536,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling-livekit"
-version = "0.30.0"
+version = "0.31.0-alpha"
 dependencies = [
  "opentalk-types-common",
  "opentalk-types-signaling",
@@ -1545,7 +1545,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling-meeting-notes"
-version = "0.30.0"
+version = "0.31.0-alpha"
 dependencies = [
  "opentalk-types-common",
  "opentalk-types-signaling",
@@ -1556,7 +1556,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling-meeting-report"
-version = "0.30.0"
+version = "0.31.0-alpha"
 dependencies = [
  "opentalk-types-common",
  "pretty_assertions",
@@ -1566,7 +1566,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling-moderation"
-version = "0.30.0"
+version = "0.31.0-alpha"
 dependencies = [
  "opentalk-types-common",
  "opentalk-types-signaling",
@@ -1577,7 +1577,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling-polls"
-version = "0.30.0"
+version = "0.31.0-alpha"
 dependencies = [
  "chrono",
  "derive_more 1.0.0",
@@ -1592,7 +1592,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling-recording"
-version = "0.30.0"
+version = "0.31.0-alpha"
 dependencies = [
  "derive_more 1.0.0",
  "opentalk-types-common",
@@ -1606,7 +1606,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling-recording-service"
-version = "0.30.0"
+version = "0.31.0-alpha"
 dependencies = [
  "opentalk-types-common",
  "opentalk-types-signaling",
@@ -1618,7 +1618,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling-shared-folder"
-version = "0.30.0"
+version = "0.31.0-alpha"
 dependencies = [
  "opentalk-types-common",
  "opentalk-types-signaling",
@@ -1627,7 +1627,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling-subroom-audio"
-version = "0.30.0"
+version = "0.31.0-alpha"
 dependencies = [
  "derive_more 1.0.0",
  "opentalk-types-common",
@@ -1641,7 +1641,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling-timer"
-version = "0.30.0"
+version = "0.31.0-alpha"
 dependencies = [
  "chrono",
  "derive_more 1.0.0",
@@ -1656,7 +1656,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling-whiteboard"
-version = "0.30.0"
+version = "0.31.0-alpha"
 dependencies = [
  "opentalk-types-common",
  "opentalk-types-signaling",
