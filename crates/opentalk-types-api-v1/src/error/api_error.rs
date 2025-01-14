@@ -192,3 +192,32 @@ impl actix_web::ResponseError for ApiError {
         response.set_body(actix_web::body::BoxBody::new(body))
     }
 }
+
+#[cfg(feature = "axum")]
+impl axum::response::IntoResponse for ApiError {
+    fn into_response(self) -> axum::response::Response {
+        let mut builder = axum::response::Response::builder();
+
+        builder = builder.status(self.status.as_u16());
+
+        builder = builder.header(
+            http::header::CONTENT_TYPE,
+            http::HeaderValue::from_static("text/json; charset=utf-8"),
+        );
+
+        let builder = if let Some(www_authenticate) = self.www_authenticate {
+            builder.header(
+                http::header::WWW_AUTHENTICATE,
+                www_authenticate.header_value(),
+            )
+        } else {
+            builder
+        };
+
+        let body = serde_json::to_string(&self.body).expect("Unable to serialize API error body");
+
+        builder
+            .body(axum::body::Body::new(body))
+            .expect("Failed to build axum Response ")
+    }
+}

@@ -29,6 +29,7 @@ actix = [
   "http",
   "serde",
 ]
+axum = ["dep:axum"]
 backend = ["diesel", "http", "opentalk-types-common/backend", "serde", "utoipa"]
 diesel = ["opentalk-types-common/diesel"]
 frontend = ["opentalk-types-common/frontend", "serde"]
@@ -51,6 +52,7 @@ utoipa = [
 
 [dependencies]
 actix-web = { workspace = true, optional = true }
+axum = { workspace = true, optional = true }
 base64 = { workspace = true, optional = true }
 bincode = { workspace = true, optional = true }
 chrono.workspace = true
