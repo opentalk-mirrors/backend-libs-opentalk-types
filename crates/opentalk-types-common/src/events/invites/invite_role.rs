@@ -7,7 +7,7 @@ use crate::{events::invites::EmailInviteRole, sql_enum, utils::ExampleData};
 sql_enum!(
     feature_gated:
 
-    #[derive(PartialEq, Eq)]
+    #[derive(PartialEq, Eq, PartialOrd, Ord)]
     #[cfg_attr(
         feature="serde",
         derive(serde::Serialize, serde::Deserialize),
@@ -45,5 +45,27 @@ impl From<EmailInviteRole> for InviteRole {
 impl ExampleData for InviteRole {
     fn example_data() -> Self {
         Self::User
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use pretty_assertions::assert_eq;
+
+    use super::InviteRole;
+
+    #[test]
+    fn ordering() {
+        assert!(InviteRole::User < InviteRole::Moderator);
+        assert!(InviteRole::User <= InviteRole::Moderator);
+        assert!(InviteRole::Moderator > InviteRole::User);
+        assert!(InviteRole::Moderator >= InviteRole::User);
+
+        // Simply using `assert!(!(…comparison…))` triggers clippy warnings
+        // because the comparison could be inverted easily
+        assert_eq!(InviteRole::User > InviteRole::Moderator, false);
+        assert_eq!(InviteRole::User >= InviteRole::Moderator, false);
+        assert_eq!(InviteRole::Moderator < InviteRole::User, false);
+        assert_eq!(InviteRole::Moderator <= InviteRole::User, false);
     }
 }
