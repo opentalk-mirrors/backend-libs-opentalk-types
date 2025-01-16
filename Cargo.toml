@@ -14,7 +14,6 @@ version = "0.31.0-alpha"
 
 [workspace.dependencies]
 kustos-shared = { path = "crates/kustos-shared", version = "0.31.0-alpha" }
-opentalk-client-shared = { path = "crates/opentalk-client-shared", version = "0.31.0-alpha" }
 opentalk-kustos-prefix = { path = "crates/opentalk-kustos-prefix", version = "0.31.0-alpha" }
 opentalk-kustos-prefix-impl = { path = "crates/opentalk-kustos-prefix-impl", version = "0.31.0-alpha" }
 opentalk-types = { path = "crates/opentalk-types", version = "0.31.0-alpha" }

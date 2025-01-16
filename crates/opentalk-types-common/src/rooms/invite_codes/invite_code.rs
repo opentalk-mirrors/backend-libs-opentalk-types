@@ -57,17 +57,6 @@ impl From<InviteCode> for PolicyInvite {
     }
 }
 
-#[cfg(feature = "frontend")]
-impl opentalk_client_shared::Authorization for InviteCode {
-    fn apply_authorization_headers(&self, headers: &mut http::HeaderMap) {
-        let _ = headers.insert(
-            http::header::AUTHORIZATION,
-            http::HeaderValue::from_str(&format!("InviteCode {}", self))
-                .expect("valid header value"),
-        );
-    }
-}
-
 #[cfg(feature = "actix")]
 mod actix_impls {
     use std::str::FromStr;
