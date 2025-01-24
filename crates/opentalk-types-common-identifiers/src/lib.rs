@@ -28,5 +28,6 @@ mod identifier;
 
 use identifier::Identifier;
 
+pub mod asset_file_kind;
 pub mod feature_id;
 pub mod module_id;
