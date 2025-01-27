@@ -25,8 +25,8 @@ impl TicketToken {
                 .chars()
                 .chain(Some('#'))
                 .chain(
-                    rand::thread_rng()
-                        .sample_iter(rand::distributions::Alphanumeric)
+                    rand::rng()
+                        .sample_iter(rand::distr::Alphanumeric)
                         .take(27) // uuid has a length of 36, add 27 random chars
                         .map(char::from),
                 )
