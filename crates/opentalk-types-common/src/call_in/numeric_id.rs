@@ -41,14 +41,14 @@ impl NumericId {
     /// Generate a new random `NumericId`
     #[cfg(feature = "rand")]
     pub fn generate() -> Self {
-        use rand::{distributions::Slice, thread_rng, Rng as _};
+        use rand::{distr::slice::Choose, rng, Rng as _};
 
         /// The set of numbers used to generate [`SipId`] & [`SipPassword`]
         const NUMERIC: [char; 10] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-        let numeric_dist = Slice::new(&NUMERIC).unwrap();
+        let numeric_dist = Choose::new(&NUMERIC).unwrap();
 
         Self(
-            thread_rng()
+            rng()
                 .sample_iter(numeric_dist)
                 .take(DIAL_IN_NUMERIC_ID_LENGTH)
                 .collect(),

@@ -18,8 +18,8 @@ impl ResumptionToken {
     pub fn generate() -> Self {
         use rand::Rng;
 
-        let token = rand::thread_rng()
-            .sample_iter(rand::distributions::Alphanumeric)
+        let token = rand::rng()
+            .sample_iter(rand::distr::Alphanumeric)
             .take(64)
             .map(char::from)
             .collect();
