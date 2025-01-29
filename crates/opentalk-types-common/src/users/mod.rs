@@ -18,4 +18,4 @@ pub use group_name::GroupName;
 pub use language::Language;
 pub use theme::Theme;
 pub use user_id::UserId;
-pub use user_title::{ParseUserTitleError, UserTitle, MAX_USER_TITLE_LENGTH};
+pub use user_title::{ParseUserTitleError, UserTitle, USER_TITLE_MAX_LENGTH};

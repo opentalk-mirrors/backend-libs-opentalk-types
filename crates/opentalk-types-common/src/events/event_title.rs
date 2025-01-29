@@ -8,7 +8,7 @@ use snafu::{ensure, Snafu};
 
 use crate::utils::ExampleData;
 
-pub const MAX_EVENT_TITLE_LENGTH: usize = 255;
+pub const EVENT_TITLE_MAX_LENGTH: usize = 255;
 
 /// The title of an event.
 ///
@@ -70,7 +70,7 @@ mod impl_utoipa {
         PartialSchema, ToSchema,
     };
 
-    use super::{EventTitle, MAX_EVENT_TITLE_LENGTH};
+    use super::{EventTitle, EVENT_TITLE_MAX_LENGTH};
     use crate::utils::ExampleData as _;
 
     impl PartialSchema for EventTitle {
@@ -78,7 +78,7 @@ mod impl_utoipa {
             ObjectBuilder::new()
                 .schema_type(Type::String)
                 .description(Some("The title of an event"))
-                .max_length(Some(MAX_EVENT_TITLE_LENGTH))
+                .max_length(Some(EVENT_TITLE_MAX_LENGTH))
                 .examples([json!(EventTitle::example_data())])
                 .into()
         }
@@ -100,7 +100,7 @@ impl ExampleData for EventTitle {
 /// The error that is returned by [ModuleId::from_str] on failure.
 #[derive(Debug, Snafu)]
 pub enum ParseEventTitleError {
-    /// The input string was longer than the maximum length [MAX_EVENT_TITLE_LENGTH].
+    /// The input string was longer than the maximum length [EVENT_TITLE_MAX_LENGTH].
     #[snafu(display("Event title must not be longer than {max_length} characters"))]
     TooLong {
         /// The maximum allowed length.
@@ -113,9 +113,9 @@ impl FromStr for EventTitle {
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         ensure!(
-            s.len() <= MAX_EVENT_TITLE_LENGTH,
+            s.len() <= EVENT_TITLE_MAX_LENGTH,
             TooLongSnafu {
-                max_length: MAX_EVENT_TITLE_LENGTH
+                max_length: EVENT_TITLE_MAX_LENGTH
             }
         );
         Ok(Self(s.to_string()))

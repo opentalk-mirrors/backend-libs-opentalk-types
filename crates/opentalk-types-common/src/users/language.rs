@@ -9,7 +9,7 @@ use snafu::{ensure, Snafu};
 use crate::utils::ExampleData;
 
 /// The maximum allowed number of characters for a [`Language`]
-pub const MAX_LANGUAGE_LENGTH: usize = 35;
+pub const LANGUAGE_MAX_LENGTH: usize = 35;
 
 /// A language identifier
 ///
@@ -68,7 +68,7 @@ mod impl_to_schema {
         PartialSchema, ToSchema,
     };
 
-    use super::{Language, MAX_LANGUAGE_LENGTH};
+    use super::{Language, LANGUAGE_MAX_LENGTH};
     use crate::utils::ExampleData as _;
 
     impl PartialSchema for Language {
@@ -76,7 +76,7 @@ mod impl_to_schema {
             ObjectBuilder::new()
                 .schema_type(Type::String)
                 .description(Some("A language identifier"))
-                .max_length(Some(MAX_LANGUAGE_LENGTH))
+                .max_length(Some(LANGUAGE_MAX_LENGTH))
                 .examples([json!(Language::example_data())])
                 .into()
         }
@@ -98,7 +98,7 @@ impl ExampleData for Language {
 /// The error that is returned by [Language::from_str] on failure.
 #[derive(Debug, Snafu)]
 pub enum ParseLanguageError {
-    /// The input string was longer than the maximum length [MAX_LANGUAGE_LENGTH].
+    /// The input string was longer than the maximum length [LANGUAGE_MAX_LENGTH].
     #[snafu(display("Language must not be longer than {max_length} characters"))]
     TooLong {
         /// The maximum allowed length.
@@ -111,9 +111,9 @@ impl FromStr for Language {
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         ensure!(
-            s.len() <= MAX_LANGUAGE_LENGTH,
+            s.len() <= LANGUAGE_MAX_LENGTH,
             TooLongSnafu {
-                max_length: MAX_LANGUAGE_LENGTH
+                max_length: LANGUAGE_MAX_LENGTH
             }
         );
         Ok(Self(s.to_string()))

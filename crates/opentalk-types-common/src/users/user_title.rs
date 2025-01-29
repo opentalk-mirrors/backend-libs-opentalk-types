@@ -9,7 +9,7 @@ use snafu::{ensure, Snafu};
 use crate::utils::ExampleData;
 
 /// The maximum allowed number of characters for a [`UserTitle`]
-pub const MAX_USER_TITLE_LENGTH: usize = 255;
+pub const USER_TITLE_MAX_LENGTH: usize = 255;
 
 /// The title of a user.
 ///
@@ -58,7 +58,7 @@ mod impl_to_schema {
         PartialSchema, ToSchema,
     };
 
-    use super::{UserTitle, MAX_USER_TITLE_LENGTH};
+    use super::{UserTitle, USER_TITLE_MAX_LENGTH};
     use crate::utils::ExampleData as _;
 
     impl PartialSchema for UserTitle {
@@ -66,7 +66,7 @@ mod impl_to_schema {
             ObjectBuilder::new()
                 .schema_type(Type::String)
                 .description(Some("The title of a user"))
-                .max_length(Some(MAX_USER_TITLE_LENGTH))
+                .max_length(Some(USER_TITLE_MAX_LENGTH))
                 .examples([json!(UserTitle::example_data())])
                 .into()
         }
@@ -88,7 +88,7 @@ impl ExampleData for UserTitle {
 /// The error that is returned by [UserTitle::from_str] on failure.
 #[derive(Debug, Snafu)]
 pub enum ParseUserTitleError {
-    /// The input string was longer than the maximum length [MAX_USER_TITLE_LENGTH].
+    /// The input string was longer than the maximum length [USER_TITLE_MAX_LENGTH].
     #[snafu(display("User title must not be longer than {max_length} characters"))]
     TooLong {
         /// The maximum allowed length.
@@ -101,9 +101,9 @@ impl FromStr for UserTitle {
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         ensure!(
-            s.len() <= MAX_USER_TITLE_LENGTH,
+            s.len() <= USER_TITLE_MAX_LENGTH,
             TooLongSnafu {
-                max_length: MAX_USER_TITLE_LENGTH
+                max_length: USER_TITLE_MAX_LENGTH
             }
         );
         Ok(Self(s.to_string()))

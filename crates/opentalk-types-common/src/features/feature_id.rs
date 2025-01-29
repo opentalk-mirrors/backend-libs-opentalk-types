@@ -9,10 +9,10 @@ use snafu::{ensure, Snafu};
 use crate::utils::ExampleData;
 
 /// The minimum allowed length for a valid feature id
-pub const MIN_FEATURE_ID_LENGTH: usize = 1;
+pub const FEATURE_ID_MIN_LENGTH: usize = 1;
 
 /// The maximum allowed length for a valid feature id
-pub const MAX_FEATURE_ID_LENGTH: usize = 255;
+pub const FEATURE_ID_MAX_LENGTH: usize = 255;
 
 /// Regular expression of characters that are allowed inside a feature id.
 pub const FEATURE_ID_SCHEMA_CHARS_REGEX: &str = "[-_0-9a-zA-Z]";
@@ -54,7 +54,7 @@ mod impl_utoipa {
     };
 
     use super::{
-        FeatureId, FEATURE_ID_SCHEMA_CHARS_REGEX, MAX_FEATURE_ID_LENGTH, MIN_FEATURE_ID_LENGTH,
+        FeatureId, FEATURE_ID_MAX_LENGTH, FEATURE_ID_MIN_LENGTH, FEATURE_ID_SCHEMA_CHARS_REGEX,
     };
     use crate::utils::ExampleData as _;
 
@@ -63,8 +63,8 @@ mod impl_utoipa {
             ObjectBuilder::new()
                 .schema_type(Type::String)
                 .description(Some("A feature identifier"))
-                .min_length(Some(MIN_FEATURE_ID_LENGTH))
-                .max_length(Some(MAX_FEATURE_ID_LENGTH))
+                .min_length(Some(FEATURE_ID_MIN_LENGTH))
+                .max_length(Some(FEATURE_ID_MAX_LENGTH))
                 .pattern(Some(format!("^{FEATURE_ID_SCHEMA_CHARS_REGEX}*$")))
                 .examples([json!(FeatureId::example_data())])
                 .into()
@@ -91,14 +91,14 @@ pub enum ParseFeatureIdError {
     #[snafu(display("Feature id may only contain alphanumeric characters, \"_\" or \"-\""))]
     InvalidCharacters,
 
-    /// The input string was shorter than the minimum length [MIN_FEATURE_ID_LENGTH].
+    /// The input string was shorter than the minimum length [FEATURE_ID_MIN_LENGTH].
     #[snafu(display("Feature id must have at least {min_length} characters"))]
     TooShort {
         /// The minimum allowed length.
         min_length: usize,
     },
 
-    /// The input string was longer than the maximum length [MAX_FEATURE_ID_LENGTH].
+    /// The input string was longer than the maximum length [FEATURE_ID_MAX_LENGTH].
     #[snafu(display("Feature id must not be longer than {max_length} characters"))]
     TooLong {
         /// The maximum allowed length.
@@ -116,15 +116,15 @@ impl FromStr for FeatureId {
             InvalidCharactersSnafu
         );
         ensure!(
-            s.len() >= MIN_FEATURE_ID_LENGTH,
+            s.len() >= FEATURE_ID_MIN_LENGTH,
             TooShortSnafu {
-                min_length: MIN_FEATURE_ID_LENGTH
+                min_length: FEATURE_ID_MIN_LENGTH
             }
         );
         ensure!(
-            s.len() <= MAX_FEATURE_ID_LENGTH,
+            s.len() <= FEATURE_ID_MAX_LENGTH,
             TooLongSnafu {
-                max_length: MAX_FEATURE_ID_LENGTH
+                max_length: FEATURE_ID_MAX_LENGTH
             }
         );
         Ok(Self(s.to_string()))

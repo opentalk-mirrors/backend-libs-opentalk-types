@@ -9,7 +9,7 @@ use snafu::{ensure, Snafu};
 use crate::utils::ExampleData;
 
 /// The maximum allowed number of characters for a [`Theme`]
-pub const MAX_THEME_LENGTH: usize = 128;
+pub const THEME_MAX_LENGTH: usize = 128;
 
 /// A theme identifier
 ///
@@ -68,7 +68,7 @@ mod impl_to_schema {
         PartialSchema, ToSchema,
     };
 
-    use super::{Theme, MAX_THEME_LENGTH};
+    use super::{Theme, THEME_MAX_LENGTH};
     use crate::utils::ExampleData as _;
 
     impl PartialSchema for Theme {
@@ -76,7 +76,7 @@ mod impl_to_schema {
             ObjectBuilder::new()
                 .schema_type(Type::String)
                 .description(Some("A theme identifier"))
-                .max_length(Some(MAX_THEME_LENGTH))
+                .max_length(Some(THEME_MAX_LENGTH))
                 .examples([json!(Theme::example_data())])
                 .into()
         }
@@ -98,7 +98,7 @@ impl ExampleData for Theme {
 /// The error that is returned by [Theme::from_str] on failure.
 #[derive(Debug, Snafu)]
 pub enum ParseThemeError {
-    /// The input string was longer than the maximum length [MAX_THEME_LENGTH].
+    /// The input string was longer than the maximum length [THEME_MAX_LENGTH].
     #[snafu(display("Theme must not be longer than {max_length} characters"))]
     TooLong {
         /// The maximum allowed length.
@@ -111,9 +111,9 @@ impl FromStr for Theme {
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         ensure!(
-            s.len() <= MAX_THEME_LENGTH,
+            s.len() <= THEME_MAX_LENGTH,
             TooLongSnafu {
-                max_length: MAX_THEME_LENGTH
+                max_length: THEME_MAX_LENGTH
             }
         );
         Ok(Self(s.to_string()))

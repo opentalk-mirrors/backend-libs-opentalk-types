@@ -40,9 +40,9 @@ mod impl_utoipa {
     use super::ModuleFeatureId;
     use crate::{
         features::{
-            FeatureId, FEATURE_ID_SCHEMA_CHARS_REGEX, MAX_FEATURE_ID_LENGTH, MIN_FEATURE_ID_LENGTH,
+            FeatureId, FEATURE_ID_MAX_LENGTH, FEATURE_ID_MIN_LENGTH, FEATURE_ID_SCHEMA_CHARS_REGEX,
         },
-        modules::{MAX_MODULE_ID_LENGTH, MIN_MODULE_ID_LENGTH, MODULE_ID_SCHEMA_CHARS_REGEX},
+        modules::{MODULE_ID_MAX_LENGTH, MODULE_ID_MIN_LENGTH, MODULE_ID_SCHEMA_CHARS_REGEX},
         utils::ExampleData,
     };
 
@@ -51,10 +51,10 @@ mod impl_utoipa {
             use serde_json::json;
 
             let module_id_regex_snippet = format!(
-                "{MODULE_ID_SCHEMA_CHARS_REGEX}{{{MIN_MODULE_ID_LENGTH},{MAX_MODULE_ID_LENGTH}}}"
+                "{MODULE_ID_SCHEMA_CHARS_REGEX}{{{MODULE_ID_MIN_LENGTH},{MODULE_ID_MAX_LENGTH}}}"
             );
             let feature_id_regex_snippet = format!(
-                "{FEATURE_ID_SCHEMA_CHARS_REGEX}{{{MIN_FEATURE_ID_LENGTH},{MAX_FEATURE_ID_LENGTH}}}"
+                "{FEATURE_ID_SCHEMA_CHARS_REGEX}{{{FEATURE_ID_MIN_LENGTH},{FEATURE_ID_MAX_LENGTH}}}"
             );
 
             Schema::AnyOf(AnyOf {

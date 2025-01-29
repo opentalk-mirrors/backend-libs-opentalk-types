@@ -9,15 +9,15 @@ use snafu::Snafu;
 use crate::utils::ExampleData;
 
 /// The minimum length for a file kind
-pub const MIN_ASSET_FILE_KIND_LENGTH: usize = 1;
+pub const ASSET_FILE_KIND_MIN_LENGTH: usize = 1;
 /// The maximum length for a file kind
-pub const MAX_ASSET_FILE_KIND_LENGTH: usize = 20;
+pub const ASSET_FILE_KIND_MAX_LENGTH: usize = 20;
 
 /// The kind of asset
 ///
 /// Can be parsed using [`std::str::FromStr`].
 /// May contain alphanumeric ascii characters and underscores only, and is restricted to a
-/// length of [`MIN_ASSET_FILE_KIND_LENGTH`] up to [`MAX_ASSET_FILE_KIND_LENGTH`] characters.
+/// length of [`ASSET_FILE_KIND_MIN_LENGTH`] up to [`ASSET_FILE_KIND_MAX_LENGTH`] characters.
 /// This serves as sanitization measure for user input.
 #[derive(Debug, Clone, Default, PartialEq, Eq, derive_more::Display)]
 #[cfg_attr(
@@ -42,14 +42,14 @@ impl FromStr for AssetFileKind {
     type Err = ParseAssetFileKindError;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        if s.len() < MIN_ASSET_FILE_KIND_LENGTH {
+        if s.len() < ASSET_FILE_KIND_MIN_LENGTH {
             return Err(ParseAssetFileKindError::TooShort {
-                min_length: MIN_ASSET_FILE_KIND_LENGTH,
+                min_length: ASSET_FILE_KIND_MIN_LENGTH,
             });
         }
-        if s.len() > MAX_ASSET_FILE_KIND_LENGTH {
+        if s.len() > ASSET_FILE_KIND_MAX_LENGTH {
             return Err(ParseAssetFileKindError::TooLong {
-                max_length: MAX_ASSET_FILE_KIND_LENGTH,
+                max_length: ASSET_FILE_KIND_MAX_LENGTH,
             });
         }
         if s.chars().any(|c| !(c.is_ascii_alphanumeric() || c == '_')) {
@@ -67,15 +67,15 @@ mod impl_utoipa {
         PartialSchema, ToSchema,
     };
 
-    use super::{AssetFileKind, MAX_ASSET_FILE_KIND_LENGTH, MIN_ASSET_FILE_KIND_LENGTH};
+    use super::{AssetFileKind, ASSET_FILE_KIND_MAX_LENGTH, ASSET_FILE_KIND_MIN_LENGTH};
     use crate::utils::ExampleData;
 
     impl PartialSchema for AssetFileKind {
         fn schema() -> RefOr<Schema> {
             ObjectBuilder::new()
                 .schema_type(Type::String)
-                .min_length(Some(MIN_ASSET_FILE_KIND_LENGTH))
-                .max_length(Some(MAX_ASSET_FILE_KIND_LENGTH))
+                .min_length(Some(ASSET_FILE_KIND_MIN_LENGTH))
+                .max_length(Some(ASSET_FILE_KIND_MAX_LENGTH))
                 .pattern(Some("^[0-9a-zA-Z_]*$".to_string()))
                 .description(Some("An asset file kind"))
                 .examples([json!(AssetFileKind::example_data())])

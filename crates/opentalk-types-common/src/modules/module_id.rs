@@ -15,10 +15,10 @@ pub const CORE_MODULE_ID: &str = "core";
 pub const DEFAULT_MODULE_ID: &str = CORE_MODULE_ID;
 
 /// The minimum allowed length for a valid module id
-pub const MIN_MODULE_ID_LENGTH: usize = 1;
+pub const MODULE_ID_MIN_LENGTH: usize = 1;
 
 /// The maximum allowed length for a valid module id
-pub const MAX_MODULE_ID_LENGTH: usize = 255;
+pub const MODULE_ID_MAX_LENGTH: usize = 255;
 
 /// Regular expression of characters that are allowed inside a module id.
 pub const MODULE_ID_SCHEMA_CHARS_REGEX: &str = "[-_0-9a-zA-Z]";
@@ -70,7 +70,7 @@ mod impl_utoipa {
     };
 
     use super::{
-        ModuleId, MAX_MODULE_ID_LENGTH, MIN_MODULE_ID_LENGTH, MODULE_ID_SCHEMA_CHARS_REGEX,
+        ModuleId, MODULE_ID_MAX_LENGTH, MODULE_ID_MIN_LENGTH, MODULE_ID_SCHEMA_CHARS_REGEX,
     };
     use crate::utils::ExampleData as _;
 
@@ -80,8 +80,8 @@ mod impl_utoipa {
                 items: vec![ObjectBuilder::new()
                     .schema_type(Type::String)
                     .description(Some("A module identifier"))
-                    .min_length(Some(MIN_MODULE_ID_LENGTH))
-                    .max_length(Some(MAX_MODULE_ID_LENGTH))
+                    .min_length(Some(MODULE_ID_MIN_LENGTH))
+                    .max_length(Some(MODULE_ID_MAX_LENGTH))
                     .pattern(Some(format!("^{MODULE_ID_SCHEMA_CHARS_REGEX}*$")))
                     .examples([json!(ModuleId::example_data())])
                     .into()],
@@ -115,14 +115,14 @@ pub enum ParseModuleIdError {
     #[snafu(display("Module id may only contain alphanumeric characters, \"_\" or \"-\""))]
     InvalidCharacters,
 
-    /// The input string was shorter than the minimum length [MIN_MODULE_ID_LENGTH].
+    /// The input string was shorter than the minimum length [MODULE_ID_MIN_LENGTH].
     #[snafu(display("Module id must have at least {min_length} characters"))]
     TooShort {
         /// The minimum allowed length.
         min_length: usize,
     },
 
-    /// The input string was longer than the maximum length [MAX_MODULE_ID_LENGTH].
+    /// The input string was longer than the maximum length [MODULE_ID_MAX_LENGTH].
     #[snafu(display("Module id must not be longer than {max_length} characters"))]
     TooLong {
         /// The maximum allowed length.
@@ -140,15 +140,15 @@ impl FromStr for ModuleId {
             InvalidCharactersSnafu
         );
         ensure!(
-            s.len() >= MIN_MODULE_ID_LENGTH,
+            s.len() >= MODULE_ID_MIN_LENGTH,
             TooShortSnafu {
-                min_length: MIN_MODULE_ID_LENGTH
+                min_length: MODULE_ID_MIN_LENGTH
             }
         );
         ensure!(
-            s.len() <= MAX_MODULE_ID_LENGTH,
+            s.len() <= MODULE_ID_MAX_LENGTH,
             TooLongSnafu {
-                max_length: MAX_MODULE_ID_LENGTH
+                max_length: MODULE_ID_MAX_LENGTH
             }
         );
         Ok(Self(s.to_string()))

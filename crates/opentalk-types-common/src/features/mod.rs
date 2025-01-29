@@ -8,8 +8,8 @@ mod feature_id;
 mod module_feature_id;
 
 pub use feature_id::{
-    FeatureId, ParseFeatureIdError, FEATURE_ID_SCHEMA_CHARS_REGEX, MAX_FEATURE_ID_LENGTH,
-    MIN_FEATURE_ID_LENGTH,
+    FeatureId, ParseFeatureIdError, FEATURE_ID_MAX_LENGTH, FEATURE_ID_MIN_LENGTH,
+    FEATURE_ID_SCHEMA_CHARS_REGEX,
 };
 pub use module_feature_id::{ModuleFeatureId, ParseModuleFeatureIdError};
 
