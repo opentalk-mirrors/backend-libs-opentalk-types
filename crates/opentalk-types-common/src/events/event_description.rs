@@ -8,7 +8,7 @@ use snafu::{ensure, Snafu};
 
 use crate::utils::ExampleData;
 
-pub const MAX_EVENT_DESCRIPTION_LENGTH: usize = 4096;
+pub const EVENT_DESCRIPTION_MAX_LENGTH: usize = 4096;
 
 /// The description of an event.
 ///
@@ -52,7 +52,7 @@ mod impl_utoipa {
         PartialSchema, ToSchema,
     };
 
-    use super::{EventDescription, MAX_EVENT_DESCRIPTION_LENGTH};
+    use super::{EventDescription, EVENT_DESCRIPTION_MAX_LENGTH};
     use crate::utils::ExampleData as _;
 
     impl PartialSchema for EventDescription {
@@ -60,7 +60,7 @@ mod impl_utoipa {
             ObjectBuilder::new()
                 .schema_type(Type::String)
                 .description(Some("The description of an event"))
-                .max_length(Some(MAX_EVENT_DESCRIPTION_LENGTH))
+                .max_length(Some(EVENT_DESCRIPTION_MAX_LENGTH))
                 .examples([json!(EventDescription::example_data())])
                 .into()
         }
@@ -82,7 +82,7 @@ impl ExampleData for EventDescription {
 /// The error that is returned by [ModuleId::from_str] on failure.
 #[derive(Debug, Snafu)]
 pub enum ParseEventDescriptionError {
-    /// The input string was longer than the maximum length [MAX_EVENT_DESCRIPTION_LENGTH].
+    /// The input string was longer than the maximum length [EVENT_DESCRIPTION_MAX_LENGTH].
     #[snafu(display("Event description must not be longer than {max_length} characters"))]
     TooLong {
         /// The maximum allowed length.
@@ -95,9 +95,9 @@ impl FromStr for EventDescription {
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         ensure!(
-            s.len() <= MAX_EVENT_DESCRIPTION_LENGTH,
+            s.len() <= EVENT_DESCRIPTION_MAX_LENGTH,
             TooLongSnafu {
-                max_length: MAX_EVENT_DESCRIPTION_LENGTH
+                max_length: EVENT_DESCRIPTION_MAX_LENGTH
             }
         );
         Ok(Self(s.to_string()))

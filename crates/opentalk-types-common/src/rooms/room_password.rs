@@ -9,16 +9,16 @@ use snafu::{ensure, Snafu};
 use crate::utils::ExampleData;
 
 /// The minimum allowed length for a valid room password
-pub const MIN_ROOM_PASSWORD_LENGTH: usize = 1;
+pub const ROOM_PASSWORD_MIN_LENGTH: usize = 1;
 
 /// The maximum allowed length for a valid room password
-pub const MAX_ROOM_PASSWORD_LENGTH: usize = 255;
+pub const ROOM_PASSWORD_MAX_LENGTH: usize = 255;
 
 /// A room password.
 ///
 /// Can be parsed using [`std::str::FromStr`].
-/// Must contain at least [`MIN_ROOM_PASSWORD_LENGTH`] characters, at most
-/// [`MAX_ROOM_PASSWORD_LENGTH`] characters.
+/// Must contain at least [`ROOM_PASSWORD_MIN_LENGTH`] characters, at most
+/// [`ROOM_PASSWORD_MAX_LENGTH`] characters.
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash, derive_more::Display)]
 #[cfg_attr(
     feature = "diesel",
@@ -51,7 +51,7 @@ mod impl_utoipa {
         PartialSchema, ToSchema,
     };
 
-    use super::{RoomPassword, MAX_ROOM_PASSWORD_LENGTH, MIN_ROOM_PASSWORD_LENGTH};
+    use super::{RoomPassword, ROOM_PASSWORD_MAX_LENGTH, ROOM_PASSWORD_MIN_LENGTH};
     use crate::utils::ExampleData;
 
     impl PartialSchema for RoomPassword {
@@ -59,8 +59,8 @@ mod impl_utoipa {
             ObjectBuilder::new()
                 .schema_type(Type::String)
                 .description(Some("A room password"))
-                .min_length(Some(MIN_ROOM_PASSWORD_LENGTH))
-                .max_length(Some(MAX_ROOM_PASSWORD_LENGTH))
+                .min_length(Some(ROOM_PASSWORD_MIN_LENGTH))
+                .max_length(Some(ROOM_PASSWORD_MAX_LENGTH))
                 .examples([json!(RoomPassword::example_data())])
                 .into()
         }
@@ -101,15 +101,15 @@ impl FromStr for RoomPassword {
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         ensure!(
-            s.len() >= MIN_ROOM_PASSWORD_LENGTH,
+            s.len() >= ROOM_PASSWORD_MIN_LENGTH,
             TooShortSnafu {
-                min_length: MIN_ROOM_PASSWORD_LENGTH
+                min_length: ROOM_PASSWORD_MIN_LENGTH
             }
         );
         ensure!(
-            s.len() <= MAX_ROOM_PASSWORD_LENGTH,
+            s.len() <= ROOM_PASSWORD_MAX_LENGTH,
             TooLongSnafu {
-                max_length: MAX_ROOM_PASSWORD_LENGTH
+                max_length: ROOM_PASSWORD_MAX_LENGTH
             }
         );
         Ok(Self(s.to_string()))

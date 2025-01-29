@@ -9,13 +9,13 @@ use snafu::Snafu;
 use crate::utils::ExampleData;
 
 /// The maximum allowed length for valid file extensions
-pub const MAX_FILE_EXTENSION_LENGTH: usize = 10;
+pub const FILE_EXTENSION_MAX_LENGTH: usize = 10;
 
 /// The extension of a filename.
 ///
 /// Can be parsed using [`std::str::FromStr`].
 /// May contain alphanumeric ascii characters only, and is restricted to a
-/// length of [`MAX_FILE_EXTENSION_LENGTH`] characters. This is an arbitrary
+/// length of [`FILE_EXTENSION_MAX_LENGTH`] characters. This is an arbitrary
 /// decision based on regular usage of filename extensions as seen commonly
 /// used. This serves as sanitization measure for user input.
 #[derive(Debug, Clone, Default, PartialEq, Eq, derive_more::Display)]
@@ -76,9 +76,9 @@ impl FromStr for FileExtension {
     type Err = ParseFileExtensionError;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        if s.len() > MAX_FILE_EXTENSION_LENGTH {
+        if s.len() > FILE_EXTENSION_MAX_LENGTH {
             return Err(ParseFileExtensionError::TooLong {
-                max_length: MAX_FILE_EXTENSION_LENGTH,
+                max_length: FILE_EXTENSION_MAX_LENGTH,
             });
         }
         if s.chars().any(|c| !c.is_ascii_alphanumeric()) {
@@ -96,14 +96,14 @@ mod impl_utoipa {
         PartialSchema, ToSchema,
     };
 
-    use super::{FileExtension, MAX_FILE_EXTENSION_LENGTH};
+    use super::{FileExtension, FILE_EXTENSION_MAX_LENGTH};
     use crate::utils::ExampleData;
 
     impl PartialSchema for FileExtension {
         fn schema() -> RefOr<Schema> {
             ObjectBuilder::new()
                 .schema_type(Type::String)
-                .max_length(Some(MAX_FILE_EXTENSION_LENGTH))
+                .max_length(Some(FILE_EXTENSION_MAX_LENGTH))
                 .pattern(Some("^[0-9a-zA-Z]*$".to_string()))
                 .description(Some("An extension for a file path"))
                 .examples([json!(FileExtension::example_data())])

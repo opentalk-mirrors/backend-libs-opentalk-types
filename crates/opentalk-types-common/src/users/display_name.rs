@@ -10,7 +10,7 @@ use snafu::{ensure, Snafu};
 use crate::utils::ExampleData;
 
 /// The maximum allowed number of characters for a [`DisplayName`]
-pub const MAX_DISPLAY_NAME_LENGTH: usize = 255;
+pub const DISPLAY_NAME_MAX_LENGTH: usize = 255;
 
 /// The display name of a user.
 ///
@@ -53,7 +53,7 @@ impl DisplayName {
             s.split_whitespace()
                 .join(" ")
                 .chars()
-                .take(MAX_DISPLAY_NAME_LENGTH)
+                .take(DISPLAY_NAME_MAX_LENGTH)
                 .collect::<String>()
                 .trim()
                 .to_string(),
@@ -89,7 +89,7 @@ mod impl_to_schema {
         PartialSchema, ToSchema,
     };
 
-    use super::{DisplayName, MAX_DISPLAY_NAME_LENGTH};
+    use super::{DisplayName, DISPLAY_NAME_MAX_LENGTH};
     use crate::utils::ExampleData as _;
 
     impl PartialSchema for DisplayName {
@@ -97,7 +97,7 @@ mod impl_to_schema {
             ObjectBuilder::new()
                 .schema_type(Type::String)
                 .description(Some("The display name of a user or participant"))
-                .max_length(Some(MAX_DISPLAY_NAME_LENGTH))
+                .max_length(Some(DISPLAY_NAME_MAX_LENGTH))
                 .examples([json!(DisplayName::example_data())])
                 .into()
         }
@@ -119,7 +119,7 @@ impl ExampleData for DisplayName {
 /// The error that is returned by [DisplayName::from_str] on failure.
 #[derive(Debug, Snafu)]
 pub enum ParseDisplayNameError {
-    /// The input string was longer than the maximum length [MAX_DISPLAY_NAME_LENGTH].
+    /// The input string was longer than the maximum length [DISPLAY_NAME_MAX_LENGTH].
     #[snafu(display("Display name must not be longer than {max_length} characters"))]
     TooLong {
         /// The maximum allowed length.
@@ -132,9 +132,9 @@ impl FromStr for DisplayName {
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         ensure!(
-            s.len() <= MAX_DISPLAY_NAME_LENGTH,
+            s.len() <= DISPLAY_NAME_MAX_LENGTH,
             TooLongSnafu {
-                max_length: MAX_DISPLAY_NAME_LENGTH
+                max_length: DISPLAY_NAME_MAX_LENGTH
             }
         );
         Ok(Self(s.to_string()))
