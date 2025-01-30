@@ -2,11 +2,13 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//! The id of a feature, and some extra functionality around it.
+
 use std::str::FromStr;
 
 use snafu::{ensure, Snafu};
 
-use crate::utils::ExampleData;
+use crate::Identifier;
 
 /// The minimum allowed length for a valid feature id
 pub const FEATURE_ID_MIN_LENGTH: usize = 1;
@@ -38,7 +40,42 @@ pub const FEATURE_ID_SCHEMA_CHARS_REGEX: &str = "[-_0-9a-zA-Z]";
     feature = "serde",
     derive(serde::Serialize, serde_with::DeserializeFromStr)
 )]
-pub struct FeatureId(String);
+pub struct FeatureId(Identifier);
+
+impl FeatureId {
+    /// Get the `&str` reference to the module id
+    pub fn as_str(&self) -> &str {
+        self.0.as_str()
+    }
+
+    // Only for use in the `module_id` macro
+    #[doc(hidden)]
+    pub const fn __new_borrowed(value: &'static str) -> Self {
+        Self(Identifier::new_borrowed(value))
+    }
+
+    /// Get an example instance of the [`FeatureId`].
+    pub const fn example_data() -> Self {
+        Self::__new_borrowed("myfeature")
+    }
+}
+
+impl TryFrom<&'static str> for FeatureId {
+    type Error = ParseFeatureIdError;
+
+    fn try_from(value: &'static str) -> Result<Self, Self::Error> {
+        ensure_is_valid(value)?;
+        Ok(Self::__new_borrowed(value))
+    }
+}
+
+impl TryFrom<String> for FeatureId {
+    type Error = ParseFeatureIdError;
+
+    fn try_from(value: String) -> Result<Self, Self::Error> {
+        value.parse()
+    }
+}
 
 #[cfg(feature = "utoipa")]
 mod impl_utoipa {
@@ -56,7 +93,6 @@ mod impl_utoipa {
     use super::{
         FeatureId, FEATURE_ID_MAX_LENGTH, FEATURE_ID_MIN_LENGTH, FEATURE_ID_SCHEMA_CHARS_REGEX,
     };
-    use crate::utils::ExampleData as _;
 
     impl PartialSchema for FeatureId {
         fn schema() -> RefOr<Schema> {
@@ -78,10 +114,25 @@ mod impl_utoipa {
     }
 }
 
-impl ExampleData for FeatureId {
-    fn example_data() -> Self {
-        Self("myfeature".to_string())
-    }
+fn ensure_is_valid(s: &str) -> Result<(), ParseFeatureIdError> {
+    ensure!(
+        s.chars()
+            .all(|c| c.is_ascii_alphanumeric() || c == '_' || c == '-'),
+        InvalidCharactersSnafu
+    );
+    ensure!(
+        s.len() >= FEATURE_ID_MIN_LENGTH,
+        TooShortSnafu {
+            min_length: FEATURE_ID_MIN_LENGTH
+        }
+    );
+    ensure!(
+        s.len() <= FEATURE_ID_MAX_LENGTH,
+        TooLongSnafu {
+            max_length: FEATURE_ID_MAX_LENGTH
+        }
+    );
+    Ok(())
 }
 
 /// The error that is returned by [FeatureId::from_str] on failure.
@@ -110,58 +161,42 @@ impl FromStr for FeatureId {
     type Err = ParseFeatureIdError;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        ensure!(
-            s.chars()
-                .all(|c| c.is_ascii_alphanumeric() || c == '_' || c == '-'),
-            InvalidCharactersSnafu
-        );
-        ensure!(
-            s.len() >= FEATURE_ID_MIN_LENGTH,
-            TooShortSnafu {
-                min_length: FEATURE_ID_MIN_LENGTH
-            }
-        );
-        ensure!(
-            s.len() <= FEATURE_ID_MAX_LENGTH,
-            TooLongSnafu {
-                max_length: FEATURE_ID_MAX_LENGTH
-            }
-        );
-        Ok(Self(s.to_string()))
+        ensure_is_valid(s)?;
+        Ok(Self(Identifier::new_owned(s.to_string())))
     }
 }
 
 #[cfg(test)]
 mod tests {
+    use std::collections::{BTreeSet, HashSet};
+
     use pretty_assertions::assert_eq;
 
     use super::{FeatureId, ParseFeatureIdError};
+    use crate::identifier::Identifier;
 
     #[test]
     fn parse() {
         assert_eq!(
             "hello".parse::<FeatureId>().unwrap(),
-            FeatureId("hello".to_string())
+            FeatureId("hello".into())
         );
-        assert_eq!(
-            "_".parse::<FeatureId>().unwrap(),
-            FeatureId("_".to_string())
-        );
+        assert_eq!("_".parse::<FeatureId>().unwrap(), FeatureId("_".into()));
         assert_eq!(
             "hello_world".parse::<FeatureId>().unwrap(),
-            FeatureId("hello_world".to_string())
+            FeatureId("hello_world".into())
         );
-        assert_eq!(
-            "-".parse::<FeatureId>().unwrap(),
-            FeatureId("-".to_string())
-        );
+        assert_eq!("-".parse::<FeatureId>().unwrap(), FeatureId("-".into()));
         assert_eq!(
             "hello-world".parse::<FeatureId>().unwrap(),
-            FeatureId("hello-world".to_string())
+            FeatureId("hello-world".into())
         );
 
         let longest: String = "x".repeat(255);
-        assert_eq!(longest.parse::<FeatureId>().unwrap(), FeatureId(longest));
+        assert_eq!(
+            longest.parse::<FeatureId>().unwrap(),
+            FeatureId(longest.into())
+        );
     }
 
     #[test]
@@ -201,5 +236,95 @@ mod tests {
             too_long.parse::<FeatureId>(),
             Err(ParseFeatureIdError::TooLong { max_length: 255 })
         ));
+    }
+
+    #[test]
+    fn try_from_static_str() {
+        assert!(matches!(
+            FeatureId::try_from(""),
+            Err(ParseFeatureIdError::TooShort { min_length: 1 })
+        ));
+        assert!(matches!(
+            FeatureId::try_from("hello+world"),
+            Err(ParseFeatureIdError::InvalidCharacters)
+        ));
+        assert_eq!(
+            FeatureId::try_from("hello").expect("value must be parsable as FeatureId"),
+            FeatureId::__new_borrowed("hello")
+        );
+    }
+
+    #[test]
+    fn try_from_string() {
+        assert!(matches!(
+            FeatureId::try_from("".to_string()),
+            Err(ParseFeatureIdError::TooShort { min_length: 1 })
+        ));
+        assert!(matches!(
+            FeatureId::try_from("hello+world".to_string()),
+            Err(ParseFeatureIdError::InvalidCharacters)
+        ));
+        assert_eq!(
+            FeatureId::try_from("hello".to_string()).expect("value must be parsable as FeatureId"),
+            FeatureId::__new_borrowed("hello")
+        );
+    }
+
+    #[test]
+    fn partial_eq() {
+        assert!(
+            FeatureId::try_from("a").expect("value must be parsable as FeatureId")
+                < FeatureId("z".to_string().into())
+        );
+        assert!(
+            FeatureId::try_from("z").expect("value must be parsable as FeatureId")
+                > FeatureId("a".to_string().into())
+        );
+    }
+
+    #[test]
+    fn hash_by_hash_set() {
+        // we test availability of hashing indirectly usage of a HashSet.
+        let expected: HashSet<FeatureId> = HashSet::from_iter(
+            ["a", "b", "c"]
+                .into_iter()
+                .map(|s| FeatureId(Identifier::from(s))),
+        );
+
+        let b = HashSet::from_iter([
+            FeatureId("a".into()),
+            FeatureId("c".into()),
+            FeatureId("a".to_string().into()),
+            "b".parse().expect("value must be parsable as FeatureId"),
+        ]);
+
+        assert_eq!(b, expected);
+    }
+
+    #[test]
+    fn ord_by_btree_set() {
+        // we test availability PartialOrd indirectly usage of a BTreeSet.
+        let expected = ["a", "b", "c"]
+            .into_iter()
+            .map(|s| FeatureId(Identifier::from(s)))
+            .collect();
+
+        let b = BTreeSet::from_iter([
+            FeatureId("a".into()),
+            FeatureId("c".into()),
+            FeatureId("a".to_string().into()),
+            "b".parse().expect("value must be parsable as FeatureId"),
+        ]);
+
+        assert_eq!(b, expected);
+    }
+
+    #[test]
+    fn display() {
+        assert_eq!("hello", FeatureId("hello".into()).to_string());
+
+        let a = FeatureId("hello".into());
+        let b = FeatureId("world".into());
+        assert_eq!(format!("{a}, {b}"), "hello, world");
     }
 }

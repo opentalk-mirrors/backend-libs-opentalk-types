@@ -20,16 +20,20 @@
     unused_results
 )]
 
-use opentalk_types_common_identifiers::module_id::ModuleId;
+use opentalk_types_common_identifiers::{feature_id::FeatureId, module_id::ModuleId};
 use proc_macro::TokenStream;
-use proc_macro2::Span;
+use proc_macro2::{Span, TokenStream as TokenStream2};
 use proc_macro_crate::{crate_name, FoundCrate};
 use quote::quote;
 use syn::{parse_macro_input, LitStr};
 
-/// Create a constant `ModuleId` at compile time.
-#[proc_macro]
-pub fn module_id(input: TokenStream) -> TokenStream {
+fn generate_const_id<T: std::str::FromStr + ToString>(
+    input: TokenStream,
+    path: TokenStream2,
+) -> TokenStream
+where
+    <T as std::str::FromStr>::Err: std::fmt::Display,
+{
     let Ok(crate_name) = crate_name("opentalk-types-common") else {
         return quote! { compile_error!("Couldn't find opentalk-types-common crate") }.into();
     };
@@ -43,14 +47,13 @@ pub fn module_id(input: TokenStream) -> TokenStream {
     };
 
     let input = parse_macro_input!(input as LitStr);
-
     let value = input.value();
 
-    match value.parse::<ModuleId>() {
+    match value.parse::<T>() {
         Ok(value) => {
-            let value = value.as_str();
+            let value = value.to_string();
             quote! {
-                #crate_name::modules::ModuleId::__new_borrowed(#value)
+                #crate_name::#path::__new_borrowed(#value)
             }
         }
         Err(e) => {
@@ -59,4 +62,16 @@ pub fn module_id(input: TokenStream) -> TokenStream {
         }
     }
     .into()
+}
+
+/// Create a constant `ModuleId` at compile time.
+#[proc_macro]
+pub fn module_id(input: TokenStream) -> TokenStream {
+    generate_const_id::<ModuleId>(input, quote!(modules::ModuleId))
+}
+
+/// Create a constant `FeatureId` at compile time.
+#[proc_macro]
+pub fn feature_id(input: TokenStream) -> TokenStream {
+    generate_const_id::<FeatureId>(input, quote!(features::FeatureId))
 }

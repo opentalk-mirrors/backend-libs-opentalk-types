@@ -35,7 +35,7 @@ mod stream_target_secret;
 mod stream_updated;
 
 use opentalk_types_common::{
-    features::FeatureId,
+    features::{feature_id, FeatureId},
     modules::{module_id, ModuleId},
 };
 pub use recording_id::RecordingId;
@@ -51,17 +51,7 @@ pub use stream_updated::StreamUpdated;
 pub const MODULE_ID: ModuleId = module_id!("recording");
 
 /// The feature for allowing recording of meetings
-pub const RECORD_FEATURE: &str = "record";
+pub const RECORD_FEATURE_ID: FeatureId = feature_id!("record");
 
 /// The feature for allowing streaming of meetings
-pub const STREAM_FEATURE: &str = "stream";
-
-/// Get the id of the record feature
-pub fn record_feature() -> FeatureId {
-    RECORD_FEATURE.parse().expect("valid feature id")
-}
-
-/// Get the id of the stream feature
-pub fn stream_feature() -> FeatureId {
-    STREAM_FEATURE.parse().expect("valid feature id")
-}
+pub const STREAM_FEATURE_ID: FeatureId = feature_id!("stream");

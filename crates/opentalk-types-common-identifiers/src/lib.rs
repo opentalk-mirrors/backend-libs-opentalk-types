@@ -28,4 +28,5 @@ mod identifier;
 
 use identifier::Identifier;
 
+pub mod feature_id;
 pub mod module_id;
