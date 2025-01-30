@@ -71,6 +71,7 @@ serde_with = "3.8"
 snafu = "0.8"
 strum = { version = "0.26", features = ["derive"] }
 syn = "2"
+trybuild = "1"
 url = "2"
 utoipa = "5"
 uuid = "1"

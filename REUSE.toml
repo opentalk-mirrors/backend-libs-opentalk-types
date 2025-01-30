@@ -15,6 +15,7 @@ path = [
   "CHANGELOG.md",
   "Cargo.lock",
   "crates/**/README.md",
+  "crates/opentalk-types-common/tests/**/*.stderr",
   "docs/**.md",
   "renovate.json",
 ]

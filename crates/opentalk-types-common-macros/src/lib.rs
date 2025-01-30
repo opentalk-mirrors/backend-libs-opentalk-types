@@ -13,7 +13,7 @@
     trivial_casts,
     trivial_numeric_casts,
     unsafe_code,
-    //unused,
+    unused,
     unused_extern_crates,
     unused_import_braces,
     unused_qualifications,
