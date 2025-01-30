@@ -19,7 +19,7 @@ pub struct NamespacedCommand<O> {
 
 #[cfg(all(test, feature = "serde"))]
 mod tests {
-    use opentalk_types_common::{modules::ModuleId, utils::ExampleData as _};
+    use opentalk_types_common::modules::ModuleId;
     use pretty_assertions::assert_eq;
     use serde_json::json;
 

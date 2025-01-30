@@ -1553,6 +1553,8 @@ dependencies = [
  "kustos-shared",
  "opentalk-diesel-newtype",
  "opentalk-kustos-prefix",
+ "opentalk-types-common-identifiers",
+ "opentalk-types-common-macros",
  "pretty_assertions",
  "rand 0.9.0",
  "redis",
@@ -1565,6 +1567,32 @@ dependencies = [
  "url",
  "utoipa",
  "uuid",
+]
+
+[[package]]
+name = "opentalk-types-common-identifiers"
+version = "0.31.0-alpha"
+dependencies = [
+ "derive_more 1.0.0",
+ "diesel",
+ "opentalk-diesel-newtype",
+ "pretty_assertions",
+ "serde",
+ "serde_json",
+ "serde_with",
+ "snafu",
+ "utoipa",
+]
+
+[[package]]
+name = "opentalk-types-common-macros"
+version = "0.31.0-alpha"
+dependencies = [
+ "opentalk-types-common-identifiers",
+ "proc-macro-crate",
+ "proc-macro2",
+ "quote",
+ "syn",
 ]
 
 [[package]]

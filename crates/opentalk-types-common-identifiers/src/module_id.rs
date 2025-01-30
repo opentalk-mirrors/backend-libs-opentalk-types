@@ -2,17 +2,13 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//! The id of a module, and some extra functionality around it.
+
 use std::str::FromStr;
 
 use snafu::{ensure, Snafu};
 
-use crate::utils::ExampleData;
-
-/// The `core` module id.
-pub const CORE_MODULE_ID: &str = "core";
-
-/// The module that is used by default if none is specified
-pub const DEFAULT_MODULE_ID: &str = CORE_MODULE_ID;
+use crate::Identifier;
 
 /// The minimum allowed length for a valid module id
 pub const MODULE_ID_MIN_LENGTH: usize = 1;
@@ -22,6 +18,12 @@ pub const MODULE_ID_MAX_LENGTH: usize = 255;
 
 /// Regular expression of characters that are allowed inside a module id.
 pub const MODULE_ID_SCHEMA_CHARS_REGEX: &str = "[-_0-9a-zA-Z]";
+
+/// The core module id
+pub const CORE_MODULE_ID: ModuleId = ModuleId::__new_borrowed("core");
+
+/// The default module id
+pub const DEFAULT_MODULE_ID: ModuleId = CORE_MODULE_ID;
 
 /// The id of a module.
 ///
@@ -41,18 +43,51 @@ pub const MODULE_ID_SCHEMA_CHARS_REGEX: &str = "[-_0-9a-zA-Z]";
     feature = "serde",
     derive(serde::Serialize, serde_with::DeserializeFromStr)
 )]
-pub struct ModuleId(String);
+pub struct ModuleId(Identifier);
 
 impl Default for ModuleId {
     fn default() -> Self {
-        Self(DEFAULT_MODULE_ID.to_string())
+        DEFAULT_MODULE_ID
     }
 }
 
 impl ModuleId {
     /// Check whether this module id is the default module id identified by [`DEFAULT_MODULE_ID`].
     pub fn is_default(&self) -> bool {
-        self.0.as_str() == DEFAULT_MODULE_ID
+        self == &DEFAULT_MODULE_ID
+    }
+
+    /// Get the `&str` reference to the module id
+    pub fn as_str(&self) -> &str {
+        self.0.as_str()
+    }
+
+    // Only for use in the `module_id` macro
+    #[doc(hidden)]
+    pub const fn __new_borrowed(value: &'static str) -> Self {
+        Self(Identifier::new_borrowed(value))
+    }
+
+    /// Get an example instance of the [`ModuleId`].
+    pub const fn example_data() -> Self {
+        Self::__new_borrowed("mymodule")
+    }
+}
+
+impl TryFrom<&'static str> for ModuleId {
+    type Error = ParseModuleIdError;
+
+    fn try_from(value: &'static str) -> Result<Self, Self::Error> {
+        ensure_is_valid(value)?;
+        Ok(Self::__new_borrowed(value))
+    }
+}
+
+impl TryFrom<String> for ModuleId {
+    type Error = ParseModuleIdError;
+
+    fn try_from(value: String) -> Result<Self, Self::Error> {
+        value.parse()
     }
 }
 
@@ -72,7 +107,6 @@ mod impl_utoipa {
     use super::{
         ModuleId, MODULE_ID_MAX_LENGTH, MODULE_ID_MIN_LENGTH, MODULE_ID_SCHEMA_CHARS_REGEX,
     };
-    use crate::utils::ExampleData as _;
 
     impl PartialSchema for ModuleId {
         fn schema() -> RefOr<Schema> {
@@ -102,10 +136,25 @@ mod impl_utoipa {
     }
 }
 
-impl ExampleData for ModuleId {
-    fn example_data() -> Self {
-        Self("mymodule".to_string())
-    }
+fn ensure_is_valid(s: &str) -> Result<(), ParseModuleIdError> {
+    ensure!(
+        s.chars()
+            .all(|c| c.is_ascii_alphanumeric() || c == '_' || c == '-'),
+        InvalidCharactersSnafu
+    );
+    ensure!(
+        s.len() >= MODULE_ID_MIN_LENGTH,
+        TooShortSnafu {
+            min_length: MODULE_ID_MIN_LENGTH
+        }
+    );
+    ensure!(
+        s.len() <= MODULE_ID_MAX_LENGTH,
+        TooLongSnafu {
+            max_length: MODULE_ID_MAX_LENGTH
+        }
+    );
+    Ok(())
 }
 
 /// The error that is returned by [ModuleId::from_str] on failure.
@@ -134,52 +183,42 @@ impl FromStr for ModuleId {
     type Err = ParseModuleIdError;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        ensure!(
-            s.chars()
-                .all(|c| c.is_ascii_alphanumeric() || c == '_' || c == '-'),
-            InvalidCharactersSnafu
-        );
-        ensure!(
-            s.len() >= MODULE_ID_MIN_LENGTH,
-            TooShortSnafu {
-                min_length: MODULE_ID_MIN_LENGTH
-            }
-        );
-        ensure!(
-            s.len() <= MODULE_ID_MAX_LENGTH,
-            TooLongSnafu {
-                max_length: MODULE_ID_MAX_LENGTH
-            }
-        );
-        Ok(Self(s.to_string()))
+        ensure_is_valid(s)?;
+        Ok(Self(Identifier::new_owned(s.to_string())))
     }
 }
 
 #[cfg(test)]
 mod tests {
+    use std::collections::{BTreeSet, HashSet};
+
     use pretty_assertions::assert_eq;
 
     use super::{ModuleId, ParseModuleIdError};
+    use crate::{identifier::Identifier, module_id::DEFAULT_MODULE_ID};
 
     #[test]
     fn parse() {
         assert_eq!(
             "hello".parse::<ModuleId>().unwrap(),
-            ModuleId("hello".to_string())
+            ModuleId("hello".into())
         );
-        assert_eq!("_".parse::<ModuleId>().unwrap(), ModuleId("_".to_string()));
+        assert_eq!("_".parse::<ModuleId>().unwrap(), ModuleId("_".into()));
         assert_eq!(
             "hello_world".parse::<ModuleId>().unwrap(),
-            ModuleId("hello_world".to_string())
+            ModuleId("hello_world".into())
         );
-        assert_eq!("-".parse::<ModuleId>().unwrap(), ModuleId("-".to_string()));
+        assert_eq!("-".parse::<ModuleId>().unwrap(), ModuleId("-".into()));
         assert_eq!(
             "hello-world".parse::<ModuleId>().unwrap(),
-            ModuleId("hello-world".to_string())
+            ModuleId("hello-world".into())
         );
 
         let longest: String = "x".repeat(255);
-        assert_eq!(longest.parse::<ModuleId>().unwrap(), ModuleId(longest));
+        assert_eq!(
+            longest.parse::<ModuleId>().unwrap(),
+            ModuleId(longest.into())
+        );
     }
 
     #[test]
@@ -219,5 +258,103 @@ mod tests {
             too_long.parse::<ModuleId>(),
             Err(ParseModuleIdError::TooLong { max_length: 255 })
         ));
+    }
+
+    #[test]
+    fn try_from_static_str() {
+        assert!(matches!(
+            ModuleId::try_from(""),
+            Err(ParseModuleIdError::TooShort { min_length: 1 })
+        ));
+        assert!(matches!(
+            ModuleId::try_from("hello+world"),
+            Err(ParseModuleIdError::InvalidCharacters)
+        ));
+        assert_eq!(
+            ModuleId::try_from("hello").expect("value must be parsable as ModuleId"),
+            ModuleId::__new_borrowed("hello")
+        );
+    }
+
+    #[test]
+    fn try_from_string() {
+        assert!(matches!(
+            ModuleId::try_from("".to_string()),
+            Err(ParseModuleIdError::TooShort { min_length: 1 })
+        ));
+        assert!(matches!(
+            ModuleId::try_from("hello+world".to_string()),
+            Err(ParseModuleIdError::InvalidCharacters)
+        ));
+        assert_eq!(
+            ModuleId::try_from("hello".to_string()).expect("value must be parsable as ModuleId"),
+            ModuleId::__new_borrowed("hello")
+        );
+    }
+
+    #[test]
+    fn partial_eq() {
+        assert!(
+            ModuleId::try_from("a").expect("value must be parsable as ModuleId")
+                < ModuleId("z".to_string().into())
+        );
+        assert!(
+            ModuleId::try_from("z").expect("value must be parsable as ModuleId")
+                > ModuleId("a".to_string().into())
+        );
+    }
+
+    #[test]
+    fn hash_by_hash_set() {
+        // we test availability of hashing indirectly usage of a HashSet.
+        let expected: HashSet<ModuleId> = HashSet::from_iter(
+            ["a", "b", "c"]
+                .into_iter()
+                .map(|s| ModuleId(Identifier::from(s))),
+        );
+
+        let b = HashSet::from_iter([
+            ModuleId("a".into()),
+            ModuleId("c".into()),
+            ModuleId("a".to_string().into()),
+            "b".parse().expect("value must be parsable as ModuleId"),
+        ]);
+
+        assert_eq!(b, expected);
+    }
+
+    #[test]
+    fn ord_by_btree_set() {
+        // we test availability PartialOrd indirectly usage of a BTreeSet.
+        let expected = ["a", "b", "c"]
+            .into_iter()
+            .map(|s| ModuleId(Identifier::from(s)))
+            .collect();
+
+        let b = BTreeSet::from_iter([
+            ModuleId("a".into()),
+            ModuleId("c".into()),
+            ModuleId("a".to_string().into()),
+            "b".parse().expect("value must be parsable as ModuleId"),
+        ]);
+
+        assert_eq!(b, expected);
+    }
+
+    #[test]
+    fn display() {
+        assert_eq!("hello", ModuleId("hello".into()).to_string());
+
+        let a = ModuleId("hello".into());
+        let b = ModuleId("world".into());
+        assert_eq!(format!("{a}, {b}"), "hello, world");
+    }
+
+    #[test]
+    fn is_default() {
+        assert!(DEFAULT_MODULE_ID.is_default());
+        assert!(ModuleId::default().is_default());
+        assert!(ModuleId("core".into()).is_default());
+        assert!(!ModuleId("eroc".into()).is_default());
     }
 }
