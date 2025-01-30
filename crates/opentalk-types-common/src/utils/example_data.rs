@@ -15,3 +15,16 @@ impl ExampleData for ModuleId {
         ModuleId::example_data()
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use opentalk_types_common_identifiers::module_id::ModuleId;
+
+    #[test]
+    fn module_id_example_data() {
+        assert_eq!(
+            ModuleId::example_data(),
+            <ModuleId as super::ExampleData>::example_data()
+        );
+    }
+}

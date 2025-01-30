@@ -30,12 +30,8 @@ pub mod state;
 
 pub use associated_participant_in_other_room::AssociatedParticipantInOtherRoom;
 pub use breakout_room::BreakoutRoom;
+use opentalk_types_common::modules::{module_id, ModuleId};
 pub use participant_in_other_room::ParticipantInOtherRoom;
 
-/// The namespace string for the signaling module
-pub const NAMESPACE: &str = "breakout";
-
-/// Get the id of the signaling module
-pub fn module_id() -> opentalk_types_common::modules::ModuleId {
-    NAMESPACE.parse().expect("valid module id")
-}
+/// The module id for the signaling module
+pub const MODULE_ID: ModuleId = module_id!("breakout");

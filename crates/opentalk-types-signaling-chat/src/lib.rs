@@ -32,8 +32,5 @@ pub use message_id::MessageId;
 use opentalk_types_common::modules::{module_id, ModuleId};
 pub use scope::Scope;
 
-/// The namespace string for the signaling module
-pub const NAMESPACE: &str = "chat";
-
 /// The module id for the signaling module
 pub const MODULE_ID: ModuleId = module_id!("chat");

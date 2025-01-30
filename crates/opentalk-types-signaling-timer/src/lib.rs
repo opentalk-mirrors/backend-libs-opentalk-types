@@ -30,8 +30,9 @@ mod timer_config;
 mod timer_id;
 
 pub use kind::Kind;
+use opentalk_types_common::modules::{module_id, ModuleId};
 pub use timer_config::TimerConfig;
 pub use timer_id::TimerId;
 
-/// The namespace string for the signaling module
-pub const NAMESPACE: &str = "timer";
+/// The module id for the signaling module
+pub const MODULE_ID: ModuleId = module_id!("timer");

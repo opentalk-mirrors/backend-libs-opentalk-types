@@ -20,17 +20,12 @@
     unused_results
 )]
 
-use opentalk_types_common::modules::ModuleId;
+use opentalk_types_common::modules::{module_id, ModuleId};
 
 pub mod command;
 pub mod event;
 pub mod state;
 pub mod whisper_id;
 
-/// The namespace string for the signaling module
-pub const NAMESPACE: &str = "subroom_audio";
-
-/// Get the id of the signaling module
-pub fn module_id() -> ModuleId {
-    NAMESPACE.parse().expect("valid module id")
-}
+/// The module id for the signaling module
+pub const MODULE_ID: ModuleId = module_id!("subroom_audio");

@@ -29,5 +29,5 @@ pub enum WhiteboardState {
 
 #[cfg(feature = "serde")]
 impl opentalk_types_signaling::SignalingModuleFrontendData for WhiteboardState {
-    const NAMESPACE: Option<&'static str> = Some(crate::NAMESPACE);
+    const NAMESPACE: Option<opentalk_types_common::modules::ModuleId> = Some(crate::MODULE_ID);
 }

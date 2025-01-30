@@ -4,6 +4,7 @@
 
 use std::collections::BTreeMap;
 
+use opentalk_types_common::modules::ModuleId;
 use serde::{Deserialize, Serialize};
 
 use crate::SignalingModuleFrontendData;
@@ -12,14 +13,9 @@ use crate::SignalingModuleFrontendData;
 /// with the module's namespace.
 #[derive(Default, Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
-pub struct ModuleData<K = String>(BTreeMap<K, serde_json::Value>)
-where
-    K: Ord + From<&'static str>;
+pub struct ModuleData(BTreeMap<ModuleId, serde_json::Value>);
 
-impl<K> ModuleData<K>
-where
-    K: Ord + From<&'static str>,
-{
+impl ModuleData {
     /// Create a new empty [`ModuleData`].
     pub fn new() -> Self {
         Self(BTreeMap::default())
@@ -29,7 +25,7 @@ where
     pub fn get<T: SignalingModuleFrontendData>(&self) -> Result<Option<T>, serde_json::Error> {
         if let Some(namespace) = T::NAMESPACE {
             self.0
-                .get(&K::from(namespace))
+                .get(&namespace)
                 .map(|m| serde_json::from_value(m.clone()))
                 .transpose()
         } else {
@@ -46,17 +42,13 @@ where
         data: &T,
     ) -> Result<(), serde_json::Error> {
         if let Some(namespace) = T::NAMESPACE {
-            let _ = self.0.insert(namespace.into(), serde_json::to_value(data)?);
+            let _ = self.0.insert(namespace, serde_json::to_value(data)?);
         }
         Ok(())
     }
 
     /// Query whether the module data contains a value for this key
-    pub fn contains_key<Q>(&self, key: &Q) -> bool
-    where
-        K: std::borrow::Borrow<Q> + Ord,
-        Q: Ord + ?Sized,
-    {
+    pub fn contains_key(&self, key: &ModuleId) -> bool {
         self.0.contains_key(key)
     }
 
@@ -67,16 +59,12 @@ where
     /// entry with that namespace if it exists.
     pub fn remove<T: SignalingModuleFrontendData>(&mut self) {
         if let Some(namespace) = T::NAMESPACE {
-            self.remove_key(&K::from(namespace));
+            self.remove_key(&namespace);
         }
     }
 
     /// Remove an entry by its key if it exists.
-    pub fn remove_key<Q>(&mut self, key: &Q)
-    where
-        K: std::borrow::Borrow<Q> + Ord,
-        Q: Ord + ?Sized,
-    {
+    pub fn remove_key(&mut self, key: &ModuleId) {
         let _ = self.0.remove(key);
     }
 

@@ -20,9 +20,11 @@
     unused_results
 )]
 
+use opentalk_types_common::modules::{module_id, ModuleId};
+
 pub mod command;
 pub mod event;
 pub mod state;
 
-/// The namespace string for this signaling module
-pub const NAMESPACE: &str = "recording_service";
+/// The module id for the signaling module
+pub const MODULE_ID: ModuleId = module_id!("recording_service");
