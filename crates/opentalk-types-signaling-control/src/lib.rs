@@ -27,13 +27,8 @@ pub mod state;
 
 mod waiting_room_state;
 
-use opentalk_types_common::modules::ModuleId;
-pub use waiting_room_state::{WaitingRoomState, NAMESPACE as WAITING_ROOM_STATE_NAMESPACE};
+use opentalk_types_common::modules::{module_id, ModuleId};
+pub use waiting_room_state::{WaitingRoomState, MODULE_ID as WAITING_ROOM_STATE_MODULE_ID};
 
-/// The namespace string for the signaling module
-pub const NAMESPACE: &str = "control";
-
-/// Get the id of the signaling module
-pub fn module_id() -> ModuleId {
-    NAMESPACE.parse().expect("valid module id")
-}
+/// The module id for the signaling module
+pub const MODULE_ID: ModuleId = module_id!("control");

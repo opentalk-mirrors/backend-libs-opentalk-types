@@ -24,7 +24,12 @@ workspace = true
 actix = ["dep:actix-http", "dep:actix-web-httpauth", "dep:bytes", "serde"]
 backend = ["diesel", "rand", "redis", "serde", "utoipa"]
 clap = ["dep:clap"]
-diesel = ["dep:diesel", "dep:opentalk-diesel-newtype", "serde"]
+diesel = [
+  "dep:diesel",
+  "dep:opentalk-diesel-newtype",
+  "opentalk-types-common-identifiers/diesel",
+  "serde",
+]
 frontend = ["serde"]
 kustos = ["dep:kustos-shared", "dep:opentalk-kustos-prefix"]
 rand = ["dep:rand", "uuid/v4"]
@@ -34,10 +39,16 @@ serde = [
   "chrono/serde",
   "dep:serde",
   "dep:serde_with",
+  "opentalk-types-common-identifiers/serde",
   "url/serde",
   "uuid/serde",
 ]
-utoipa = ["dep:serde_json", "dep:utoipa", "serde"]
+utoipa = [
+  "dep:serde_json",
+  "dep:utoipa",
+  "opentalk-types-common-identifiers/utoipa",
+  "serde",
+]
 
 [dependencies]
 actix-http = { workspace = true, optional = true }
@@ -60,6 +71,8 @@ itertools.workspace = true
 kustos-shared = { workspace = true, optional = true }
 opentalk-diesel-newtype = { workspace = true, optional = true }
 opentalk-kustos-prefix = { workspace = true, optional = true }
+opentalk-types-common-identifiers.workspace = true
+opentalk-types-common-macros.workspace = true
 rand = { workspace = true, optional = true }
 redis = { workspace = true, optional = true }
 redis-args = { workspace = true, optional = true }
@@ -86,3 +99,4 @@ ignored = [
 pretty_assertions.workspace = true
 serde.workspace = true
 serde_json.workspace = true
+trybuild.workspace = true

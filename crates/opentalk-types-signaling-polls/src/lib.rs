@@ -33,8 +33,9 @@ mod results;
 pub use choice::Choice;
 pub use choice_id::ChoiceId;
 pub use item::Item;
+use opentalk_types_common::modules::{module_id, ModuleId};
 pub use poll_id::PollId;
 pub use results::Results;
 
-/// The namespace string for the signaling module
-pub const NAMESPACE: &str = "polls";
+/// The module id for the signaling module
+pub const MODULE_ID: ModuleId = module_id!("polls");

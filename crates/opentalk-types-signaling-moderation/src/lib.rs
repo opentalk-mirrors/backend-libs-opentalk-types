@@ -27,12 +27,7 @@ pub mod state;
 mod kick_scope;
 
 pub use kick_scope::KickScope;
-use opentalk_types_common::modules::ModuleId;
+use opentalk_types_common::modules::{module_id, ModuleId};
 
-/// The namespace string for the signaling module
-pub const NAMESPACE: &str = "moderation";
-
-/// Get the id of the signaling module
-pub fn module_id() -> ModuleId {
-    NAMESPACE.parse().expect("valid module id")
-}
+/// The module id for the signaling module
+pub const MODULE_ID: ModuleId = module_id!("moderation");

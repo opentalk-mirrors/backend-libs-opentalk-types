@@ -4,27 +4,24 @@
 
 //! Types for handling module features.
 
-mod feature_id;
 mod module_feature_id;
 
-pub use feature_id::{
+pub use module_feature_id::{ModuleFeatureId, ParseModuleFeatureIdError};
+pub use opentalk_types_common_identifiers::feature_id::{
     FeatureId, ParseFeatureIdError, FEATURE_ID_MAX_LENGTH, FEATURE_ID_MIN_LENGTH,
     FEATURE_ID_SCHEMA_CHARS_REGEX,
 };
-pub use module_feature_id::{ModuleFeatureId, ParseModuleFeatureIdError};
-
-use crate::modules::ModuleId;
+use opentalk_types_common_identifiers::module_id::DEFAULT_MODULE_ID;
+pub use opentalk_types_common_macros::feature_id;
 
 /// The namespace separator
 pub const NAMESPACE_SEPARATOR: &str = "::";
 
 /// The call-in feature identifier string
-pub const CALL_IN_FEATURE_ID: &str = "call_in";
+pub const CALL_IN_FEATURE_ID: FeatureId = feature_id!("call_in");
 
 /// The call-in module feature id
-pub fn call_in() -> ModuleFeatureId {
-    ModuleFeatureId {
-        module: ModuleId::default(),
-        feature: CALL_IN_FEATURE_ID.parse().expect("valid feature id"),
-    }
-}
+pub const CALL_IN_MODULE_FEATURE_ID: ModuleFeatureId = ModuleFeatureId {
+    module: DEFAULT_MODULE_ID,
+    feature: CALL_IN_FEATURE_ID,
+};

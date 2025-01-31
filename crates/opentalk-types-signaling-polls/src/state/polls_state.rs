@@ -51,7 +51,7 @@ pub struct PollsState {
 
 #[cfg(feature = "serde")]
 impl opentalk_types_signaling::SignalingModuleFrontendData for PollsState {
-    const NAMESPACE: Option<&'static str> = Some(crate::NAMESPACE);
+    const NAMESPACE: Option<opentalk_types_common::modules::ModuleId> = Some(crate::MODULE_ID);
 }
 
 impl PollsState {

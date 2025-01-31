@@ -2,8 +2,10 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+use opentalk_types_common::modules::{module_id, ModuleId};
+
 /// The namespace string for the waiting room state
-pub const NAMESPACE: &str = "waiting_room_state";
+pub const MODULE_ID: ModuleId = module_id!("waiting_room_state");
 
 /// The waiting room state of a meeting participant
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -22,5 +24,5 @@ pub enum WaitingRoomState {
 
 #[cfg(feature = "serde")]
 impl opentalk_types_signaling::SignalingModulePeerFrontendData for WaitingRoomState {
-    const NAMESPACE: Option<&'static str> = Some(NAMESPACE);
+    const NAMESPACE: Option<ModuleId> = Some(MODULE_ID);
 }

@@ -72,6 +72,7 @@ mod serde_tests {
     use chrono::DateTime;
     use opentalk_types_common::{
         events::{EventId, EventInfo},
+        modules::{module_id, ModuleId},
         rooms::RoomId,
         tariffs::{TariffId, TariffResource},
         users::UserTitle,
@@ -274,7 +275,7 @@ mod serde_tests {
     }
 
     impl opentalk_types_signaling::SignalingModulePeerFrontendData for DummyFrontendData1 {
-        const NAMESPACE: Option<&'static str> = Some("dummy_namespace_1");
+        const NAMESPACE: Option<ModuleId> = Some(module_id!("dummy_namespace_1"));
     }
 
     #[derive(Default, Debug, PartialEq, Eq, Clone, Serialize, Deserialize)]
@@ -284,7 +285,7 @@ mod serde_tests {
     }
 
     impl opentalk_types_signaling::SignalingModulePeerFrontendData for DummyFrontendData2 {
-        const NAMESPACE: Option<&'static str> = Some("dummy_namespace_2");
+        const NAMESPACE: Option<ModuleId> = Some(module_id!("dummy_namespace_2"));
     }
 
     #[test]

@@ -23,7 +23,6 @@ pub struct NamespacedEvent<O> {
 
 #[cfg(all(test, feature = "serde"))]
 mod tests {
-    use opentalk_types_common::utils::ExampleData;
     use pretty_assertions::assert_eq;
     use serde_json::json;
 
