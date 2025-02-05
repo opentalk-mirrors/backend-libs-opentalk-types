@@ -697,18 +697,18 @@ dependencies = [
 
 [[package]]
 name = "derive_more"
-version = "1.0.0"
+version = "2.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4a9b99b9cbbe49445b21764dc0625032a89b145a2642e67603e1c936f5458d05"
+checksum = "093242cf7570c207c83073cf82f79706fe7b8317e98620a47d5be7c3d8497678"
 dependencies = [
  "derive_more-impl",
 ]
 
 [[package]]
 name = "derive_more-impl"
-version = "1.0.0"
+version = "2.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cb7330aeadfbe296029522e6c40f315320aba36fc43a5b3632f3795348f3bd22"
+checksum = "bda628edc44c4bb645fbe0f758797143e4e07926f7ebf4e9bdfbd3d2ce621df3"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1528,7 +1528,7 @@ dependencies = [
  "bincode",
  "chrono",
  "chrono-tz",
- "derive_more 1.0.0",
+ "derive_more 2.0.1",
  "http 0.2.12",
  "http 1.2.0",
  "log",
@@ -1552,7 +1552,7 @@ dependencies = [
  "chrono",
  "chrono-tz",
  "clap",
- "derive_more 1.0.0",
+ "derive_more 2.0.1",
  "diesel",
  "email_address",
  "itertools",
@@ -1580,7 +1580,7 @@ dependencies = [
 name = "opentalk-types-common-identifiers"
 version = "0.32.0-alpha"
 dependencies = [
- "derive_more 1.0.0",
+ "derive_more 2.0.1",
  "diesel",
  "opentalk-diesel-newtype",
  "pretty_assertions",
@@ -1606,7 +1606,7 @@ dependencies = [
 name = "opentalk-types-signaling"
 version = "0.32.0-alpha"
 dependencies = [
- "derive_more 1.0.0",
+ "derive_more 2.0.1",
  "opentalk-types-common",
  "pretty_assertions",
  "redis-args",
@@ -1632,7 +1632,7 @@ name = "opentalk-types-signaling-chat"
 version = "0.32.0-alpha"
 dependencies = [
  "chrono",
- "derive_more 1.0.0",
+ "derive_more 2.0.1",
  "opentalk-types-common",
  "opentalk-types-signaling",
  "pretty_assertions",
@@ -1701,7 +1701,7 @@ name = "opentalk-types-signaling-polls"
 version = "0.32.0-alpha"
 dependencies = [
  "chrono",
- "derive_more 1.0.0",
+ "derive_more 2.0.1",
  "opentalk-types-common",
  "opentalk-types-signaling",
  "pretty_assertions",
@@ -1715,7 +1715,7 @@ dependencies = [
 name = "opentalk-types-signaling-recording"
 version = "0.32.0-alpha"
 dependencies = [
- "derive_more 1.0.0",
+ "derive_more 2.0.1",
  "opentalk-types-common",
  "opentalk-types-signaling",
  "pretty_assertions",
@@ -1750,7 +1750,7 @@ dependencies = [
 name = "opentalk-types-signaling-subroom-audio"
 version = "0.32.0-alpha"
 dependencies = [
- "derive_more 1.0.0",
+ "derive_more 2.0.1",
  "opentalk-types-common",
  "opentalk-types-signaling",
  "redis-args",
@@ -1765,7 +1765,7 @@ name = "opentalk-types-signaling-timer"
 version = "0.32.0-alpha"
 dependencies = [
  "chrono",
- "derive_more 1.0.0",
+ "derive_more 2.0.1",
  "opentalk-types-common",
  "opentalk-types-signaling",
  "pretty_assertions",
@@ -2739,7 +2739,7 @@ version = "0.1.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "cf221c93e13a30d793f7645a0e7762c55d169dbb0a49671918a2319d289b10bb"
 dependencies = [
- "windows-sys 0.52.0",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]
