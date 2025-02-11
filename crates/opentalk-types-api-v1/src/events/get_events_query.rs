@@ -23,6 +23,14 @@ pub struct GetEventsQuery {
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
     pub time_max: Option<Timestamp>,
 
+    /// Only query events created before this timestamp
+    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    pub created_before: Option<Timestamp>,
+
+    /// Only query events created after this timestamp
+    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    pub created_after: Option<Timestamp>,
+
     /// Maximum number of invitees to return inside the event resource
     ///
     /// Default value is 0
