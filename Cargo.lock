@@ -1497,7 +1497,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types"
-version = "0.32.0"
+version = "0.32.1"
 dependencies = [
  "opentalk-types-api-v1",
  "opentalk-types-common",
@@ -1521,7 +1521,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-api-v1"
-version = "0.32.0"
+version = "0.32.1"
 dependencies = [
  "actix-web",
  "axum",
@@ -1545,7 +1545,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-common"
-version = "0.31.0"
+version = "0.31.1"
 dependencies = [
  "actix-http",
  "actix-web-httpauth",
@@ -1579,7 +1579,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-common-identifiers"
-version = "0.31.0"
+version = "0.31.1"
 dependencies = [
  "derive_more 2.0.1",
  "diesel",
@@ -1594,7 +1594,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-common-macros"
-version = "0.31.0"
+version = "0.31.1"
 dependencies = [
  "opentalk-types-common-identifiers",
  "proc-macro-crate",
