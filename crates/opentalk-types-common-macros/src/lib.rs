@@ -20,7 +20,9 @@
     unused_results
 )]
 
-use opentalk_types_common_identifiers::{feature_id::FeatureId, module_id::ModuleId};
+use opentalk_types_common_identifiers::{
+    asset_file_kind::AssetFileKind, feature_id::FeatureId, module_id::ModuleId,
+};
 use proc_macro::TokenStream;
 use proc_macro2::{Span, TokenStream as TokenStream2};
 use proc_macro_crate::{crate_name, FoundCrate};
@@ -74,4 +76,10 @@ pub fn module_id(input: TokenStream) -> TokenStream {
 #[proc_macro]
 pub fn feature_id(input: TokenStream) -> TokenStream {
     generate_const_id::<FeatureId>(input, quote!(features::FeatureId))
+}
+
+/// Create a constant `AssetFileKind` at compile time.
+#[proc_macro]
+pub fn asset_file_kind(input: TokenStream) -> TokenStream {
+    generate_const_id::<AssetFileKind>(input, quote!(assets::AssetFileKind))
 }

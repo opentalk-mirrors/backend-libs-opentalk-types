@@ -78,6 +78,8 @@ available that pull in a set of dependencies.
   Re-exports [`opentalk-types-signaling-subroom-audio`](https://docs.rs/opentalk-types-signaling-subroom-audio) crate as [`signaling::subroom-audio`].
 * **signaling-timer** -
   Re-exports [`opentalk-types-signaling-timer`](https://docs.rs/opentalk-types-signaling-timer) crate as [`signaling::timer`].
+* **signaling-training-participation-report** -
+  Re-exports [`opentalk-types-signaling-training-participation-report`](https://docs.rs/opentalk-types-signaling-training-participation-report) crate as [`signaling::training_participation_report`].
 * **signaling-whiteboard** -
   Re-exports [`opentalk-types-signaling-whiteboard`](https://docs.rs/opentalk-types-signaling-whiteboard) crate as [`signaling::whiteboard`].
 
@@ -172,6 +174,8 @@ pub mod signaling {
     pub use opentalk_types_signaling_subroom_audio as subroom_audio;
     #[cfg(feature = "signaling-timer")]
     pub use opentalk_types_signaling_timer as timer;
+    #[cfg(feature = "signaling-training-participation-report")]
+    pub use opentalk_types_signaling_training_participation_report as training_participation_report;
     #[cfg(feature = "signaling-whiteboard")]
     pub use opentalk_types_signaling_whiteboard as whiteboard;
 }

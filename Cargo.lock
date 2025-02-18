@@ -1515,6 +1515,7 @@ dependencies = [
  "opentalk-types-signaling-shared-folder",
  "opentalk-types-signaling-subroom-audio",
  "opentalk-types-signaling-timer",
+ "opentalk-types-signaling-training-participation-report",
  "opentalk-types-signaling-whiteboard",
 ]
 
@@ -1773,6 +1774,17 @@ dependencies = [
  "serde",
  "serde_json",
  "uuid",
+]
+
+[[package]]
+name = "opentalk-types-signaling-training-participation-report"
+version = "0.1.0"
+dependencies = [
+ "opentalk-types-common",
+ "opentalk-types-signaling",
+ "pretty_assertions",
+ "serde",
+ "serde_json",
 ]
 
 [[package]]

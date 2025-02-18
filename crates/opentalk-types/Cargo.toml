@@ -46,6 +46,7 @@ backend = [
   "opentalk-types-signaling-shared-folder/backend",
   "opentalk-types-signaling-subroom-audio/backend",
   "opentalk-types-signaling-timer/backend",
+  "opentalk-types-signaling-training-participation-report/backend",
   "opentalk-types-signaling-whiteboard/backend",
   "opentalk-types-signaling/backend",
 ]
@@ -67,6 +68,7 @@ frontend = [
   "opentalk-types-signaling-shared-folder/frontend",
   "opentalk-types-signaling-subroom-audio/frontend",
   "opentalk-types-signaling-timer/frontend",
+  "opentalk-types-signaling-training-participation-report/frontend",
   "opentalk-types-signaling-whiteboard/frontend",
   "opentalk-types-signaling/frontend",
 ]
@@ -106,6 +108,7 @@ serde = [
   "opentalk-types-signaling-shared-folder/serde",
   "opentalk-types-signaling-subroom-audio/serde",
   "opentalk-types-signaling-timer/serde",
+  "opentalk-types-signaling-training-participation-report/serde",
   "opentalk-types-signaling-whiteboard/serde",
   "opentalk-types-signaling/serde",
 ]
@@ -132,6 +135,7 @@ signaling-all = [
   "signaling-shared-folder",
   "signaling-subroom-audio",
   "signaling-timer",
+  "signaling-training-participation-report",
   "signaling-whiteboard",
 ]
 signaling-breakout = ["dep:opentalk-types-signaling-breakout", "signaling"]
@@ -162,6 +166,10 @@ signaling-subroom-audio = [
   "signaling",
 ]
 signaling-timer = ["dep:opentalk-types-signaling-timer", "signaling"]
+signaling-training-participation-report = [
+  "dep:opentalk-types-signaling-training-participation-report",
+  "signaling",
+]
 signaling-whiteboard = ["dep:opentalk-types-signaling-whiteboard", "signaling"]
 
 
@@ -182,4 +190,5 @@ opentalk-types-signaling-recording-service = { workspace = true, optional = true
 opentalk-types-signaling-shared-folder = { workspace = true, optional = true }
 opentalk-types-signaling-subroom-audio = { workspace = true, optional = true }
 opentalk-types-signaling-timer = { workspace = true, optional = true }
+opentalk-types-signaling-training-participation-report = { workspace = true, optional = true }
 opentalk-types-signaling-whiteboard = { workspace = true, optional = true }
