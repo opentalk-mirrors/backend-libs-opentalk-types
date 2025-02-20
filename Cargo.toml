@@ -20,7 +20,7 @@ opentalk-types-api-v1 = { path = "crates/opentalk-types-api-v1", version = "0.32
 opentalk-types-common = { path = "crates/opentalk-types-common", version = "0.31.1" }
 opentalk-types-common-identifiers = { path = "crates/opentalk-types-common-identifiers", version = "0.31.1" }
 opentalk-types-common-macros = { path = "crates/opentalk-types-common-macros", version = "0.31.1" }
-opentalk-types-signaling = { path = "crates/opentalk-types-signaling", version = "0.31.0" }
+opentalk-types-signaling = { path = "crates/opentalk-types-signaling", version = "0.31.1" }
 opentalk-types-signaling-breakout = { path = "crates/opentalk-types-signaling-breakout", version = "0.31.0" }
 opentalk-types-signaling-chat = { path = "crates/opentalk-types-signaling-chat", version = "0.31.0" }
 opentalk-types-signaling-control = { path = "crates/opentalk-types-signaling-control", version = "0.31.0" }
@@ -32,7 +32,7 @@ opentalk-types-signaling-polls = { path = "crates/opentalk-types-signaling-polls
 opentalk-types-signaling-recording = { path = "crates/opentalk-types-signaling-recording", version = "0.31.0" }
 opentalk-types-signaling-recording-service = { path = "crates/opentalk-types-signaling-recording-service", version = "0.31.0" }
 opentalk-types-signaling-shared-folder = { path = "crates/opentalk-types-signaling-shared-folder", version = "0.31.0" }
-opentalk-types-signaling-subroom-audio = { path = "crates/opentalk-types-signaling-subroom-audio", version = "0.31.0" }
+opentalk-types-signaling-subroom-audio = { path = "crates/opentalk-types-signaling-subroom-audio", version = "0.31.1" }
 opentalk-types-signaling-timer = { path = "crates/opentalk-types-signaling-timer", version = "0.31.0" }
 opentalk-types-signaling-training-participation-report = { path = "crates/opentalk-types-signaling-training-participation-report", version = "0.1.0" }
 opentalk-types-signaling-whiteboard = { path = "crates/opentalk-types-signaling-whiteboard", version = "0.31.0" }
