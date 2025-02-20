@@ -1605,7 +1605,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling"
-version = "0.31.0"
+version = "0.31.1"
 dependencies = [
  "derive_more 2.0.1",
  "opentalk-types-common",
@@ -1749,7 +1749,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling-subroom-audio"
-version = "0.31.0"
+version = "0.31.1"
 dependencies = [
  "derive_more 2.0.1",
  "opentalk-types-common",
