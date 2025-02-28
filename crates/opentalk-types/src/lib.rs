@@ -154,6 +154,8 @@ pub mod signaling {
     pub use opentalk_types_signaling_chat as chat;
     #[cfg(feature = "signaling-control")]
     pub use opentalk_types_signaling_control as control;
+    #[cfg(feature = "signaling-e2ee")]
+    pub use opentalk_types_signaling_e2ee as e2ee;
     #[cfg(feature = "signaling-livekit")]
     pub use opentalk_types_signaling_livekit as livekit;
     #[cfg(feature = "signaling-meeting-notes")]

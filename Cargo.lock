@@ -1508,6 +1508,7 @@ dependencies = [
  "opentalk-types-signaling-breakout",
  "opentalk-types-signaling-chat",
  "opentalk-types-signaling-control",
+ "opentalk-types-signaling-e2ee",
  "opentalk-types-signaling-livekit",
  "opentalk-types-signaling-meeting-notes",
  "opentalk-types-signaling-meeting-report",
