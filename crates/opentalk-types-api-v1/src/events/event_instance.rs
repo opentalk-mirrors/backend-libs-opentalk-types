@@ -6,6 +6,7 @@ use opentalk_types_common::{
     events::{invites::EventInviteStatus, EventDescription, EventId, EventTitle},
     shared_folders::SharedFolder,
     time::{DateTimeTz, Timestamp},
+    training_participation_report::TrainingParticipationReportParameterSet,
     utils::ExampleData,
 };
 
@@ -87,6 +88,20 @@ pub struct EventInstance {
     // combined with example data.
     #[cfg_attr(feature = "utoipa", schema(nullable = false))]
     pub shared_folder: Option<SharedFolder>,
+
+    /// The training participation report parameter set for the event.
+    ///
+    /// When present, the training participation report will be started
+    /// automatically in the meeting.
+    #[cfg_attr(
+        feature = "serde",
+        serde(default, skip_serializing_if = "Option::is_none")
+    )]
+    // Field is non-required already, utoipa adds a `nullable: true` entry
+    // by default which creates a false positive in the spectral linter when
+    // combined with example data.
+    #[cfg_attr(feature = "utoipa", schema(nullable = false))]
+    pub training_participation_report: Option<TrainingParticipationReportParameterSet>,
 }
 
 impl ExampleData for EventInstance {
@@ -121,6 +136,9 @@ impl ExampleData for EventInstance {
             is_favorite: false,
             can_edit: false,
             shared_folder: Some(SharedFolder::example_data()),
+            training_participation_report: Some(
+                TrainingParticipationReportParameterSet::example_data(),
+            ),
         }
     }
 }
