@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-use crate::TimeRange;
+use opentalk_types_common::training_participation_report::TimeRange;
 
 /// Incoming websocket messages
 #[derive(Debug, PartialEq)]
@@ -32,11 +32,11 @@ pub enum TrainingParticipationReportCommand {
 
 #[cfg(all(test, feature = "serde"))]
 mod serde_tests {
+    use opentalk_types_common::training_participation_report::TimeRange;
     use pretty_assertions::assert_eq;
     use serde_json::json;
 
     use super::TrainingParticipationReportCommand;
-    use crate::TimeRange;
 
     #[test]
     fn enable_presence_logging() {
