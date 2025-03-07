@@ -16,6 +16,7 @@ mod serde_impls {
     use std::marker::PhantomData;
 
     use base64::{engine::general_purpose::URL_SAFE_NO_PAD, Engine};
+    use bincode::serde::Compat;
     use serde::{de::DeserializeOwned, Deserialize, Deserializer, Serialize, Serializer};
 
     use super::*;
@@ -23,7 +24,8 @@ mod serde_impls {
     impl<T: Serialize> Cursor<T> {
         /// Encode T using bincode and return it as base64 string
         pub fn to_base64(&self) -> String {
-            URL_SAFE_NO_PAD.encode(bincode::serialize(&self.0).unwrap())
+            URL_SAFE_NO_PAD
+                .encode(bincode::encode_to_vec(Compat(&self.0), bincode::config::legacy()).unwrap())
         }
     }
 
@@ -61,9 +63,10 @@ mod serde_impls {
             let bytes = URL_SAFE_NO_PAD.decode(v).map_err(|_| {
                 serde::de::Error::invalid_value(serde::de::Unexpected::Str(v), &self)
             })?;
-            let data = bincode::deserialize(&bytes).map_err(|_| {
-                serde::de::Error::invalid_value(serde::de::Unexpected::Bytes(&bytes), &self)
-            })?;
+            let (Compat(data), _size) =
+                bincode::decode_from_slice(&bytes, bincode::config::legacy()).map_err(|_| {
+                    serde::de::Error::invalid_value(serde::de::Unexpected::Bytes(&bytes), &self)
+                })?;
 
             Ok(Cursor(data))
         }
