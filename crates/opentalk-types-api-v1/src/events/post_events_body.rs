@@ -8,6 +8,7 @@ use opentalk_types_common::{
     rooms::RoomPassword,
     streaming::StreamingTarget,
     time::{DateTimeTz, RecurrencePattern},
+    training_participation_report::TrainingParticipationReportParameterSet,
     utils::ExampleData,
 };
 
@@ -126,6 +127,20 @@ pub struct PostEventsBody {
     /// Should it be able to show the meeting details?
     #[cfg_attr(feature = "serde", serde(default))]
     pub show_meeting_details: bool,
+
+    /// The training participation report parameter set for the event.
+    ///
+    /// When present, the training participation report will be started
+    /// automatically in the meeting.
+    #[cfg_attr(
+        feature = "serde",
+        serde(default, skip_serializing_if = "Option::is_none")
+    )]
+    // Field is non-required already, utoipa adds a `nullable: true` entry
+    // by default which creates a false positive in the spectral linter when
+    // combined with example data.
+    #[cfg_attr(feature = "utoipa", schema(nullable = false))]
+    pub training_participation_report: Option<TrainingParticipationReportParameterSet>,
 }
 
 impl ExampleData for PostEventsBody {
@@ -153,6 +168,9 @@ impl ExampleData for PostEventsBody {
             has_shared_folder: false,
             show_meeting_details: true,
             e2e_encryption: false,
+            training_participation_report: Some(
+                TrainingParticipationReportParameterSet::example_data(),
+            ),
         }
     }
 }
