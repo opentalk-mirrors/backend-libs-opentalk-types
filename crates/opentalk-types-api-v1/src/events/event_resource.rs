@@ -8,6 +8,7 @@ use opentalk_types_common::{
     shared_folders::SharedFolder,
     streaming::RoomStreamingTarget,
     time::{DateTimeTz, RecurrencePattern, Timestamp},
+    training_participation_report::TrainingParticipationReportParameterSet,
     utils::ExampleData,
 };
 
@@ -168,6 +169,20 @@ pub struct EventResource {
 
     /// Indicates whether meeting details should be provided. If absent, no meeting details are made available.
     pub show_meeting_details: bool,
+
+    /// The training participation report parameter set for the event.
+    ///
+    /// When present, the training participation report will be started
+    /// automatically in the meeting.
+    #[cfg_attr(
+        feature = "serde",
+        serde(default, skip_serializing_if = "Option::is_none")
+    )]
+    // Field is non-required already, utoipa adds a `nullable: true` entry
+    // by default which creates a false positive in the spectral linter when
+    // combined with example data.
+    #[cfg_attr(feature = "utoipa", schema(nullable = false))]
+    pub training_participation_report: Option<TrainingParticipationReportParameterSet>,
 }
 
 impl ExampleData for EventResource {
@@ -199,6 +214,9 @@ impl ExampleData for EventResource {
             shared_folder: Some(SharedFolder::example_data()),
             streaming_targets: vec![RoomStreamingTarget::example_data()],
             show_meeting_details: true,
+            training_participation_report: Some(
+                TrainingParticipationReportParameterSet::example_data(),
+            ),
         }
     }
 }
