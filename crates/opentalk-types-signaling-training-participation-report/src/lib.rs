@@ -24,10 +24,7 @@ pub mod command;
 pub mod event;
 pub mod state;
 
-mod time_range;
-
 use opentalk_types_common::modules::{module_id, ModuleId};
-pub use time_range::TimeRange;
 
 /// The module id for the signaling module
 pub const MODULE_ID: ModuleId = module_id!("training_participation_report");

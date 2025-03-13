@@ -7,6 +7,7 @@ use opentalk_types_common::{
     rooms::RoomPassword,
     streaming::StreamingTarget,
     time::{DateTimeTz, RecurrencePattern},
+    training_participation_report::TrainingParticipationReportParameterSet,
     utils::ExampleData,
 };
 
@@ -184,6 +185,24 @@ pub struct PatchEventBody {
     // combined with example data.
     #[cfg_attr(feature = "utoipa", schema(nullable = false))]
     pub has_shared_folder: Option<bool>,
+
+    /// The training participation report parameter set for the event.
+    ///
+    /// When present, the training participation report will be started
+    /// automatically in the meeting.
+    #[cfg_attr(
+        feature = "serde",
+        serde(
+            default,
+            skip_serializing_if = "Option::is_none",
+            with = "::serde_with::rust::double_option",
+        )
+    )]
+    // Field is non-required already, utoipa adds a `nullable: true` entry
+    // by default which creates a false positive in the spectral linter when
+    // combined with example data.
+    #[cfg_attr(feature = "utoipa", schema(nullable = false))]
+    pub training_participation_report: Option<Option<TrainingParticipationReportParameterSet>>,
 }
 
 impl PatchEventBody {
@@ -204,6 +223,7 @@ impl PatchEventBody {
             show_meeting_details,
             has_shared_folder,
             streaming_targets,
+            training_participation_report,
         } = self;
 
         title.is_none()
@@ -220,6 +240,7 @@ impl PatchEventBody {
             && show_meeting_details.is_none()
             && has_shared_folder.is_none()
             && streaming_targets.is_none()
+            && training_participation_report.is_none()
     }
 
     // special case to only patch the events room
@@ -240,6 +261,7 @@ impl PatchEventBody {
             show_meeting_details,
             has_shared_folder,
             streaming_targets,
+            training_participation_report,
         } = self;
 
         title.is_none()
@@ -254,6 +276,7 @@ impl PatchEventBody {
             && has_shared_folder.is_none()
             && streaming_targets.is_none()
             && (password.is_some() || waiting_room.is_some() || e2e_encryption.is_some())
+            && training_participation_report.is_none()
     }
 }
 
@@ -278,6 +301,217 @@ impl ExampleData for PatchEventBody {
             streaming_targets: None,
             show_meeting_details: Some(false),
             has_shared_folder: Some(true),
+            training_participation_report: None,
         }
+    }
+}
+
+#[cfg(all(test, feature = "serde"))]
+mod serde_tests {
+    use opentalk_types_common::{
+        time::RecurrencePattern,
+        training_participation_report::{TimeRange, TrainingParticipationReportParameterSet},
+    };
+    use pretty_assertions::assert_eq;
+    use serde_json::json;
+
+    use crate::events::PatchEventBody;
+
+    #[test]
+    fn deserialize_empty() {
+        let json = json!({});
+
+        assert_eq!(
+            serde_json::from_value::<PatchEventBody>(json).unwrap(),
+            PatchEventBody {
+                title: None,
+                description: None,
+                password: None,
+                waiting_room: None,
+                e2e_encryption: None,
+                is_adhoc: None,
+                is_time_independent: None,
+                is_all_day: None,
+                starts_at: None,
+                ends_at: None,
+                recurrence_pattern: RecurrencePattern::default(),
+                streaming_targets: None,
+                show_meeting_details: None,
+                has_shared_folder: None,
+                training_participation_report: None
+            }
+        );
+    }
+
+    #[test]
+    fn serialize_empty() {
+        assert_eq!(
+            json!(PatchEventBody {
+                title: None,
+                description: None,
+                password: None,
+                waiting_room: None,
+                e2e_encryption: None,
+                is_adhoc: None,
+                is_time_independent: None,
+                is_all_day: None,
+                starts_at: None,
+                ends_at: None,
+                recurrence_pattern: RecurrencePattern::default(),
+                streaming_targets: None,
+                show_meeting_details: None,
+                has_shared_folder: None,
+                training_participation_report: None
+            }),
+            json!({})
+        );
+    }
+
+    #[test]
+    fn deserialize_training_participation_report_set_value() {
+        let json = json!({
+            "training_participation_report": {
+                "initial_checkpoint_delay": {
+                    "after": 100,
+                    "within": 200,
+                },
+                "checkpoint_interval": {
+                    "after": 300,
+                    "within": 400,
+                },
+            }
+        });
+
+        assert_eq!(
+            serde_json::from_value::<PatchEventBody>(json).unwrap(),
+            PatchEventBody {
+                title: None,
+                description: None,
+                password: None,
+                waiting_room: None,
+                e2e_encryption: None,
+                is_adhoc: None,
+                is_time_independent: None,
+                is_all_day: None,
+                starts_at: None,
+                ends_at: None,
+                recurrence_pattern: RecurrencePattern::default(),
+                streaming_targets: None,
+                show_meeting_details: None,
+                has_shared_folder: None,
+                training_participation_report: Some(Some(
+                    TrainingParticipationReportParameterSet {
+                        initial_checkpoint_delay: TimeRange {
+                            after: 100,
+                            within: 200,
+                        },
+                        checkpoint_interval: TimeRange {
+                            after: 300,
+                            within: 400,
+                        }
+                    }
+                ))
+            }
+        );
+    }
+
+    #[test]
+    fn serialize_training_participation_report_set_value() {
+        assert_eq!(
+            json!(PatchEventBody {
+                title: None,
+                description: None,
+                password: None,
+                waiting_room: None,
+                e2e_encryption: None,
+                is_adhoc: None,
+                is_time_independent: None,
+                is_all_day: None,
+                starts_at: None,
+                ends_at: None,
+                recurrence_pattern: RecurrencePattern::default(),
+                streaming_targets: None,
+                show_meeting_details: None,
+                has_shared_folder: None,
+                training_participation_report: Some(Some(
+                    TrainingParticipationReportParameterSet {
+                        initial_checkpoint_delay: TimeRange {
+                            after: 100,
+                            within: 200,
+                        },
+                        checkpoint_interval: TimeRange {
+                            after: 300,
+                            within: 400,
+                        }
+                    }
+                ))
+            }),
+            json!({
+                "training_participation_report": {
+                    "initial_checkpoint_delay": {
+                        "after": 100,
+                        "within": 200,
+                    },
+                    "checkpoint_interval": {
+                        "after": 300,
+                        "within": 400,
+                    },
+                }
+            })
+        );
+    }
+
+    #[test]
+    fn deserialize_training_participation_report_reset() {
+        let json = json!({
+            "training_participation_report": null
+        });
+
+        assert_eq!(
+            serde_json::from_value::<PatchEventBody>(json).unwrap(),
+            PatchEventBody {
+                title: None,
+                description: None,
+                password: None,
+                waiting_room: None,
+                e2e_encryption: None,
+                is_adhoc: None,
+                is_time_independent: None,
+                is_all_day: None,
+                starts_at: None,
+                ends_at: None,
+                recurrence_pattern: RecurrencePattern::default(),
+                streaming_targets: None,
+                show_meeting_details: None,
+                has_shared_folder: None,
+                training_participation_report: Some(None)
+            }
+        );
+    }
+
+    #[test]
+    fn serialize_training_participation_report_reset() {
+        assert_eq!(
+            json!(PatchEventBody {
+                title: None,
+                description: None,
+                password: None,
+                waiting_room: None,
+                e2e_encryption: None,
+                is_adhoc: None,
+                is_time_independent: None,
+                is_all_day: None,
+                starts_at: None,
+                ends_at: None,
+                recurrence_pattern: RecurrencePattern::default(),
+                streaming_targets: None,
+                show_meeting_details: None,
+                has_shared_folder: None,
+                training_participation_report: Some(None)
+            }),
+            json!({
+                "training_participation_report": null,
+            })
+        );
     }
 }
