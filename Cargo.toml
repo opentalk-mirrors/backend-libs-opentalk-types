@@ -35,7 +35,7 @@ opentalk-types-signaling-recording-service = { path = "crates/opentalk-types-sig
 opentalk-types-signaling-shared-folder = { path = "crates/opentalk-types-signaling-shared-folder", version = "0.32.0" }
 opentalk-types-signaling-subroom-audio = { path = "crates/opentalk-types-signaling-subroom-audio", version = "0.32.0" }
 opentalk-types-signaling-timer = { path = "crates/opentalk-types-signaling-timer", version = "0.32.0" }
-opentalk-types-signaling-training-participation-report = { path = "crates/opentalk-types-signaling-training-participation-report", version = "0.2.0" }
+opentalk-types-signaling-training-participation-report = { path = "crates/opentalk-types-signaling-training-participation-report", version = "0.3.0" }
 opentalk-types-signaling-whiteboard = { path = "crates/opentalk-types-signaling-whiteboard", version = "0.32.0" }
 
 actix-http = "3"
