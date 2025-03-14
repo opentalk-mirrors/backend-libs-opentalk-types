@@ -69,3 +69,86 @@ mod serde_impls {
         }
     }
 }
+
+#[cfg(all(test, feature = "serde"))]
+mod serde_tests {
+    use serde::{Deserialize, Serialize};
+    use serde_json::json;
+
+    use super::Cursor;
+
+    #[test]
+    fn serialize_empty() {
+        let cursor = Cursor(());
+
+        assert_eq!(serde_json::to_value(cursor).unwrap(), json!(""));
+    }
+
+    #[test]
+    fn deserialize_empty() {
+        assert_eq!(
+            serde_json::from_value::<Cursor::<()>>(json!("")).unwrap(),
+            Cursor(())
+        );
+    }
+
+    #[test]
+    fn serialize_simple_string() {
+        let cursor = Cursor("abc".to_string());
+
+        assert_eq!(
+            serde_json::to_value(cursor).unwrap(),
+            json!("AwAAAAAAAABhYmM")
+        );
+    }
+
+    #[test]
+    fn deserialize_simple_string() {
+        assert_eq!(
+            serde_json::from_value::<Cursor::<String>>(json!("AwAAAAAAAABhYmM")).unwrap(),
+            Cursor("abc".to_string())
+        );
+    }
+
+    #[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
+    struct Paging {
+        offset: usize,
+        count: usize,
+    }
+
+    #[test]
+    fn serialize_struct() {
+        let cursor = Cursor(Paging {
+            offset: 10,
+            count: 5,
+        });
+
+        assert_eq!(
+            serde_json::to_value(cursor).unwrap(),
+            json!("CgAAAAAAAAAFAAAAAAAAAA")
+        );
+    }
+
+    #[test]
+    fn deserialize_struct() {
+        let cursor = Cursor(Paging {
+            offset: 10,
+            count: 5,
+        });
+
+        assert_eq!(
+            serde_json::from_value::<Cursor::<Paging>>(json!("CgAAAAAAAAAFAAAAAAAAAA")).unwrap(),
+            cursor
+        );
+    }
+
+    #[test]
+    fn deserialize_invalid_encoded() {
+        assert!(serde_json::from_value::<Cursor::<String>>(json!("XXXXYYYZZZINVALID")).is_err(),);
+    }
+
+    #[test]
+    fn deserialize_incompatible_type() {
+        assert!(serde_json::from_value::<Cursor::<Paging>>(json!("AwAAAAAAAABhYmM")).is_err(),);
+    }
+}
