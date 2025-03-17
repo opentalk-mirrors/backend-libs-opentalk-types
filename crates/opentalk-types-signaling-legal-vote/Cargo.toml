@@ -1,0 +1,50 @@
+# SPDX-FileCopyrightText: OpenTalk GmbH <mail@opentalk.eu>
+#
+# SPDX-License-Identifier: EUPL-1.2
+
+[package]
+authors.workspace = true
+description = "Signaling types for the OpenTalk legal vote module"
+documentation = "https://docs.rs/opentalk-types-signaling-legal-vote"
+edition = "2021"
+homepage.workspace = true
+license = "EUPL-1.2"
+name = "opentalk-types-signaling-legal-vote"
+publish = true
+repository.workspace = true
+version = "0.1.0"
+
+[package.metadata.docs.rs]
+all-features = true
+
+[lints]
+workspace = true
+
+[features]
+backend = ["rand", "redis", "serde"]
+frontend = ["serde"]
+redis = ["dep:redis-args", "serde"]
+serde = [
+  "chrono/serde",
+  "dep:serde",
+  "dep:serde_json",
+  "opentalk-types-signaling/serde",
+]
+
+[dependencies]
+basen = "0.1.0"
+chrono.workspace = true
+chrono-tz.workspace = true
+derive_more = { workspace = true, features = ["display"] }
+opentalk-types-common.workspace = true
+opentalk-types-signaling = { workspace = true, features = ["backend"] }
+rand = { workspace = true, optional = true }
+redis-args = { workspace = true, optional = true }
+serde = { workspace = true, optional = true }
+serde_json = { workspace = true, optional = true }
+snafu.workspace = true
+uuid.workspace = true
+
+[dev-dependencies]
+pretty_assertions.workspace = true
+serde_json.workspace = true
