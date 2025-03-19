@@ -75,7 +75,7 @@ mod serde_tests {
         modules::{module_id, ModuleId},
         rooms::RoomId,
         tariffs::{TariffId, TariffResource},
-        users::UserTitle,
+        users::{UserInfo, UserTitle},
     };
     use opentalk_types_signaling::{
         AssociatedParticipant, LeaveReason, ModulePeerData, ParticipantId, Role,
@@ -85,7 +85,7 @@ mod serde_tests {
     use serde_json::json;
 
     use super::*;
-    use crate::room::{CreatorInfo, RoomInfo};
+    use crate::room::RoomInfo;
 
     fn participant_tariff() -> TariffResource {
         TariffResource {
@@ -153,7 +153,7 @@ mod serde_tests {
             room_info: RoomInfo {
                 id: RoomId::nil(),
                 password: Some("secret123".parse().unwrap()),
-                created_by: CreatorInfo {
+                created_by: UserInfo {
                     title: "Dr.".parse().expect("valid user title"),
                     firstname: "Bob".into(),
                     lastname: "Bobsen".into(),
@@ -219,7 +219,7 @@ mod serde_tests {
             room_info: RoomInfo {
                 id: RoomId::nil(),
                 password: Some("secret123".parse().unwrap()),
-                created_by: CreatorInfo {
+                created_by: UserInfo {
                     title: UserTitle::new(),
                     firstname: "Bob".into(),
                     lastname: "Bobsen".into(),

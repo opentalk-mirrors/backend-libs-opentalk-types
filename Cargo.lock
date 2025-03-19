@@ -1618,7 +1618,6 @@ dependencies = [
  "opentalk-types-common",
  "opentalk-types-signaling",
  "pretty_assertions",
- "redis-args",
  "serde",
  "serde_json",
 ]

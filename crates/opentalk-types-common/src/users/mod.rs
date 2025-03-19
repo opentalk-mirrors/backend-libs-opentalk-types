@@ -10,6 +10,7 @@ mod group_name;
 mod language;
 mod theme;
 mod user_id;
+mod user_info;
 mod user_title;
 
 pub use display_name::DisplayName;
@@ -18,4 +19,5 @@ pub use group_name::GroupName;
 pub use language::Language;
 pub use theme::Theme;
 pub use user_id::UserId;
+pub use user_info::UserInfo;
 pub use user_title::{ParseUserTitleError, UserTitle, USER_TITLE_MAX_LENGTH};

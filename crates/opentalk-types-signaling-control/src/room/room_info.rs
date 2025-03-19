@@ -4,9 +4,10 @@
 
 //! Types related to the `JoinSuccess` message in the `control` namespace
 
-use opentalk_types_common::rooms::{RoomId, RoomPassword};
-
-use super::CreatorInfo;
+use opentalk_types_common::{
+    rooms::{RoomId, RoomPassword},
+    users::UserInfo,
+};
 
 /// Information about an room
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -20,5 +21,5 @@ pub struct RoomInfo {
     pub password: Option<RoomPassword>,
 
     /// The room creator
-    pub created_by: CreatorInfo,
+    pub created_by: UserInfo,
 }
