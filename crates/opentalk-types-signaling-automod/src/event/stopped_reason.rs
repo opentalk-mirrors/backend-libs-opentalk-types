@@ -1,0 +1,24 @@
+// SPDX-FileCopyrightText: OpenTalk GmbH <mail@opentalk.eu>
+//
+// SPDX-License-Identifier: EUPL-1.2
+
+use opentalk_types_signaling::ParticipantId;
+
+#[derive(Debug, PartialEq, Eq)]
+#[cfg_attr(
+    feature = "serde",
+    derive(serde::Serialize, serde::Deserialize),
+    serde(rename_all = "snake_case", tag = "reason")
+)]
+
+/// Reason that is provided when the automod session ends  
+pub enum StoppedReason {
+    /// The session was stopped by a moderator
+    StoppedByModerator {
+        /// The moderator who issued the stop commmand
+        issued_by: ParticipantId,
+    },
+
+    /// All participants of the automod session yielded
+    SessionFinished,
+}
