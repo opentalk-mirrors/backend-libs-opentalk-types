@@ -35,6 +35,7 @@ diesel = ["opentalk-types-common/diesel"]
 frontend = ["opentalk-types-common/frontend", "serde"]
 http = ["dep:http"]
 serde = [
+  "bincode/serde",
   "chrono-tz/serde",
   "chrono/serde",
   "dep:base64",
