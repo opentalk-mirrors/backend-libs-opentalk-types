@@ -1473,6 +1473,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "opentalk-mail-worker-protocol"
+version = "0.32.0"
+dependencies = [
+ "chrono",
+ "opentalk-types-common",
+ "pretty_assertions",
+ "serde",
+ "serde_json",
+ "utoipa",
+ "uuid",
+]
+
+[[package]]
 name = "opentalk-types"
 version = "0.33.0"
 dependencies = [

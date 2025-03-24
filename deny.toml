@@ -72,6 +72,9 @@ exceptions = [
   ], name = "opentalk-kustos-prefix-impl" },
   { allow = [
     "EUPL-1.2",
+  ], name = "opentalk-mail-worker-protocol" },
+  { allow = [
+    "EUPL-1.2",
   ], name = "opentalk-types" },
   { allow = [
     "EUPL-1.2",
