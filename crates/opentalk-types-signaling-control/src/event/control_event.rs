@@ -7,7 +7,7 @@ use opentalk_types_signaling::{Participant, TargetParticipant};
 use crate::event::{Error, JoinBlockedReason, JoinSuccess, Left, RoleUpdated};
 
 /// Events sent out by the `control` module
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug)]
 #[cfg_attr(
     feature = "serde",
     derive(serde::Serialize, serde::Deserialize),
