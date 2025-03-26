@@ -5,7 +5,7 @@
 use opentalk_types_signaling::Participant;
 
 /// Moderation module state that is visible only to moderators
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct ModeratorFrontendData {
     /// Is waiting room enabled

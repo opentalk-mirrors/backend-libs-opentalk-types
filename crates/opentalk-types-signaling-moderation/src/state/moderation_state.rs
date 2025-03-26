@@ -8,7 +8,7 @@ use crate::state::ModeratorFrontendData;
 ///
 /// This struct is sent to the participant in the `join_success` message
 /// when they join successfully to the meeting.
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct ModerationState {
     /// Moderation module data that is only avaialble for moderators

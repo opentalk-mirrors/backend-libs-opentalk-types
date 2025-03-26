@@ -5,7 +5,7 @@
 use crate::ParticipantId;
 
 /// Status information about a participant
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Participant {
     /// The id of the participant

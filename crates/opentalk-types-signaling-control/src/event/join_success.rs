@@ -10,7 +10,7 @@ use opentalk_types_signaling::{Participant, ParticipantId, Role};
 use crate::room::RoomInfo;
 
 /// The data received by a participant upon successfully joining a meeting
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct JoinSuccess {
     /// The id of the participant who joined

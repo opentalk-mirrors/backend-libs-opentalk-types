@@ -11,9 +11,9 @@ use crate::SignalingModuleFrontendData;
 
 /// A struct containing data for multiple signaling modules, each associated
 /// with the module's namespace.
-#[derive(Default, Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Default, Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
-pub struct ModuleData(BTreeMap<ModuleId, serde_json::Value>);
+pub struct ModuleData(BTreeMap<ModuleId, Box<serde_json::value::RawValue>>);
 
 impl ModuleData {
     /// Create a new empty [`ModuleData`].
@@ -26,7 +26,7 @@ impl ModuleData {
         if let Some(namespace) = T::NAMESPACE {
             self.0
                 .get(&namespace)
-                .map(|m| serde_json::from_value(m.clone()))
+                .map(|m| serde_json::from_str(m.get()))
                 .transpose()
         } else {
             Ok(None)
@@ -42,7 +42,9 @@ impl ModuleData {
         data: &T,
     ) -> Result<(), serde_json::Error> {
         if let Some(namespace) = T::NAMESPACE {
-            let _ = self.0.insert(namespace, serde_json::to_value(data)?);
+            let _ = self
+                .0
+                .insert(namespace, serde_json::value::to_raw_value(data)?);
         }
         Ok(())
     }
