@@ -148,6 +148,8 @@ pub mod signaling {
     `signaling-subroom-audio`.
     */
     pub use opentalk_types_signaling::*;
+    #[cfg(feature = "signaling-automod")]
+    pub use opentalk_types_signaling_automod as automod;
     #[cfg(feature = "signaling-breakout")]
     pub use opentalk_types_signaling_breakout as breakout;
     #[cfg(feature = "signaling-chat")]
