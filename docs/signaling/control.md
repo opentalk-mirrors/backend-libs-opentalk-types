@@ -230,9 +230,9 @@ Information about the current room.
 | ------------ | ------------- | ------ | -------------------------------------------------------------------------------- |
 | `id`         | `string`      | yes    | Id of the room                                                                   |
 | `password`   | `string`      | no     | The room password, if one is configured                                          |
-| `created_by` | `CreatorInfo` | yes    | Information about the user that created the room. See[CreatorInfo](#creatorinfo) |
+| `created_by` | `UserInfo` | yes    | Information about the user that created the room. See[UserInfo](#UserInfo) |
 
-#### CreatorInfo
+#### UserInfo
 
 ##### Fields
 
