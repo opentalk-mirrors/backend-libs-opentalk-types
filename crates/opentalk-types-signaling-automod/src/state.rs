@@ -13,9 +13,10 @@ use crate::config::PublicConfig;
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct AutomodState {
     /// Current public state of the automod configuration
-    config: PublicConfig,
+    pub config: PublicConfig,
+
     /// Currently active speaker
-    speaker: Option<ParticipantId>,
+    pub speaker: Option<ParticipantId>,
 }
 
 #[cfg(feature = "serde")]
