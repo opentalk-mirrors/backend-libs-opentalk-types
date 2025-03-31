@@ -31,15 +31,16 @@ actix = [
 ]
 axum = ["dep:axum"]
 backend = ["diesel", "http", "opentalk-types-common/backend", "serde", "utoipa"]
+bincode = ["dep:bincode"]
 diesel = ["opentalk-types-common/diesel"]
 frontend = ["opentalk-types-common/frontend", "serde"]
 http = ["dep:http"]
 serde = [
+  "bincode",
   "bincode/serde",
   "chrono-tz/serde",
   "chrono/serde",
   "dep:base64",
-  "dep:bincode",
   "dep:serde",
   "dep:serde_with",
   "opentalk-types-common/serde",

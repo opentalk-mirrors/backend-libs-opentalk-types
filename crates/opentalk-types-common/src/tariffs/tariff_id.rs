@@ -23,7 +23,8 @@ use uuid::Uuid;
 )]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "utoipa", derive(utoipa::ToSchema))]
-pub struct TariffId(Uuid);
+#[cfg_attr(feature = "bincode", derive(bincode::Encode, bincode::Decode))]
+pub struct TariffId(#[cfg_attr(feature = "bincode", bincode(with_serde))] Uuid);
 
 impl TariffId {
     /// Create a ZERO tariff id (e.g. for testing purposes)

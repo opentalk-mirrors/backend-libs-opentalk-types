@@ -22,7 +22,8 @@ use uuid::Uuid;
     diesel(sql_type = diesel::sql_types::Uuid),
 )]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct TenantId(Uuid);
+#[cfg_attr(feature = "bincode", derive(bincode::Encode, bincode::Decode))]
+pub struct TenantId(#[cfg_attr(feature = "bincode", bincode(with_serde))] Uuid);
 
 impl TenantId {
     /// Create a ZERO tenant id, e.g. for testing purposes

@@ -31,6 +31,7 @@ pub const THEME_MAX_LENGTH: usize = 128;
     feature = "serde",
     derive(serde::Serialize, serde_with::DeserializeFromStr)
 )]
+#[cfg_attr(feature = "bincode", derive(bincode::Encode, bincode::Decode))]
 pub struct Theme(String);
 
 impl Theme {

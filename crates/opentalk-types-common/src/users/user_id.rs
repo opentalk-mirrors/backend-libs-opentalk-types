@@ -13,6 +13,7 @@ use crate::utils::ExampleData;
 #[derive(
     AsRef, Display, From, FromStr, Into, Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash,
 )]
+#[cfg_attr(feature = "bincode", derive(bincode::Encode, bincode::Decode))]
 #[cfg_attr(
     feature = "diesel",
     derive(
@@ -37,7 +38,7 @@ use crate::utils::ExampleData;
         UserId::example_data()
     )
 ))]
-pub struct UserId(Uuid);
+pub struct UserId(#[cfg_attr(feature = "bincode", bincode(with_serde))] Uuid);
 
 impl UserId {
     /// Create a ZERO user id, e.g. for testing purposes
