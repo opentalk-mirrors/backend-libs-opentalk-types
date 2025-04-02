@@ -55,7 +55,6 @@ derive_more = "2.0"
 diesel = "2"
 email_address = "0.2.4"
 http = "1"
-http-request-derive = { version = "0.3.1", default-features = false }
 http0 = { version = "0.2", package = "http" }
 itertools = "0.14"
 log = "0.4"
