@@ -1487,11 +1487,12 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types"
-version = "0.34.0"
+version = "0.35.0"
 dependencies = [
  "opentalk-types-api-v1",
  "opentalk-types-common",
  "opentalk-types-signaling",
+ "opentalk-types-signaling-automod",
  "opentalk-types-signaling-breakout",
  "opentalk-types-signaling-chat",
  "opentalk-types-signaling-control",
