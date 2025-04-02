@@ -31,6 +31,7 @@ pub const LANGUAGE_MAX_LENGTH: usize = 35;
     feature = "serde",
     derive(serde::Serialize, serde_with::DeserializeFromStr)
 )]
+#[cfg_attr(feature = "bincode", derive(bincode::Encode, bincode::Decode))]
 pub struct Language(String);
 
 impl Language {

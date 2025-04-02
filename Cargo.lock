@@ -1540,6 +1540,7 @@ version = "0.32.2"
 dependencies = [
  "actix-http",
  "actix-web-httpauth",
+ "bincode",
  "bytes",
  "chrono",
  "chrono-tz",

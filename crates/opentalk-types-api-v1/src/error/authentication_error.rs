@@ -5,6 +5,7 @@
 /// Error variants for the WWW Authenticate header
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "bincode", derive(bincode::Encode, bincode::Decode))]
 pub enum AuthenticationError {
     /// The provided id token is invalid
     InvalidIdToken,

@@ -7,6 +7,7 @@ use std::borrow::Cow;
 /// An entry in a validation error list
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "bincode", derive(bincode::Encode))]
 #[cfg_attr(feature = "utoipa", derive(utoipa::ToSchema))]
 pub struct ValidationErrorEntry {
     /// The field related to the error
@@ -36,5 +37,31 @@ impl ValidationErrorEntry {
             code: code.into(),
             message: message.map(Into::into),
         }
+    }
+}
+
+#[cfg(feature = "bincode")]
+impl<C> bincode::Decode<C> for ValidationErrorEntry {
+    fn decode<D: bincode::de::Decoder<Context = C>>(
+        decoder: &mut D,
+    ) -> Result<Self, bincode::error::DecodeError> {
+        Ok(Self {
+            field: bincode::Decode::decode(decoder)?,
+            code: bincode::Decode::decode(decoder)?,
+            message: bincode::Decode::decode(decoder)?,
+        })
+    }
+}
+
+#[cfg(feature = "bincode")]
+impl<C> bincode::BorrowDecode<'static, C> for ValidationErrorEntry {
+    fn borrow_decode<D: bincode::de::BorrowDecoder<'static, Context = C>>(
+        decoder: &mut D,
+    ) -> Result<Self, bincode::error::DecodeError> {
+        Ok(Self {
+            field: bincode::BorrowDecode::borrow_decode(decoder)?,
+            code: bincode::BorrowDecode::borrow_decode(decoder)?,
+            message: bincode::BorrowDecode::borrow_decode(decoder)?,
+        })
     }
 }
