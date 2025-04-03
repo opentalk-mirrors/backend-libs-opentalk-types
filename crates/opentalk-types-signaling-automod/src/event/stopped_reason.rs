@@ -11,7 +11,7 @@ use opentalk_types_signaling::ParticipantId;
     serde(rename_all = "snake_case", tag = "reason")
 )]
 
-/// Reason that is provided when the automod session ends  
+/// Reason that is provided when the automod session ends
 pub enum StoppedReason {
     /// The session was stopped by a moderator
     StoppedByModerator {
