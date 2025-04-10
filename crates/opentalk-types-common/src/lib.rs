@@ -23,6 +23,7 @@
     unused_results
 )]
 
+pub mod api_well_known;
 pub mod assets;
 pub mod auth;
 pub mod call_in;
