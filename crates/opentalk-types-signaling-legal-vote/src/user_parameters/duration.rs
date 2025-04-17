@@ -44,6 +44,12 @@ impl TryFrom<u64> for Duration {
     }
 }
 
+impl From<Duration> for std::time::Duration {
+    fn from(duration: Duration) -> Self {
+        Self::from_secs(duration.0)
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
