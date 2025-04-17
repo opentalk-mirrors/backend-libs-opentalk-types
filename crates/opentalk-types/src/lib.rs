@@ -158,6 +158,8 @@ pub mod signaling {
     pub use opentalk_types_signaling_control as control;
     #[cfg(feature = "signaling-e2ee")]
     pub use opentalk_types_signaling_e2ee as e2ee;
+    #[cfg(feature = "signaling-legal-vote")]
+    pub use opentalk_types_signaling_legal_vote as legal_vote;
     #[cfg(feature = "signaling-livekit")]
     pub use opentalk_types_signaling_livekit as livekit;
     #[cfg(feature = "signaling-meeting-notes")]
