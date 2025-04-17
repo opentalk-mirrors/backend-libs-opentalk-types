@@ -44,6 +44,14 @@ impl TryFrom<Vec<ParticipantId>> for AllowedParticipants {
     }
 }
 
+impl std::ops::Deref for AllowedParticipants {
+    type Target = Vec<ParticipantId>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
