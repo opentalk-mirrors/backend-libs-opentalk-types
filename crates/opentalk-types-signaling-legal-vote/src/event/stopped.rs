@@ -5,8 +5,8 @@
 use chrono::{DateTime, Utc};
 
 use crate::{
-    event::FinalResults,
-    vote::{LegalVoteId, StopKind},
+    event::{FinalResults, StopKind},
+    vote::LegalVoteId,
 };
 
 /// Represents a stop message for a voting process.
@@ -52,7 +52,7 @@ mod serde_tests {
             "legal_vote_id": "00000000-0000-0000-0000-000000000001",
             "results": "invalid",
             "reason": "abstain_disabled",
-            "stop_kind": "auto",
+            "kind": "auto",
             "end_time":"2025-01-01T00:00:00Z",
         });
 
@@ -65,7 +65,7 @@ mod serde_tests {
             "legal_vote_id": "00000000-0000-0000-0000-000000000001",
             "results": "invalid",
             "reason": "abstain_disabled",
-            "stop_kind": "auto",
+            "kind": "auto",
             "end_time":"2025-01-01T00:00:00Z",
         }))
         .unwrap();
