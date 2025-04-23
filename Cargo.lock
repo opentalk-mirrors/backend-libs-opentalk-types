@@ -1495,7 +1495,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types"
-version = "0.35.0"
+version = "0.36.0"
 dependencies = [
  "opentalk-types-api-v1",
  "opentalk-types-common",
@@ -1505,6 +1505,7 @@ dependencies = [
  "opentalk-types-signaling-chat",
  "opentalk-types-signaling-control",
  "opentalk-types-signaling-e2ee",
+ "opentalk-types-signaling-legal-vote",
  "opentalk-types-signaling-livekit",
  "opentalk-types-signaling-meeting-notes",
  "opentalk-types-signaling-meeting-report",
@@ -1679,7 +1680,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling-legal-vote"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "basen",
  "chrono",

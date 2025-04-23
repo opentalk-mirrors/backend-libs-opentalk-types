@@ -12,7 +12,7 @@ license = "EUPL-1.2"
 name = "opentalk-types"
 publish = true
 repository.workspace = true
-version = "0.35.0"
+version = "0.36.0"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -38,6 +38,7 @@ backend = [
   "opentalk-types-signaling-chat/backend",
   "opentalk-types-signaling-control/backend",
   "opentalk-types-signaling-e2ee/backend",
+  "opentalk-types-signaling-legal-vote/backend",
   "opentalk-types-signaling-livekit/backend",
   "opentalk-types-signaling-meeting-notes/backend",
   "opentalk-types-signaling-meeting-report/backend",
@@ -62,6 +63,7 @@ frontend = [
   "opentalk-types-signaling-chat/frontend",
   "opentalk-types-signaling-control/frontend",
   "opentalk-types-signaling-e2ee/frontend",
+  "opentalk-types-signaling-legal-vote/frontend",
   "opentalk-types-signaling-livekit/frontend",
   "opentalk-types-signaling-meeting-notes/frontend",
   "opentalk-types-signaling-meeting-report/frontend",
@@ -89,6 +91,7 @@ redis = [
   "opentalk-types-common/redis",
   "opentalk-types-signaling-chat/redis",
   "opentalk-types-signaling-control/redis",
+  "opentalk-types-signaling-legal-vote/redis",
   "opentalk-types-signaling-polls/redis",
   "opentalk-types-signaling-recording-service/redis",
   "opentalk-types-signaling-recording/redis",
@@ -104,6 +107,7 @@ serde = [
   "opentalk-types-signaling-chat/serde",
   "opentalk-types-signaling-control/serde",
   "opentalk-types-signaling-e2ee/serde",
+  "opentalk-types-signaling-legal-vote/serde",
   "opentalk-types-signaling-livekit/serde",
   "opentalk-types-signaling-meeting-notes/serde",
   "opentalk-types-signaling-meeting-report/serde",
@@ -133,6 +137,7 @@ signaling-all = [
   "signaling-chat",
   "signaling-control",
   "signaling-e2ee",
+  "signaling-legal-vote",
   "signaling-livekit",
   "signaling-meeting-notes",
   "signaling-meeting-report",
@@ -151,6 +156,7 @@ signaling-breakout = ["dep:opentalk-types-signaling-breakout", "signaling"]
 signaling-chat = ["dep:opentalk-types-signaling-chat", "signaling"]
 signaling-control = ["dep:opentalk-types-signaling-control", "signaling"]
 signaling-e2ee = ["dep:opentalk-types-signaling-e2ee", "signaling"]
+signaling-legal-vote = ["dep:opentalk-types-signaling-legal-vote", "signaling"]
 signaling-livekit = ["dep:opentalk-types-signaling-livekit", "signaling"]
 signaling-meeting-notes = [
   "dep:opentalk-types-signaling-meeting-notes",
@@ -192,6 +198,7 @@ opentalk-types-signaling-breakout = { workspace = true, optional = true }
 opentalk-types-signaling-chat = { workspace = true, optional = true }
 opentalk-types-signaling-control = { workspace = true, optional = true }
 opentalk-types-signaling-e2ee = { workspace = true, optional = true }
+opentalk-types-signaling-legal-vote = { workspace = true, optional = true }
 opentalk-types-signaling-livekit = { workspace = true, optional = true }
 opentalk-types-signaling-meeting-notes = { workspace = true, optional = true }
 opentalk-types-signaling-meeting-report = { workspace = true, optional = true }

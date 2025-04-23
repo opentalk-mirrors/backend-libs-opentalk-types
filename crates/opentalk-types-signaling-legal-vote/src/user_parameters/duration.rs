@@ -10,7 +10,7 @@ use snafu::{ensure, Snafu};
 pub const MIN_DURATION_LENGTH: u64 = 5;
 
 /// A validated duration with a minimum length constraint.
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[cfg_attr(
     feature = "serde",
     derive(serde::Serialize, serde::Deserialize),
@@ -41,6 +41,12 @@ impl TryFrom<u64> for Duration {
             }
         );
         Ok(Self(value))
+    }
+}
+
+impl From<Duration> for std::time::Duration {
+    fn from(duration: Duration) -> Self {
+        Self::from_secs(duration.0)
     }
 }
 

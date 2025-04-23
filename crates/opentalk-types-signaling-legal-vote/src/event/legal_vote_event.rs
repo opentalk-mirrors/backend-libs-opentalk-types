@@ -53,13 +53,13 @@ mod serde_tests {
     use super::*;
     use crate::{
         cancel::CancelReason,
-        event::{FinalResults, Response, Results, VoteSuccess, VotingRecord},
+        event::{FinalResults, Response, Results, StopKind, VoteSuccess, VotingRecord},
         invalid::Invalid,
         issue::{Issue, OtherIssue},
         tally::Tally,
         token::Token,
         user_parameters::{AllowedParticipants, Name, UserParameters},
-        vote::{LegalVoteId, StopKind, VoteKind, VoteOption},
+        vote::{LegalVoteId, VoteKind, VoteOption},
     };
 
     #[test]
@@ -277,7 +277,7 @@ mod serde_tests {
             "legal_vote_id": "00000000-0000-0000-0000-000000000001",
             "results": "invalid",
             "reason": "abstain_disabled",
-            "stop_kind": "auto",
+            "kind": "auto",
             "end_time":"2025-01-01T00:00:00Z",
         });
 
@@ -291,7 +291,7 @@ mod serde_tests {
             "legal_vote_id": "00000000-0000-0000-0000-000000000001",
             "results": "invalid",
             "reason": "abstain_disabled",
-            "stop_kind": "auto",
+            "kind": "auto",
             "end_time":"2025-01-01T00:00:00Z",
         }))
         .unwrap();
