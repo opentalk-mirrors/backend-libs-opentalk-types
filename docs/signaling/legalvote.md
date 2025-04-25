@@ -739,7 +739,6 @@ that can happen at any time. (e.g. an `internal` error may occur at any time to 
 | `message` | `enum`     | yes                                           | Is `"error"`.                                        |
 | `error`   | `enum`     | yes                                           | Exhaustive list of error strings, see table below    |
 | `guests`  | `string[]` | when `error` is `"allowlist_contains_guests"` | A list of participants that where found to be quests |
-| `fields`  | `string[]` | when `error` is `"bad_request"`               | A list of fields that ignored validation constraints |
 
 | Error                       | Description                                                                                     |
 | --------------------------- | ----------------------------------------------------------------------------------------------- |
@@ -748,7 +747,6 @@ that can happen at any time. (e.g. an `internal` error may occur at any time to 
 | `invalid_vote_id`           | An invalid vote id was references inside a command                                              |
 | `ineligible`                | The requesting user is ineligible for the issued command                                        |
 | `allowlist_contains_guests` | The `allow_list` of a [Start](#start) provided `start` message contained guests                 |
-| `bad_request`               | The input validation failed for one or more of the provided fields                              |
 | `permission_error`          | Failed to set permissions when creating backend resources                                       |
 | `insufficient_permissions`  | The requesting user has insufficient permissions (E.g. a command requires the moderator role    |
 | `internal`                  | Backend services encountered an internal error and any active vote should be considered invalid |
@@ -769,15 +767,5 @@ Error for an invalid [Start](#start) request, where the allowlist contains guest
     "message": "error",
     "error": "allowlist_contains_guest",
     "guests": ["00000000-0000-0000-0000-000000000123", "00000000-0000-0000-0000-000000011311"]
-}
-```
-
-Error for an invalid [Start](#start) request, where `topic` and `duration` constraints where ignored:
-
-```json
-{
-    "message": "error",
-    "error": "bad_request",
-    "guests": ["topic", "duration"]
 }
 ```
