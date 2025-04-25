@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-use crate::event::{GuestParticipants, InvalidFields};
+use crate::event::GuestParticipants;
 
 /// The error kind sent to the user
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -26,9 +26,6 @@ pub enum ErrorKind {
 
     /// The provided allow list contains guest participants
     AllowlistContainsGuests(GuestParticipants),
-
-    /// The provided parameters of a request are invalid
-    BadRequest(InvalidFields),
 
     /// Failed to set or get permissions
     PermissionError,
@@ -134,36 +131,6 @@ mod serde_tests {
 
         let expected = ErrorKind::AllowlistContainsGuests(GuestParticipants {
             guests: vec![ParticipantId::from_u128(1)],
-        });
-
-        assert_eq!(produced, expected);
-    }
-
-    #[test]
-    fn serialization_bad_request_error_kind() {
-        let produced = serde_json::to_value(ErrorKind::BadRequest(InvalidFields {
-            fields: vec!["Test".to_string()],
-        }))
-        .unwrap();
-
-        let expected = json!({
-            "error": "bad_request",
-            "fields": ["Test"],
-        });
-
-        assert_eq!(produced, expected);
-    }
-
-    #[test]
-    fn deserialization_bad_request_error_kind() {
-        let produced: ErrorKind = serde_json::from_value(json!({
-            "error": "bad_request",
-            "fields": ["Test"],
-        }))
-        .unwrap();
-
-        let expected = ErrorKind::BadRequest(InvalidFields {
-            fields: vec!["Test".to_string()],
         });
 
         assert_eq!(produced, expected);
