@@ -106,9 +106,9 @@ When `state` is `"canceled"`:
 
 When `state` is `"invalid"`:
 
-| Field    | Type   | Required | Description                                                |
-| -------- | ------ | -------- | ---------------------------------------------------------- |
-| `reason` | `enum` | yes      | Either `"abstain_disabled"` or `"vote_count_inconsistent"` |
+| Field    | Type   | Required | Description                                                                     |
+| -------- | ------ | -------- | ------------------------------------------------------------------------------- |
+| `reason` | `enum` | yes      | `"abstain_disabled"`, `"vote_count_inconsistent"`, or `"protocol_inconsistent"` |
 
 ##### Example
 
