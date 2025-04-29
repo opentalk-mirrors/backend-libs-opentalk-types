@@ -17,6 +17,9 @@ pub enum Invalid {
 
     /// The protocols vote count is not equal to the votes vote count.
     VoteCountInconsistent,
+
+    /// The protocol entries are inconsistent.
+    ProtocolInconsistent,
 }
 
 #[cfg(all(test, feature = "serde"))]
@@ -68,6 +71,29 @@ mod serde_tests {
         .unwrap();
 
         let expected = Invalid::VoteCountInconsistent;
+
+        assert_eq!(produced, expected);
+    }
+
+    #[test]
+    fn serialization_protocol_inconsistent_invalid() {
+        let produced = serde_json::to_value(Invalid::ProtocolInconsistent).unwrap();
+
+        let expected = json!({
+            "reason": "protocol_inconsistent",
+        });
+
+        assert_eq!(produced, expected);
+    }
+
+    #[test]
+    fn deserialization_protocol_inconsistent_invalid() {
+        let produced: Invalid = serde_json::from_value(json!({
+            "reason": "protocol_inconsistent",
+        }))
+        .unwrap();
+
+        let expected = Invalid::ProtocolInconsistent;
 
         assert_eq!(produced, expected);
     }
