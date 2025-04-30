@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-//! Frontend data for `media` namespace
+//! Frontend data for `livekit` namespace
 
 use std::collections::BTreeSet;
 

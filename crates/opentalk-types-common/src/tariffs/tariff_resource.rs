@@ -58,7 +58,7 @@ impl ExampleData for TariffResource {
             quotas: BTreeMap::from_iter([(QuotaType::MaxStorage, 50000)]),
             modules: [
                 ("core", TariffModuleResource::default()),
-                ("media", TariffModuleResource::default()),
+                ("livekit", TariffModuleResource::default()),
                 (
                     "recording",
                     TariffModuleResource {
