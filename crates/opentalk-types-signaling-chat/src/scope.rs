@@ -6,7 +6,7 @@ use opentalk_types_common::users::GroupName;
 use opentalk_types_signaling::ParticipantId;
 
 /// Specifies if the chat message is global, private or group message
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
 #[cfg_attr(
     feature = "serde",
     derive(serde::Serialize, serde::Deserialize),

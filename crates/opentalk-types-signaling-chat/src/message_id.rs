@@ -6,7 +6,7 @@ use derive_more::{AsRef, Display, From, FromStr, Into};
 use uuid::Uuid;
 
 /// ID of the message
-#[derive(Debug, Clone, Copy, Eq, PartialEq, AsRef, Display, From, FromStr, Into)]
+#[derive(Debug, Clone, Copy, Eq, PartialEq, AsRef, Display, From, FromStr, Into, Hash)]
 #[cfg_attr(
     feature = "redis",
     derive(redis_args::ToRedisArgs, redis_args::FromRedisValue),
