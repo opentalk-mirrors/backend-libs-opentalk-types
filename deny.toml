@@ -205,7 +205,6 @@ skip = [
   { name = "http", version = "0.2" },
   { name = "rand", version = "0.8" },
   { name = "rand_core", version = "0.6" },
-  { name = "redis", version = "0.29" },
 ]
 # Similarly to `skip` allows you to skip certain crates during duplicate
 # detection. Unlike skip, it also includes the entire tree of transitive

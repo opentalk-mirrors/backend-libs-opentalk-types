@@ -305,12 +305,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "arc-swap"
-version = "1.7.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "69f7f8c3906b62b754cd5326047894316021dcfe5a194c8ea52bdd94934a3457"
-
-[[package]]
 name = "autocfg"
 version = "1.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1534,7 +1528,7 @@ dependencies = [
  "opentalk-types-common-macros",
  "pretty_assertions",
  "rand 0.9.1",
- "redis 0.31.0",
+ "redis",
  "redis-args",
  "serde",
  "serde_json",
@@ -2023,23 +2017,6 @@ dependencies = [
 
 [[package]]
 name = "redis"
-version = "0.29.5"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1bc42f3a12fd4408ce64d8efef67048a924e543bd35c6591c0447fda9054695f"
-dependencies = [
- "arc-swap",
- "combine",
- "itoa",
- "num-bigint",
- "percent-encoding",
- "ryu",
- "sha1_smol",
- "socket2",
- "url",
-]
-
-[[package]]
-name = "redis"
 version = "0.31.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0bc1ea653e0b2e097db3ebb5b7f678be339620b8041f66b30a308c1d45d36a7f"
@@ -2056,20 +2033,20 @@ dependencies = [
 
 [[package]]
 name = "redis-args"
-version = "0.19.0"
+version = "0.20.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c299cd96761551547416fe595441546f674fe35c6dfd69b1775ce979b5a54d94"
+checksum = "c970cff6813c98e2b621a20a02b7f8b3d4bbb8a69e921434ca33ac2adfc3c758"
 dependencies = [
- "redis 0.29.5",
+ "redis",
  "redis-args-impl",
  "serde_json",
 ]
 
 [[package]]
 name = "redis-args-impl"
-version = "0.19.0"
+version = "0.20.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0b3e0924c2079c424e0bbcdaf8a521ba0cfbc9c7c14ec16ee4c806614d3c186b"
+checksum = "a1b39ca58a52902317eb86914747ce40d493194aa59a707629a30fab3352cae9"
 dependencies = [
  "darling",
  "proc-macro2",
