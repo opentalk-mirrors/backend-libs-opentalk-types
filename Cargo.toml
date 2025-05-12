@@ -21,7 +21,7 @@ opentalk-types-api-v1 = { path = "crates/opentalk-types-api-v1", version = "0.36
 opentalk-types-common = { path = "crates/opentalk-types-common", version = "0.33.0" }
 opentalk-types-common-identifiers = { path = "crates/opentalk-types-common-identifiers", version = "0.31.1" }
 opentalk-types-common-macros = { path = "crates/opentalk-types-common-macros", version = "0.31.1" }
-opentalk-types-signaling = { path = "crates/opentalk-types-signaling", version = "0.34.0" }
+opentalk-types-signaling = { path = "crates/opentalk-types-signaling", version = "0.34.1" }
 opentalk-types-signaling-automod = { path = "crates/opentalk-types-signaling-automod", version = "0.4.0" }
 opentalk-types-signaling-breakout = { path = "crates/opentalk-types-signaling-breakout", version = "0.34.0" }
 opentalk-types-signaling-chat = { path = "crates/opentalk-types-signaling-chat", version = "0.34.0" }
