@@ -25,3 +25,12 @@ pub const CALL_IN_MODULE_FEATURE_ID: ModuleFeatureId = ModuleFeatureId {
     module: DEFAULT_MODULE_ID,
     feature: CALL_IN_FEATURE_ID,
 };
+
+/// The storage-upgradable feature identifier string
+pub const STORAGE_UPGRADABLE_FEATURE_ID: FeatureId = feature_id!("storage_upgradable");
+
+/// The storage-upgradable module feature id
+pub const STORAGE_UPGRADABLE_MODULE_FEATURE_ID: ModuleFeatureId = ModuleFeatureId {
+    module: DEFAULT_MODULE_ID,
+    feature: STORAGE_UPGRADABLE_FEATURE_ID,
+};
