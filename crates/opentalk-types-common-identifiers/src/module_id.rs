@@ -17,7 +17,7 @@ pub const MODULE_ID_MIN_LENGTH: usize = 1;
 pub const MODULE_ID_MAX_LENGTH: usize = 255;
 
 /// Regular expression of characters that are allowed inside a module id.
-pub const MODULE_ID_SCHEMA_CHARS_REGEX: &str = "[-_0-9a-zA-Z]";
+pub const MODULE_ID_SCHEMA_CHARS_REGEX: &str = "[_0-9a-z]";
 
 /// The core module id
 pub const CORE_MODULE_ID: ModuleId = ModuleId::__new_borrowed("core");
@@ -139,7 +139,7 @@ mod impl_utoipa {
 fn ensure_is_valid(s: &str) -> Result<(), ParseModuleIdError> {
     ensure!(
         s.chars()
-            .all(|c| c.is_ascii_alphanumeric() || c == '_' || c == '-'),
+            .all(|c| c.is_ascii_lowercase() || c.is_ascii_digit() || c == '_'),
         InvalidCharactersSnafu
     );
     ensure!(
@@ -161,7 +161,7 @@ fn ensure_is_valid(s: &str) -> Result<(), ParseModuleIdError> {
 #[derive(Debug, Snafu)]
 pub enum ParseModuleIdError {
     /// Invalid characters were found in the input data.
-    #[snafu(display("Module id may only contain alphanumeric characters, \"_\" or \"-\""))]
+    #[snafu(display("Module id may only contain lowercase letters, digits or \"_\""))]
     InvalidCharacters,
 
     /// The input string was shorter than the minimum length [MODULE_ID_MIN_LENGTH].
@@ -208,10 +208,11 @@ mod tests {
             "hello_world".parse::<ModuleId>().unwrap(),
             ModuleId("hello_world".into())
         );
-        assert_eq!("-".parse::<ModuleId>().unwrap(), ModuleId("-".into()));
+
+        assert_eq!("1".parse::<ModuleId>().unwrap(), ModuleId("1".into()));
         assert_eq!(
-            "hello-world".parse::<ModuleId>().unwrap(),
-            ModuleId("hello-world".into())
+            "hello1".parse::<ModuleId>().unwrap(),
+            ModuleId("hello1".into())
         );
 
         let longest: String = "x".repeat(255);
@@ -235,6 +236,16 @@ mod tests {
 
         assert!(matches!(
             "hello world".parse::<ModuleId>(),
+            Err(ParseModuleIdError::InvalidCharacters)
+        ));
+
+        assert!(matches!(
+            "-".parse::<ModuleId>(),
+            Err(ParseModuleIdError::InvalidCharacters)
+        ));
+
+        assert!(matches!(
+            "hello-world".parse::<ModuleId>(),
             Err(ParseModuleIdError::InvalidCharacters)
         ));
 

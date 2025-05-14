@@ -30,12 +30,6 @@ pub enum QuotaType {
 
     /// This quota sets a limit on the number of participants that can join a room.
     RoomParticipantLimit,
-
-    /// Generic quota type.
-    #[cfg_attr(feature = "serde", serde(untagged))]
-    #[cfg_attr(feature = "clap", clap(skip))]
-    #[strum(default)]
-    Other(String),
 }
 
 #[cfg(feature = "utoipa")]
@@ -100,7 +94,6 @@ mod serde_tests {
             (QuotaType::MaxStorage, 11u64),
             (QuotaType::RoomTimeLimitSecs, 12u64),
             (QuotaType::RoomParticipantLimit, 13u64),
-            (QuotaType::Other("this_is_somethingElse".to_string()), 14u64),
         ]);
         let quota_json_repr =
             serde_json::to_value(quota.clone()).expect("QuotaType must be serializable");
@@ -111,7 +104,6 @@ mod serde_tests {
                 "max_storage": 11,
                 "room_time_limit_secs": 12,
                 "room_participant_limit": 13,
-                "this_is_somethingElse": 14
             })
         );
         assert_eq!(
@@ -142,10 +134,6 @@ mod clap_tests {
         assert_eq!(
             QuotaType::from_str("room_participant_limit").unwrap(),
             QuotaType::RoomParticipantLimit
-        );
-        assert_eq!(
-            QuotaType::from_str("this_is_somethingElse").unwrap(),
-            QuotaType::Other("this_is_somethingElse".to_string())
         );
     }
 }

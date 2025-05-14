@@ -17,7 +17,7 @@ pub const FEATURE_ID_MIN_LENGTH: usize = 1;
 pub const FEATURE_ID_MAX_LENGTH: usize = 255;
 
 /// Regular expression of characters that are allowed inside a feature id.
-pub const FEATURE_ID_SCHEMA_CHARS_REGEX: &str = "[-_0-9a-zA-Z]";
+pub const FEATURE_ID_SCHEMA_CHARS_REGEX: &str = "[_0-9a-z]";
 
 /// The id of a feature.
 ///
@@ -117,7 +117,7 @@ mod impl_utoipa {
 fn ensure_is_valid(s: &str) -> Result<(), ParseFeatureIdError> {
     ensure!(
         s.chars()
-            .all(|c| c.is_ascii_alphanumeric() || c == '_' || c == '-'),
+            .all(|c| c.is_ascii_lowercase() || c.is_ascii_digit() || c == '_'),
         InvalidCharactersSnafu
     );
     ensure!(
@@ -139,7 +139,7 @@ fn ensure_is_valid(s: &str) -> Result<(), ParseFeatureIdError> {
 #[derive(Debug, Snafu)]
 pub enum ParseFeatureIdError {
     /// Invalid characters were found in the input data.
-    #[snafu(display("Feature id may only contain alphanumeric characters, \"_\" or \"-\""))]
+    #[snafu(display("Feature id may only contain lowercase letters, digits or \"_\""))]
     InvalidCharacters,
 
     /// The input string was shorter than the minimum length [FEATURE_ID_MIN_LENGTH].
@@ -181,15 +181,17 @@ mod tests {
             "hello".parse::<FeatureId>().unwrap(),
             FeatureId("hello".into())
         );
+
         assert_eq!("_".parse::<FeatureId>().unwrap(), FeatureId("_".into()));
         assert_eq!(
             "hello_world".parse::<FeatureId>().unwrap(),
             FeatureId("hello_world".into())
         );
-        assert_eq!("-".parse::<FeatureId>().unwrap(), FeatureId("-".into()));
+
+        assert_eq!("1".parse::<FeatureId>().unwrap(), FeatureId("1".into()));
         assert_eq!(
-            "hello-world".parse::<FeatureId>().unwrap(),
-            FeatureId("hello-world".into())
+            "hello1".parse::<FeatureId>().unwrap(),
+            FeatureId("hello1".into())
         );
 
         let longest: String = "x".repeat(255);
@@ -213,6 +215,16 @@ mod tests {
 
         assert!(matches!(
             "hello world".parse::<FeatureId>(),
+            Err(ParseFeatureIdError::InvalidCharacters)
+        ));
+
+        assert!(matches!(
+            "-".parse::<FeatureId>(),
+            Err(ParseFeatureIdError::InvalidCharacters)
+        ));
+
+        assert!(matches!(
+            "hello-world".parse::<FeatureId>(),
             Err(ParseFeatureIdError::InvalidCharacters)
         ));
 

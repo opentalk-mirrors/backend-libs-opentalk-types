@@ -111,7 +111,7 @@ mod tests {
     }
 
     impl SignalingModulePeerFrontendData for TestState {
-        const NAMESPACE: Option<ModuleId> = Some(module_id!("TEST"));
+        const NAMESPACE: Option<ModuleId> = Some(module_id!("test"));
     }
 
     #[test]
