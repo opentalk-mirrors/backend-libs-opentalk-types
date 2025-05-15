@@ -6,7 +6,7 @@
 
 use crate::event::{ChatDisabled, ChatEnabled, Error, HistoryCleared, MessageSent};
 
-/// A chat event which occured
+/// A chat event which occurred
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(
     feature = "serde",
