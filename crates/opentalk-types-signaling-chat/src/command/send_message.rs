@@ -5,7 +5,7 @@
 use crate::Scope;
 
 /// Send a chat message content with a specific scope
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct SendMessage {
     /// The content of the message

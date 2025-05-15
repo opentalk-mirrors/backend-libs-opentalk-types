@@ -5,7 +5,7 @@
 use crate::command::{SendMessage, SetLastSeenTimestamp};
 
 /// Commands for the `chat` namespace
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(
     feature = "serde",
     derive(serde::Serialize, serde::Deserialize),
