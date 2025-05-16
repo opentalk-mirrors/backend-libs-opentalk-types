@@ -10,7 +10,6 @@ use opentalk_types_signaling::ParticipantId;
     derive(serde::Serialize, serde::Deserialize),
     serde(tag = "error", rename_all = "snake_case")
 )]
-
 pub enum Error {
     /// The provided whisper id does not exist
     InvalidWhisperId,

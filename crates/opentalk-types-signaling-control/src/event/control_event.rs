@@ -15,7 +15,7 @@ use crate::event::{Error, JoinBlockedReason, JoinSuccess, Left, RoleUpdated};
 )]
 pub enum ControlEvent {
     /// The participant joined successfully
-    JoinSuccess(JoinSuccess),
+    JoinSuccess(Box<JoinSuccess>),
     /// Joining the room failed
     JoinBlocked(JoinBlockedReason),
     /// State change of this participant
@@ -49,7 +49,7 @@ pub enum ControlEvent {
 
 impl From<JoinSuccess> for ControlEvent {
     fn from(value: JoinSuccess) -> Self {
-        Self::JoinSuccess(value)
+        Self::JoinSuccess(Box::new(value))
     }
 }
 
@@ -129,7 +129,7 @@ mod serde_tests {
             "is_room_owner": false,
         });
 
-        let produced = serde_json::to_value(ControlEvent::JoinSuccess(JoinSuccess {
+        let produced = serde_json::to_value(ControlEvent::JoinSuccess(Box::new(JoinSuccess {
             id: ParticipantId::nil(),
             display_name: "name".parse().expect("valid display name"),
             avatar_url: Some("http://url".into()),
@@ -162,7 +162,7 @@ mod serde_tests {
                 },
             },
             is_room_owner: false,
-        }))
+        })))
         .unwrap();
 
         assert_eq!(expected, produced);
@@ -199,7 +199,7 @@ mod serde_tests {
             "is_room_owner": false,
         });
 
-        let produced = serde_json::to_value(ControlEvent::JoinSuccess(JoinSuccess {
+        let produced = serde_json::to_value(ControlEvent::JoinSuccess(Box::new(JoinSuccess {
             id: ParticipantId::nil(),
             display_name: "name".parse().expect("valid display name"),
             avatar_url: None,
@@ -228,7 +228,7 @@ mod serde_tests {
                 },
             },
             is_room_owner: false,
-        }))
+        })))
         .unwrap();
 
         assert_eq!(expected, produced);
