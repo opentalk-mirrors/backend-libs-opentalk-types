@@ -8,13 +8,14 @@ use crate::utils::ExampleData;
 
 /// Representation of a timezone
 #[derive(AsRef, Display, From, FromStr, Into, Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[cfg_attr(feature = "bincode", derive(bincode::Encode, bincode::Decode))]
 #[cfg_attr(
     feature = "diesel",
     derive(diesel::deserialize::FromSqlRow, diesel::expression::AsExpression)
 )]
 #[cfg_attr(feature = "diesel",  diesel(sql_type = diesel::sql_types::Text))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct TimeZone(chrono_tz::Tz);
+pub struct TimeZone(#[cfg_attr(feature = "bincode", bincode(with_serde))] chrono_tz::Tz);
 
 #[cfg(feature = "diesel")]
 mod diesel_traits {
