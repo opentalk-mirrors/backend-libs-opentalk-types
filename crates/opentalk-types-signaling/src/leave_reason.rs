@@ -16,4 +16,8 @@ pub enum LeaveReason {
     Timeout,
     /// Sent to waiting room
     SentToWaitingRoom,
+    /// The participant was kicked by a moderator
+    Kicked,
+    /// The participant was banned by a moderator
+    Banned,
 }
