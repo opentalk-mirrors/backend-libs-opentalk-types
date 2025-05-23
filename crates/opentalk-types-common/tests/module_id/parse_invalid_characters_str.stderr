@@ -1,4 +1,4 @@
-error: Module id may only contain alphanumeric characters, "_" or "-"
+error: Module id may only contain lowercase letters, digits or "_"
  --> tests/module_id/parse_invalid_characters_str.rs:8:22
   |
 8 |     let _module_id = module_id!("hello+world$123");

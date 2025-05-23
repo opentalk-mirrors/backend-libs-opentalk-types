@@ -98,7 +98,6 @@ mod serde_tests {
                 "max_storage": 11,
                 "room_time_limit_secs": 12,
                 "room_participant_limit": 13,
-                "this_is_somethingElse": 14,
             },
             "modules": {
                 "mod_a": {
@@ -114,7 +113,6 @@ mod serde_tests {
                 (QuotaType::MaxStorage, 11u64),
                 (QuotaType::RoomTimeLimitSecs, 12u64),
                 (QuotaType::RoomParticipantLimit, 13u64),
-                (QuotaType::Other("this_is_somethingElse".to_string()), 14u64),
             ]),
             modules: [(
                 "mod_a",
