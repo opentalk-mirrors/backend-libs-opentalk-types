@@ -135,7 +135,7 @@ Allows the specified participants to share their screens.
 
 #### Response
 
-No Response
+The updated screen share permissions are communicated by the LiveKit server.
 
 ### RevokeScreenSharePermission
 
@@ -161,7 +161,7 @@ Revokes the permission of a participant to share their screen.
 
 #### Response
 
-No Response
+The updated screen share permissions are communicated by the LiveKit server.
 
 ### EnableMicrophoneRestrictions
 
@@ -289,10 +289,10 @@ The moderator has force muted the participant.
 
 The user requested a popout stream access token.
 
-| Field       | Type     | Mandatory | Description                                                                |
-| ----------- | -------- | --------- | -------------------------------------------------------------------------- |
-| `message`   | `enum`   | yes       | Is `popout_stream_access_token`                                            |
-| `token`     | `String` | yes       | A restrictive livekit access token for creating a popout stream            |
+| Field     | Type     | Mandatory | Description                                                     |
+| --------- | -------- | --------- | --------------------------------------------------------------- |
+| `message` | `enum`   | yes       | Is `popout_stream_access_token`                                 |
+| `token`   | `String` | yes       | A restrictive livekit access token for creating a popout stream |
 
 ### Error
 
