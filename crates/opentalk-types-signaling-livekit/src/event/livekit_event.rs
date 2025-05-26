@@ -38,6 +38,22 @@ pub enum LiveKitEvent {
         token: String,
     },
 
+    /// LiveKit permissions have been updated.
+    ///
+    /// This event is the response to [`LiveKitCommand::RevokeScreenSharePermission`]
+    /// and [`LiveKitCommand::GrantScreenSharePermission`] and only received by the
+    /// moderator who issued the command. The participant who was the target of the
+    /// command will be notified by the LiveKit server.
+    ///
+    /// [`LiveKitCommand::RevokeScreenSharePermission`]: crate::command::LiveKitCommand::RevokeScreenSharePermission
+    /// [`LiveKitCommand::GrantScreenSharePermission`]: crate::command::LiveKitCommand::GrantScreenSharePermission
+    ScreenSharePermissionsUpdated {
+        /// `true` if screen share permissions where granted, `false` otherwise.
+        grant: bool,
+        /// The participant who received a screen share permission change.
+        participant: ParticipantId,
+    },
+
     /// The last message couldn't be processed since an unexpected error occurred.
     Error(Error),
 }

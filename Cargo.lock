@@ -1463,7 +1463,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types"
-version = "0.40.0"
+version = "0.41.0"
 dependencies = [
  "opentalk-types-api-v1",
  "opentalk-types-common",
@@ -1549,7 +1549,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-common-identifiers"
-version = "0.31.1"
+version = "0.32.0"
 dependencies = [
  "derive_more",
  "diesel",
@@ -1667,7 +1667,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling-livekit"
-version = "0.36.0"
+version = "0.37.0"
 dependencies = [
  "opentalk-types-common",
  "opentalk-types-signaling",
