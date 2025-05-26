@@ -300,11 +300,11 @@ The user was granted a popout stream access token.
 
 LiveKit screen share permissions of the participant have been updated.
 
-| Field         | Type     | Mandatory | Description                                                              |
-| ------------- | -------- | --------- | ------------------------------------------------------------------------ |
-| `message`     | `enum`   | yes       | Is `popout_stream_access_token`                                          |
-| `grant`       | `bool`   | yes       | `true` if screen share permissions where granted, `false` otherwise.     |
-| `participant` | `String` | yes       | The ID of the participant who received a screen share permission update. |
+| Field          | Type       | Mandatory | Description                                                                |
+| -------------- | ---------- | --------- | -------------------------------------------------------------------------- |
+| `message`      | `enum`     | yes       | Is `popout_stream_access_token`                                            |
+| `grant`        | `bool`     | yes       | `true` if screen share permissions where granted, `false` otherwise.       |
+| `participants` | `String[]` | yes       | The IDs of the participants who received a screen share permission update. |
 
 ### Error
 

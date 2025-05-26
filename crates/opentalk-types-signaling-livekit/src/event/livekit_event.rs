@@ -50,8 +50,8 @@ pub enum LiveKitEvent {
     ScreenSharePermissionsUpdated {
         /// `true` if screen share permissions where granted, `false` otherwise.
         grant: bool,
-        /// The participant who received a screen share permission change.
-        participant: ParticipantId,
+        /// The participants who received a screen share permission change.
+        participants: Vec<ParticipantId>,
     },
 
     /// The last message couldn't be processed since an unexpected error occurred.
