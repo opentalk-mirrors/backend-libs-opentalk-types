@@ -27,7 +27,6 @@ pub mod events;
 pub mod pagination;
 pub mod rooms;
 pub mod services;
-pub mod turn;
 pub mod users;
 
 mod cursor;
