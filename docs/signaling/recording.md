@@ -19,26 +19,26 @@ When joining a room with a timer running, the `join_success` message contains th
 
 The module data has the following structure:
 
-| Field          | Type       | Required | Description                                         |
-| -------------- | ---------  | -------- | --------------------------------------------------- |
-| `client_type`  | `enum`     | yes      | Either `participant` or `recorder`                  |
-| `targets`      | `map`      | yes      | The map fields are different based on `client_type` |
+| Field         | Type   | Required | Description                                         |
+| ------------- | ------ | -------- | --------------------------------------------------- |
+| `client_type` | `enum` | yes      | Either `participant` or `recorder`                  |
+| `targets`     | `map`  | yes      | The map fields are different based on `client_type` |
 
 When the `client_type` is set to `recorder`, the `targets` map contains objects of the following structure:
 
-| Field          | Type       | Required                        | Description                                    |
-| -------------- | ---------  | ------------------------------- | ---------------------------------------------- |
-| `stream_kind`  | `enum`     | yes                             | Either `recording` or `streaming`              |
-| `location`     | `string`   | if `stream_kind` is `streaming` | The Url (location) to the Streaming endpoint, this location must already include the correct format to stream to. Consisting of: (`streaming_endpoint`/`streaming_key`) |
+| Field         | Type     | Required                        | Description                                                                                                                                                             |
+| ------------- | -------- | ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `stream_kind` | `enum`   | yes                             | Either `recording` or `streaming`                                                                                                                                       |
+| `location`    | `string` | if `stream_kind` is `streaming` | The Url (location) to the Streaming endpoint, this location must already include the correct format to stream to. Consisting of: (`streaming_endpoint`/`streaming_key`) |
 
 When the `client_type` is set to `participant`, the `targets` map contains objects of the following structure:
 
-| Field          | Type     | Required                          | Description                                         |
-| -------------- | -------- | --------------------------------- | --------------------------------------------------- |
-| `name`         | `string` | yes                               | The name of the stream                              |
-| `kind`         | `enum`   | yes                               | Either `livestream` or `recording`                  |
-| `public_url`   | `string` | if `kind` is `livestream`         | The Url on which the livestream can be viewed from  |
-| `status`       | `enum`   | if `client_type` is `participant` | The status of that specific target                  |
+| Field        | Type     | Required                          | Description                                        |
+| ------------ | -------- | --------------------------------- | -------------------------------------------------- |
+| `name`       | `string` | yes                               | The name of the stream                             |
+| `kind`       | `enum`   | yes                               | Either `livestream` or `recording`                 |
+| `public_url` | `string` | if `kind` is `livestream`         | The Url on which the livestream can be viewed from |
+| `status`     | `enum`   | if `client_type` is `participant` | The status of that specific target                 |
 
 ##### Example
 
@@ -170,10 +170,10 @@ A [`status`](#status) message with the streaming id is sent to every participant
 
 #### Fields
 
-| Field          | Type       | Required | Description                                        |
-| -------------- | ---------- | -------- | -------------------------------------------------- |
-| `action`       | `enum`     | yes      | Must be `stop_stream`.                             |
-| `target_ids`   | `string[]` | yes      | The streaming ids that are supposed to be stopped. |
+| Field        | Type       | Required | Description                                        |
+| ------------ | ---------- | -------- | -------------------------------------------------- |
+| `action`     | `enum`     | yes      | Must be `stop_stream`.                             |
+| `target_ids` | `string[]` | yes      | The streaming ids that are supposed to be stopped. |
 
 #### Example
 
@@ -220,18 +220,18 @@ Is received by every participant when the status of a stream has changed.
 
 #### Fields
 
-| Field        | Type     | Required                  | Description                                                     |
-| ------------ | -------- | ------------------------- | --------------------------------------------------------------- |
-| `target_id`  | `string` | yes                       | The streaming id of the stream that has been updated            |
-| `status`     | `enum`   | yes                       | Any of the following: `active`, `inactive`, `paused` or `error` |
-| `reason`     | `Reason` | if `status` is `error`    | The reason why this error has occurred.                         |
+| Field       | Type     | Required               | Description                                                     |
+| ----------- | -------- | ---------------------- | --------------------------------------------------------------- |
+| `target_id` | `string` | yes                    | The streaming id of the stream that has been updated            |
+| `status`    | `enum`   | yes                    | Any of the following: `active`, `inactive`, `paused` or `error` |
+| `reason`    | `Reason` | if `status` is `error` | The reason why this error has occurred.                         |
 
 The `Reason` object has the following fields:
 
-| Field     | Type       | Required | Description                               |
-| --------- | ---------- | -------- | ----------------------------------------- |
-| `code`    | `string`   | yes      | The error code.                           |
-| `message` | `string`   | yes      | Additional information about this error.  |
+| Field     | Type     | Required | Description                              |
+| --------- | -------- | -------- | ---------------------------------------- |
+| `code`    | `string` | yes      | The error code.                          |
+| `message` | `string` | yes      | Additional information about this error. |
 
 #### Example
 
@@ -274,18 +274,22 @@ An error has occurred while issuing a command.
 
 An error has occurred while trying to start the recorder.
 
+Error types:
+
+- `timeout` - the recording task was not picked up by any recorder in time. This could mean that there is no recorder running or that all recorder instances are at capacity.
+
 #### Fields
 
-| Field     | Type   | Required | Description                                                                         |
-| --------- | ------ | -------- | ----------------------------------------------------------------------------------- |
-| `message` | `enum` | yes      | Is `recorder_error`.                                                                |
-| `reason`  | `enum` | yes      | Is currently only `timeout`                                                         |
+| Field     | Type   | Required | Description                 |
+| --------- | ------ | -------- | --------------------------- |
+| `message` | `enum` | yes      | Is `recorder_error`.        |
+| `error`   | `enum` | yes      | Is currently only `timeout` |
 
 #### Example
 
 ```json
 {
     "message": "recorder_error",
-    "reason": "timeout"
+    "error": "timeout"
 }
 ```
