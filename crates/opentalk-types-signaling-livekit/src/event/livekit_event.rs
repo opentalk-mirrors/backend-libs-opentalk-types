@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+use std::collections::BTreeSet;
+
 use opentalk_types_signaling::ParticipantId;
 
 use super::Error;
@@ -51,7 +53,7 @@ pub enum LiveKitEvent {
         /// `true` if screen share permissions where granted, `false` otherwise.
         grant: bool,
         /// The participants who received a screen share permission change.
-        participants: Vec<ParticipantId>,
+        participants: BTreeSet<ParticipantId>,
     },
 
     /// The last message couldn't be processed since an unexpected error occurred.
