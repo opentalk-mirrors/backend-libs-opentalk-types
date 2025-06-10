@@ -1490,7 +1490,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-api-v1"
-version = "0.39.0"
+version = "0.39.1"
 dependencies = [
  "actix-web",
  "axum",
@@ -1514,7 +1514,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-common"
-version = "0.35.1"
+version = "0.35.2"
 dependencies = [
  "actix-http",
  "actix-web-httpauth",
@@ -1564,7 +1564,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-common-macros"
-version = "0.31.1"
+version = "0.31.2"
 dependencies = [
  "opentalk-types-common-identifiers",
  "proc-macro-crate",
