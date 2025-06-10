@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+use std::collections::BTreeSet;
+
 use opentalk_types_signaling::ParticipantId;
 
 /// The livekit command variants
@@ -18,19 +20,19 @@ pub enum LiveKitCommand {
     /// Force mutes participants
     ForceMute {
         /// The participants that should get muted
-        participants: Vec<ParticipantId>,
+        participants: BTreeSet<ParticipantId>,
     },
 
     /// Allows the specified participants to share their screens
     GrantScreenSharePermission {
         /// The participants that get granted screen sharing permissions
-        participants: Vec<ParticipantId>,
+        participants: BTreeSet<ParticipantId>,
     },
 
     /// Revokes the permission to share their screen
     RevokeScreenSharePermission {
         /// The participants
-        participants: Vec<ParticipantId>,
+        participants: BTreeSet<ParticipantId>,
     },
 
     /// Enables the microphone restriction state where only the participants that are part of the
@@ -53,5 +55,5 @@ pub enum LiveKitCommand {
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct UnrestrictedParticipants {
     /// Participants that are still allowed to unmute
-    pub unrestricted_participants: Vec<ParticipantId>,
+    pub unrestricted_participants: BTreeSet<ParticipantId>,
 }
