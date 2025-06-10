@@ -4,6 +4,8 @@
 
 //! Data types related to the roomserver
 
+mod device_secret;
 mod token;
 
+pub use device_secret::{DeviceSecret, DEVICE_SECRET_MAX_LENGTH, DEVICE_SECRET_MIN_LENGTH};
 pub use token::Token;
