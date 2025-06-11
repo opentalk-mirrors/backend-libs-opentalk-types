@@ -5,7 +5,7 @@
 use crate::TimerConfig;
 
 /// Status of and belonging to a currently active timer
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct TimerState {
     /// config of the timer

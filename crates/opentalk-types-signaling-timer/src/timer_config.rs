@@ -7,7 +7,7 @@ use opentalk_types_common::time::Timestamp;
 use crate::{Kind, TimerId};
 
 /// Status of a currently active timer
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct TimerConfig {
     /// The timer id
