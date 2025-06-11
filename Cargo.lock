@@ -1772,7 +1772,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling-timer"
-version = "0.36.0"
+version = "0.36.1"
 dependencies = [
  "chrono",
  "derive_more",
