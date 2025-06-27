@@ -39,7 +39,7 @@ mod tests {
     fn verify_module_id() {
         assert_eq!(
             env!("CARGO_CRATE_NAME"),
-            &format!("opentalk_types_signaling_{}", MODULE_ID)
+            &format!("opentalk_types_signaling_{MODULE_ID}")
         );
         assert_eq!(MODULE_ID, module_id!("training_participation_report"));
     }

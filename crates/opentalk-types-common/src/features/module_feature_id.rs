@@ -198,7 +198,7 @@ mod diesel_traits {
 
     impl ToSql<diesel::sql_types::Text, Pg> for ModuleFeatureId {
         fn to_sql<'b>(&'b self, out: &mut Output<'b, '_, Pg>) -> serialize::Result {
-            write!(out, "{}", self)?;
+            write!(out, "{self}")?;
             Ok(IsNull::No)
         }
     }
