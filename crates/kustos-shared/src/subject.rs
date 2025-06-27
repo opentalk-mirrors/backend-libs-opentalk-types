@@ -251,8 +251,7 @@ mod tests {
         let parsing_result = PolicyInvite::from_str(raw_invite);
         assert!(
             matches!(parsing_result, Err(ParsingError::Uuid { source: _ }),),
-            "Expected Uuid error, Got: {:?}",
-            parsing_result,
+            "Expected Uuid error, Got: {parsing_result:?}",
         );
     }
 
@@ -262,8 +261,7 @@ mod tests {
         let parsing_result = PolicyUser::from_str(raw_invite);
         assert!(
             matches!(parsing_result, Err(ParsingError::Uuid { source: _ }),),
-            "Expected Uuid error, Got: {:?}",
-            parsing_result,
+            "Expected Uuid error, Got: {parsing_result:?}",
         );
     }
 }

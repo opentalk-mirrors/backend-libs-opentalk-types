@@ -115,7 +115,7 @@ mod actix_tests {
     fn test_parse_header() {
         let uuid = uuid::uuid!("4bf587d9-1c92-427f-9bf1-522455f93382");
         let code = InviteCode::from(uuid);
-        let value = HeaderValue::from_str(&format!("InviteCode {}", code)).unwrap();
+        let value = HeaderValue::from_str(&format!("InviteCode {code}")).unwrap();
         let scheme = InviteCode::parse(&value);
 
         assert!(scheme.is_ok());
@@ -156,7 +156,7 @@ mod actix_tests {
         assert!(result.is_ok());
         assert_eq!(
             result.unwrap(),
-            HeaderValue::from_str(&format!("InviteCode {}", code)).unwrap()
+            HeaderValue::from_str(&format!("InviteCode {code}")).unwrap()
         );
     }
 }
