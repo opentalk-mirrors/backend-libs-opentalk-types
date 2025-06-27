@@ -9,7 +9,7 @@ use std::collections::BTreeMap;
 use opentalk_types_common::{time::Timestamp, users::GroupName};
 use opentalk_types_signaling::ParticipantId;
 
-use crate::state::{GroupHistory, PrivateHistory, StoredMessage};
+use crate::state::{ChatChunk, GroupHistory, PrivateHistory};
 
 /// The state of the `chat` module
 #[derive(Clone, Debug)]
@@ -18,13 +18,13 @@ pub struct ChatState {
     /// Is the chat module enabled
     pub enabled: bool,
 
-    /// Chat history for the room
-    pub room_history: Vec<StoredMessage>,
+    /// The latest chunk of chat history for the room
+    pub room_history: ChatChunk,
 
-    /// All group chat history in the room
+    /// The latest chunk of group chat history in the room
     pub groups_history: Vec<GroupHistory>,
 
-    /// All private chat history in the room
+    /// The latest chunk of private chat history in the room
     pub private_history: Vec<PrivateHistory>,
 
     /// Timestamp for last time someone read a message
@@ -51,7 +51,7 @@ mod serde_tests {
     use serde_json::json;
 
     use super::*;
-    use crate::{MessageId, Scope};
+    use crate::{state::StoredMessage, MessageId, Scope};
 
     #[test]
     fn server_message() {

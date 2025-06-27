@@ -4,7 +4,10 @@
 
 //! Signaling events for the `chat` namespace
 
-use crate::event::{ChatDisabled, ChatEnabled, Error, HistoryCleared, MessageSent};
+use crate::{
+    event::{ChatDisabled, ChatEnabled, Error, HistoryCleared, MessageSent},
+    state::{ChatChunk, GroupHistory, PrivateHistory},
+};
 
 /// A chat event which occurred
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -25,6 +28,18 @@ pub enum ChatEvent {
 
     /// Chat event where history was cleared see [HistoryCleared]
     HistoryCleared(HistoryCleared),
+
+    /// A chunk of the rooms chat history
+    RoomChatHistoryChunk {
+        /// Room chat history chunk
+        history: ChatChunk,
+    },
+
+    /// A chunk of a groups chat history
+    GroupChatHistoryChunk(GroupHistory),
+
+    /// A chunk of a private chat history between two participants
+    PrivateChatHistoryChunk(PrivateHistory),
 
     /// Chat event which errored see [Error]
     Error(Error),

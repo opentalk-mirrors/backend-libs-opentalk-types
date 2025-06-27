@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-use crate::command::{SendMessage, SetLastSeenTimestamp};
+use crate::command::{GetHistoryChunk, SendMessage, SetLastSeenTimestamp};
 
 /// Commands for the `chat` namespace
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -26,6 +26,9 @@ pub enum ChatCommand {
 
     /// Set last seen timestamp
     SetLastSeenTimestamp(SetLastSeenTimestamp),
+
+    /// Get a chunk of the chat history
+    GetHistoryChunk(GetHistoryChunk),
 }
 
 #[cfg(all(test, feature = "serde"))]
