@@ -77,7 +77,7 @@ impl From<Error> for ChatEvent {
 
 #[cfg(all(test, feature = "serde"))]
 mod serde_tests {
-    use opentalk_types_common::users::GroupName;
+    use opentalk_types_common::users::{GroupId, GroupName};
     use opentalk_types_signaling::ParticipantId;
     use pretty_assertions::assert_eq;
     use serde_json::json;
@@ -155,5 +155,61 @@ mod serde_tests {
             "error": "chat_disabled",
         });
         assert_eq!(expected, produced);
+    }
+
+    #[test]
+    fn room_history_chunk_serialize() {
+        let produced = serde_json::to_value(ChatEvent::RoomChatHistoryChunk {
+            history: ChatChunk::default(),
+        })
+        .unwrap();
+        let expected = json!({
+        "message": "room_chat_history_chunk",
+        "history": {
+            "messages": [],
+            "next_index": null,
+        }});
+
+        assert_eq!(expected, produced);
+    }
+
+    #[test]
+    fn group_history_chunk_serialize() {
+        let produced = serde_json::to_value(ChatEvent::GroupChatHistoryChunk(GroupHistory {
+            id: GroupId::nil(),
+            name: GroupName::from("group1".to_owned()),
+            history: ChatChunk::default(),
+        }))
+        .unwrap();
+        let expected = json!({
+            "message": "group_chat_history_chunk",
+            "id": "00000000-0000-0000-0000-000000000000",
+            "name": "group1",
+            "history": {
+                "messages": [],
+                "next_index": null
+            }
+        });
+
+        assert_eq!(expected, produced);
+    }
+
+    #[test]
+    fn private_history_serialize() {
+        let produced = serde_json::to_value(ChatEvent::PrivateChatHistoryChunk(PrivateHistory {
+            correspondent: ParticipantId::nil(),
+            history: ChatChunk::default(),
+        }))
+        .unwrap();
+        let expected = json!({
+            "message": "private_chat_history_chunk",
+            "correspondent": "00000000-0000-0000-0000-000000000000",
+            "history": {
+                "messages": [],
+                "next_index": null,
+            }
+        });
+
+        assert_eq!(expected, produced)
     }
 }

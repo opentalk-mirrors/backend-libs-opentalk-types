@@ -29,3 +29,74 @@ pub struct ChatChunk {
     /// when requesting the next chunk.
     pub next_index: Option<u64>,
 }
+
+#[cfg(all(test, feature = "serde"))]
+mod tests {
+    use opentalk_types_common::time::Timestamp;
+    use opentalk_types_signaling::ParticipantId;
+    use pretty_assertions::assert_eq;
+    use serde_json::json;
+
+    use crate::{
+        state::{ChatChunk, StoredMessage},
+        MessageId, Scope,
+    };
+
+    #[test]
+    fn serialize_chat_chunk() {
+        let chunk = ChatChunk {
+            messages: vec![StoredMessage {
+                id: MessageId::nil(),
+                source: ParticipantId::nil(),
+                timestamp: Timestamp::unix_epoch(),
+                content: "hello".into(),
+                scope: Scope::Global,
+            }],
+            next_index: None,
+        };
+        let json = serde_json::to_value(&chunk).unwrap();
+
+        assert_eq!(
+            json!({
+                "messages": [{
+                    "id": "00000000-0000-0000-0000-000000000000",
+                    "source": "00000000-0000-0000-0000-000000000000",
+                    "timestamp": "1970-01-01T00:00:00Z",
+                    "content": "hello",
+                    "scope": "global",
+                }],
+                "next_index": null,
+            }),
+            json,
+        )
+    }
+
+    #[test]
+    fn deserialize_chat_chunk() {
+        let json = json!({
+            "messages": [{
+                "id": "00000000-0000-0000-0000-000000000000",
+                "source": "00000000-0000-0000-0000-000000000000",
+                "timestamp": "1970-01-01T00:00:00Z",
+                "content": "hello",
+                "scope": "global",
+            }],
+            "next_index": null,
+        });
+        let chunk = serde_json::from_value(json).unwrap();
+
+        assert_eq!(
+            ChatChunk {
+                messages: vec![StoredMessage {
+                    id: MessageId::nil(),
+                    source: ParticipantId::nil(),
+                    timestamp: Timestamp::unix_epoch(),
+                    content: "hello".into(),
+                    scope: Scope::Global,
+                }],
+                next_index: None,
+            },
+            chunk
+        );
+    }
+}

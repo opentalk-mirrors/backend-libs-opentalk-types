@@ -99,4 +99,23 @@ mod serde_tests {
             panic!()
         }
     }
+
+    #[test]
+    fn history_chunk() {
+        let json = json!({
+            "action": "get_history_chunk",
+            "message_index": 1,
+            "scope": "global",
+        });
+
+        let msg: ChatCommand = serde_json::from_value(json).unwrap();
+
+        assert_eq!(
+            msg,
+            ChatCommand::GetHistoryChunk(GetHistoryChunk {
+                message_index: 1,
+                scope: Scope::Global
+            })
+        )
+    }
 }
