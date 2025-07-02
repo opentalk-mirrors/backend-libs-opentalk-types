@@ -10,7 +10,7 @@ use crate::{MessageId, Scope};
 /// Message type stores in redis
 ///
 /// This needs to have a inner timestamp.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(
     feature = "redis",
