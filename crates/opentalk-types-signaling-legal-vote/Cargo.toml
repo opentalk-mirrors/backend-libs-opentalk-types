@@ -23,6 +23,7 @@ workspace = true
 [features]
 backend = ["rand", "redis", "serde"]
 frontend = ["serde"]
+rand = ["dep:rand", "opentalk-types-common/rand"]
 redis = ["dep:redis-args", "serde"]
 serde = [
   "chrono/serde",
@@ -37,7 +38,7 @@ chrono.workspace = true
 chrono-tz.workspace = true
 derive_more = { workspace = true, features = ["display"] }
 opentalk-types-common.workspace = true
-opentalk-types-signaling = { workspace = true, features = ["backend"] }
+opentalk-types-signaling.workspace = true
 rand = { workspace = true, optional = true }
 redis-args = { workspace = true, optional = true }
 serde = { workspace = true, optional = true }
