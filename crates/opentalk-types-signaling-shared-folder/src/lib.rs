@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-//! Signaling data types for the OpenTalk chat module.
+//! Signaling data types for the OpenTalk `shared_folder` module.
 
 #![deny(
     bad_style,
