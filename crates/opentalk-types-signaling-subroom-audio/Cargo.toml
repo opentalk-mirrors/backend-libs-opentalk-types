@@ -32,9 +32,6 @@ serde = [
 ]
 
 [dependencies]
-opentalk-types-common.workspace = true
-opentalk-types-signaling.workspace = true
-# redis.workspace = true
 derive_more = { workspace = true, features = [
   "as_ref",
   "display",
@@ -42,6 +39,8 @@ derive_more = { workspace = true, features = [
   "from_str",
   "into",
 ] }
+opentalk-types-common.workspace = true
+opentalk-types-signaling.workspace = true
 redis-args = { workspace = true, optional = true }
 serde = { workspace = true, optional = true }
 strum.workspace = true

@@ -19,7 +19,7 @@ workspace = true
 
 [dependencies]
 chrono = { workspace = true }
-opentalk-types-common = { workspace = true, features = ["serde"] }
+opentalk-types-common = { workspace = true }
 serde = { workspace = true, features = ["derive"], optional = true }
 serde_json = { workspace = true, optional = true }
 utoipa = { workspace = true, features = [
