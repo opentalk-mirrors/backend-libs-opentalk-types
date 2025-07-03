@@ -1469,7 +1469,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types"
-version = "0.43.0"
+version = "0.44.0"
 dependencies = [
  "opentalk-types-api-v1",
  "opentalk-types-common",
@@ -1617,7 +1617,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling-chat"
-version = "0.36.0"
+version = "0.37.0"
 dependencies = [
  "chrono",
  "derive_more",
@@ -1654,7 +1654,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling-legal-vote"
-version = "0.7.0"
+version = "0.7.1"
 dependencies = [
  "basen",
  "chrono",
