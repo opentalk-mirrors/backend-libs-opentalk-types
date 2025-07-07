@@ -4,15 +4,23 @@
 
 use std::collections::BTreeMap;
 
-use opentalk_types_common::modules::ModuleId;
+use opentalk_types_common::{
+    modules::{module_id, ModuleId},
+    utils::ExampleData,
+};
 use serde::{Deserialize, Serialize};
 
 use crate::SignalingModuleFrontendData;
 
 /// A struct containing data for multiple signaling modules, each associated
 /// with the module's namespace.
-#[derive(Default, Debug, Clone, Serialize, Deserialize)]
+#[derive(Default, Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "snake_case")]
+#[cfg_attr(
+    feature = "utoipa",
+    derive(utoipa::ToSchema),
+    schema(example = json!(ModuleData::example_data()))
+)]
 pub struct ModuleData(BTreeMap<ModuleId, serde_json::Value>);
 
 impl ModuleData {
@@ -76,5 +84,19 @@ impl ModuleData {
         let entry = self.get::<T>()?;
         self.remove::<T>();
         Ok(entry)
+    }
+}
+
+impl ExampleData for ModuleData {
+    fn example_data() -> Self {
+        Self(BTreeMap::from([(
+            module_id!("livekit"),
+            serde_json::json!({
+                "public_url": "http://localhost:7880",
+                "service_url": "http://localhost:7880",
+                "api_key": "devkey",
+                "api_secret": "secret",
+            }),
+        )]))
     }
 }
