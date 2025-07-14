@@ -5,7 +5,7 @@
 //! Signaling events for the `chat` namespace
 
 use crate::{
-    event::{ChatDisabled, ChatEnabled, Error, HistoryCleared, MessageSent},
+    event::{ChatDisabled, ChatEnabled, Error, HistoryCleared, MessageSent, SearchResults},
     state::{ChatChunk, GroupHistory, PrivateHistory},
 };
 
@@ -40,6 +40,9 @@ pub enum ChatEvent {
 
     /// A chunk of a private chat history between two participants
     PrivateChatHistoryChunk(PrivateHistory),
+
+    /// The results of a search
+    SearchResults(SearchResults),
 
     /// Chat event which errored see [Error]
     Error(Error),
@@ -195,7 +198,7 @@ mod serde_tests {
     }
 
     #[test]
-    fn private_history_serialize() {
+    fn private_history_chunk_serialize() {
         let produced = serde_json::to_value(ChatEvent::PrivateChatHistoryChunk(PrivateHistory {
             correspondent: ParticipantId::nil(),
             history: ChatChunk::default(),
@@ -210,6 +213,25 @@ mod serde_tests {
             }
         });
 
-        assert_eq!(expected, produced)
+        assert_eq!(expected, produced);
+    }
+
+    #[test]
+    fn search_results_serialize() {
+        let produced = serde_json::to_value(ChatEvent::SearchResults(SearchResults {
+            matches: ChatChunk::default(),
+            scope: Scope::Global,
+        }))
+        .unwrap();
+        let expected = json!({
+            "message": "search_results",
+            "scope": "global",
+            "matches": {
+                "messages": [],
+                "next_index": null
+            },
+        });
+
+        assert_eq!(expected, produced);
     }
 }
