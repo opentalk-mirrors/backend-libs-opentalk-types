@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-use crate::command::{GetHistoryChunk, SendMessage, SetLastSeenTimestamp};
+use crate::command::{GetHistoryChunk, SearchHistory, SendMessage, SetLastSeenTimestamp};
 
 /// Commands for the `chat` namespace
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -29,6 +29,9 @@ pub enum ChatCommand {
 
     /// Get a chunk of the chat history
     GetHistoryChunk(GetHistoryChunk),
+
+    /// Search in the history
+    SearchHistory(SearchHistory),
 }
 
 #[cfg(all(test, feature = "serde"))]
@@ -117,5 +120,26 @@ mod serde_tests {
                 scope: Scope::Global
             })
         )
+    }
+
+    #[test]
+    fn search_history() {
+        let json = json!({
+            "action": "search_history",
+            "scope": "global",
+            "term": "hello",
+            "message_index": null,
+        });
+
+        let msg: ChatCommand = serde_json::from_value(json).unwrap();
+
+        assert_eq!(
+            msg,
+            ChatCommand::SearchHistory(SearchHistory {
+                scope: Scope::Global,
+                term: "hello".into(),
+                message_index: None,
+            })
+        );
     }
 }
