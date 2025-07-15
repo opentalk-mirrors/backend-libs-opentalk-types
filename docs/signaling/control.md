@@ -226,10 +226,10 @@ Meeting details for an event associated with a room.
 
 Information about the current room.
 
-| Field        | Type          | Always | Description                                                                      |
-| ------------ | ------------- | ------ | -------------------------------------------------------------------------------- |
-| `id`         | `string`      | yes    | Id of the room                                                                   |
-| `password`   | `string`      | no     | The room password, if one is configured                                          |
+| Field        | Type       | Always | Description                                                                |
+| ------------ | ---------- | ------ | -------------------------------------------------------------------------- |
+| `id`         | `string`   | yes    | Id of the room                                                             |
+| `password`   | `string`   | no     | The room password, if one is configured                                    |
 | `created_by` | `UserInfo` | yes    | Information about the user that created the room. See[UserInfo](#UserInfo) |
 
 #### UserInfo
@@ -422,6 +422,18 @@ Received when the quota's time limit has elapsed.
 | Field     | Type   | Always | Description                     |
 | --------- | ------ | ------ | ------------------------------- |
 | `message` | `enum` | yes    | Is `"time_limit_quota_elapsed"` |
+
+### RateLimitExceeded
+
+The participant has exceeded the configured rate limit of the controller
+
+This will be the last message received before the participant is removed from the conference
+
+#### Fields
+
+| Field     | Type   | Always | Description                |
+| --------- | ------ | ------ | -------------------------- |
+| `message` | `enum` | yes    | Is `"rate_limit_exceeded"` |
 
 ### HandRaised
 
