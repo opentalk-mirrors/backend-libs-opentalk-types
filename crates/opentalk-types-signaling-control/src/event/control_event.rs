@@ -45,6 +45,9 @@ pub enum ControlEvent {
     ModeratorRoleGranted(TargetParticipant),
     /// The moderator role has been revoked from another participant
     ModeratorRoleRevoked(TargetParticipant),
+
+    /// The participant has exceeded the configured rate limit of the controller
+    RateLimitExceeded,
 }
 
 impl From<JoinSuccess> for ControlEvent {
