@@ -16,7 +16,7 @@ kustos-shared = { path = "crates/kustos-shared", version = "0.31.0" }
 opentalk-kustos-prefix = { path = "crates/opentalk-kustos-prefix", version = "0.31.0" }
 opentalk-kustos-prefix-impl = { path = "crates/opentalk-kustos-prefix-impl", version = "0.31.0" }
 opentalk-mail-worker-protocol = { path = "crates/opentalk-mail-worker-protocol", version = "0.36.0" }
-opentalk-types = { path = "crates/opentalk-types", version = "0.44.2" }
+opentalk-types = { path = "crates/opentalk-types", version = "0.45.0" }
 opentalk-types-api-v1 = { path = "crates/opentalk-types-api-v1", version = "0.39.1" }
 opentalk-types-common = { path = "crates/opentalk-types-common", version = "0.35.2" }
 opentalk-types-common-identifiers = { path = "crates/opentalk-types-common-identifiers", version = "0.32.0" }
@@ -25,7 +25,7 @@ opentalk-types-signaling = { path = "crates/opentalk-types-signaling", version =
 opentalk-types-signaling-automod = { path = "crates/opentalk-types-signaling-automod", version = "0.6.1" }
 opentalk-types-signaling-breakout = { path = "crates/opentalk-types-signaling-breakout", version = "0.36.1" }
 opentalk-types-signaling-chat = { path = "crates/opentalk-types-signaling-chat", version = "0.37.1" }
-opentalk-types-signaling-control = { path = "crates/opentalk-types-signaling-control", version = "0.36.1" }
+opentalk-types-signaling-control = { path = "crates/opentalk-types-signaling-control", version = "0.37.0" }
 opentalk-types-signaling-e2ee = { path = "crates/opentalk-types-signaling-e2ee", version = "0.5.1" }
 opentalk-types-signaling-legal-vote = { path = "crates/opentalk-types-signaling-legal-vote", version = "0.7.2" }
 opentalk-types-signaling-livekit = { path = "crates/opentalk-types-signaling-livekit", version = "0.38.1" }

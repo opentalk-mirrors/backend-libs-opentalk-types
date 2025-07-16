@@ -1469,7 +1469,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types"
-version = "0.44.2"
+version = "0.45.0"
 dependencies = [
  "opentalk-types-api-v1",
  "opentalk-types-common",
@@ -1633,7 +1633,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling-control"
-version = "0.36.1"
+version = "0.37.0"
 dependencies = [
  "chrono",
  "opentalk-types-common",
