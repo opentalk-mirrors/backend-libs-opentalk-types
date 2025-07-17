@@ -15,4 +15,10 @@ pub enum Error {
 
     /// Request user has insufficient permissions
     InsufficientPermissions,
+
+    /// The provided search term has an invalid length
+    InvalidSearchTermLength {
+        /// The minimum length a search term must have
+        min: usize,
+    },
 }
