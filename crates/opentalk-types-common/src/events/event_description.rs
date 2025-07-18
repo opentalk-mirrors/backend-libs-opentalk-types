@@ -33,6 +33,13 @@ pub const EVENT_DESCRIPTION_MAX_LENGTH: usize = 4096;
 pub struct EventDescription(String);
 
 impl EventDescription {
+    /// Create a new [`EventDescription`] from a `&str`. If the input value is not
+    /// suitable, it will be modified to become a valid [`EventDescription`], e.g.
+    /// by stripping characters.
+    pub fn from_str_lossy(s: &str) -> Self {
+        Self(s.chars().take(EVENT_DESCRIPTION_MAX_LENGTH).collect())
+    }
+
     /// Returns `true` if this `EventDescription` has a length of zero, and `false` otherwise.
     pub fn is_empty(&self) -> bool {
         self.0.is_empty()
@@ -109,6 +116,7 @@ mod tests {
     use pretty_assertions::assert_eq;
 
     use super::{EventDescription, ParseEventDescriptionError};
+    use crate::events::event_description::EVENT_DESCRIPTION_MAX_LENGTH;
 
     #[test]
     fn parse() {
@@ -147,5 +155,17 @@ mod tests {
             too_long.parse::<EventDescription>(),
             Err(ParseEventDescriptionError::TooLong { max_length: 4096 })
         ));
+    }
+
+    #[test]
+    fn from_str_lossy() {
+        assert_eq!(
+            EventDescription::from_str_lossy("hello"),
+            EventDescription("hello".to_string())
+        );
+
+        let too_long: String = "x".repeat(EVENT_DESCRIPTION_MAX_LENGTH + 1);
+        let title = EventDescription::from_str_lossy(&too_long);
+        assert_eq!(title.0.len(), EVENT_DESCRIPTION_MAX_LENGTH);
     }
 }

@@ -33,6 +33,13 @@ pub const EVENT_TITLE_MAX_LENGTH: usize = 255;
 pub struct EventTitle(String);
 
 impl EventTitle {
+    /// Create a new [`EventTitle`] from a `&str`. If the input value is not
+    /// suitable, it will be modified to become a valid [`EventTitle`], e.g. by
+    /// stripping characters.
+    pub fn from_str_lossy(s: &str) -> Self {
+        Self(s.chars().take(EVENT_TITLE_MAX_LENGTH).collect())
+    }
+
     /// Returns `true` if this `EventTitle` has a length of zero, and `false` otherwise.
     pub fn is_empty(&self) -> bool {
         self.0.is_empty()
@@ -127,6 +134,7 @@ mod tests {
     use pretty_assertions::assert_eq;
 
     use super::{EventTitle, ParseEventTitleError};
+    use crate::events::event_title::EVENT_TITLE_MAX_LENGTH;
 
     #[test]
     fn parse() {
@@ -162,5 +170,17 @@ mod tests {
             too_long.parse::<EventTitle>(),
             Err(ParseEventTitleError::TooLong { max_length: 255 })
         ));
+    }
+
+    #[test]
+    fn from_str_lossy() {
+        assert_eq!(
+            EventTitle::from_str_lossy("hello"),
+            EventTitle("hello".to_string())
+        );
+
+        let too_long: String = "x".repeat(EVENT_TITLE_MAX_LENGTH + 1);
+        let title = EventTitle::from_str_lossy(&too_long);
+        assert_eq!(title.0.len(), EVENT_TITLE_MAX_LENGTH);
     }
 }
