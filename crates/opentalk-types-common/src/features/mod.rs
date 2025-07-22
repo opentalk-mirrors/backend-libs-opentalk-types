@@ -34,3 +34,12 @@ pub const STORAGE_UPGRADABLE_MODULE_FEATURE_ID: ModuleFeatureId = ModuleFeatureI
     module: DEFAULT_MODULE_ID,
     feature: STORAGE_UPGRADABLE_FEATURE_ID,
 };
+
+/// The guests_allowed feature identifier string
+pub const GUESTS_ALLOWED_FEATURE_ID: FeatureId = feature_id!("guests_allowed");
+
+/// The guests_allowed module feature id
+pub const GUESTS_ALLOWED_MODULE_FEATURE_ID: ModuleFeatureId = ModuleFeatureId {
+    module: DEFAULT_MODULE_ID,
+    feature: GUESTS_ALLOWED_FEATURE_ID,
+};
