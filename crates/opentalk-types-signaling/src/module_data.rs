@@ -29,6 +29,11 @@ impl ModuleData {
         Self(BTreeMap::default())
     }
 
+    /// Get an iterator over all module data entries
+    pub fn iter(&self) -> impl Iterator<Item = (&ModuleId, &serde_json::Value)> {
+        self.0.iter()
+    }
+
     /// Get the participant data for a specific module
     pub fn get<T: SignalingModuleFrontendData>(&self) -> Result<Option<T>, serde_json::Error> {
         if let Some(namespace) = T::NAMESPACE {
