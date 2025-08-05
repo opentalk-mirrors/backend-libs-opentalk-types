@@ -17,6 +17,20 @@ use crate::utils::ExampleData;
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct TimeZone(#[cfg_attr(feature = "bincode", bincode(with_serde))] chrono_tz::Tz);
 
+impl TimeZone {
+    /// Create a new UTC [`TimeZone`]
+    pub fn utc() -> Self {
+        Self(chrono_tz::Tz::Etc__UTC)
+    }
+}
+
+impl Default for TimeZone {
+    /// Create a default [`TimeZone`] (which is UTC).
+    fn default() -> Self {
+        TimeZone::utc()
+    }
+}
+
 #[cfg(feature = "diesel")]
 mod diesel_traits {
     use std::{
