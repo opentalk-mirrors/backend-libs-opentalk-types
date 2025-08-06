@@ -13,6 +13,7 @@ mod topic;
 pub use allowed_participants::{AllowedParticipants, TryFromAllowedParticipantsError};
 pub use duration::{Duration, TryFromDurationError};
 pub use name::{Name, ParseNameError};
+use opentalk_types_common::time::TimeZone;
 pub use opentalk_types_signaling::ParticipantId;
 pub use subtitle::{ParseSubtitleError, Subtitle};
 pub use topic::{ParseTopicError, Topic};
@@ -63,7 +64,7 @@ pub struct UserParameters {
     /// Format as standardized by IANA, e.g.\"CET\" or \"Europe/Vienna\".
     /// See: <https://www.iana.org/time-zones>
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
-    pub timezone: Option<chrono_tz::Tz>,
+    pub timezone: Option<TimeZone>,
 }
 
 #[cfg(all(test, feature = "serde"))]
@@ -91,7 +92,7 @@ mod serde_tests {
             auto_close: false,
             duration: Some(Duration::try_from(10).unwrap()),
             create_pdf: false,
-            timezone: Some(chrono_tz::Tz::Europe__Berlin),
+            timezone: Some(chrono_tz::Tz::Europe__Berlin.into()),
         })
         .unwrap();
 
@@ -165,7 +166,7 @@ mod serde_tests {
             auto_close: false,
             duration: Some(Duration::try_from(10).unwrap()),
             create_pdf: false,
-            timezone: Some(chrono_tz::Tz::Europe__Berlin),
+            timezone: Some(chrono_tz::Tz::Europe__Berlin.into()),
         };
 
         assert_eq!(produced, expected);

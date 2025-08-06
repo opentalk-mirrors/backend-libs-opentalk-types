@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-use derive_more::{AsRef, Display, From, FromStr, Into};
+use derive_more::{AsRef, Deref, Display, From, FromStr, Into};
 
 use crate::utils::ExampleData;
 
 /// Representation of a timezone
-#[derive(AsRef, Display, From, FromStr, Into, Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(AsRef, Deref, Display, From, FromStr, Into, Debug, Clone, Copy, PartialEq, Eq, Hash)]
 #[cfg_attr(feature = "bincode", derive(bincode::Encode, bincode::Decode))]
 #[cfg_attr(
     feature = "diesel",
@@ -28,6 +28,36 @@ impl Default for TimeZone {
     /// Create a default [`TimeZone`] (which is UTC).
     fn default() -> Self {
         TimeZone::utc()
+    }
+}
+
+impl chrono::TimeZone for TimeZone {
+    type Offset = chrono_tz::TzOffset;
+
+    fn from_offset(offset: &Self::Offset) -> Self {
+        chrono_tz::Tz::from_offset(offset).into()
+    }
+
+    fn offset_from_local_date(
+        &self,
+        local: &chrono::NaiveDate,
+    ) -> chrono::MappedLocalTime<Self::Offset> {
+        self.0.offset_from_local_date(local)
+    }
+
+    fn offset_from_local_datetime(
+        &self,
+        local: &chrono::NaiveDateTime,
+    ) -> chrono::MappedLocalTime<Self::Offset> {
+        self.0.offset_from_local_datetime(local)
+    }
+
+    fn offset_from_utc_date(&self, utc: &chrono::NaiveDate) -> Self::Offset {
+        self.0.offset_from_utc_date(utc)
+    }
+
+    fn offset_from_utc_datetime(&self, utc: &chrono::NaiveDateTime) -> Self::Offset {
+        self.0.offset_from_utc_datetime(utc)
     }
 }
 
@@ -96,5 +126,26 @@ mod impl_utoipa {
         fn schemas(schemas: &mut Vec<(String, RefOr<Schema>)>) {
             schemas.push((Self::name().into(), Self::schema()));
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use chrono::DateTime;
+
+    use super::TimeZone;
+
+    #[test]
+    fn test_reference() {
+        let timezone = TimeZone::default();
+        example_tz(&timezone);
+
+        fn example_tz(_tz: &chrono_tz::Tz) {}
+    }
+
+    #[test]
+    fn test_usage_as_chrono_timezone() {
+        let dt = DateTime::from_timestamp(100000, 0).unwrap();
+        let _with_timezone = dt.with_timezone(&TimeZone::default());
     }
 }
