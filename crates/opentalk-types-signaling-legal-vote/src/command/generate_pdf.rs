@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+use opentalk_types_common::time::TimeZone;
+
 use crate::vote::LegalVoteId;
 
 /// Represents a request to generate a PDF for a specific vote.
@@ -15,7 +17,7 @@ pub struct GeneratePdf {
     /// The timezone should be in a format standardized by IANA (e.g., "CET" or "Europe/Vienna").
     /// For more details, visit: <https://www.iana.org/time-zones>
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
-    pub timezone: Option<chrono_tz::Tz>,
+    pub timezone: Option<TimeZone>,
 }
 
 #[cfg(all(test, feature = "serde"))]
@@ -29,7 +31,7 @@ mod serde_tests {
     fn serialization() {
         let produced = serde_json::to_value(GeneratePdf {
             legal_vote_id: LegalVoteId::from_u128(1),
-            timezone: Some(chrono_tz::Tz::Europe__Berlin),
+            timezone: Some(chrono_tz::Tz::Europe__Berlin.into()),
         })
         .unwrap();
 
@@ -63,7 +65,7 @@ mod serde_tests {
 
         let expected = GeneratePdf {
             legal_vote_id: LegalVoteId::from_u128(1),
-            timezone: Some(chrono_tz::Tz::Europe__Berlin),
+            timezone: Some(chrono_tz::Tz::Europe__Berlin.into()),
         };
 
         assert_eq!(produced, expected);
