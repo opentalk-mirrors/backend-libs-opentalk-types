@@ -14,6 +14,7 @@ test:opentalk-types-api-v1:
           [
           '',
             actix,
+            axum,
             backend,
             diesel,
             frontend,
