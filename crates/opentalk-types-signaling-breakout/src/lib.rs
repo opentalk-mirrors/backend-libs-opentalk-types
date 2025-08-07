@@ -30,7 +30,7 @@ pub mod state;
 
 pub use associated_participant_in_other_room::AssociatedParticipantInOtherRoom;
 pub use breakout_room::BreakoutRoom;
-use opentalk_types_common::modules::{module_id, ModuleId};
+use opentalk_types_common::modules::{ModuleId, module_id};
 pub use participant_in_other_room::ParticipantInOtherRoom;
 
 /// The module id for the signaling module

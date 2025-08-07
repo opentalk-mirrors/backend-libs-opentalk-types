@@ -4,7 +4,7 @@
 
 use std::convert::TryFrom;
 
-use snafu::{ensure, Snafu};
+use snafu::{Snafu, ensure};
 
 /// Maximum allowed length for a [`Subtitle`].
 pub const MAX_SUBTITLE_LENGTH: usize = 255;

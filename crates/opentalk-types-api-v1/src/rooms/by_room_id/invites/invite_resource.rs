@@ -4,7 +4,7 @@
 
 use chrono::{DateTime, TimeZone, Utc};
 use opentalk_types_common::{
-    rooms::{invite_codes::InviteCode, RoomId},
+    rooms::{RoomId, invite_codes::InviteCode},
     utils::ExampleData,
 };
 

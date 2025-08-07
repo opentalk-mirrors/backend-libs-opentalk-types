@@ -4,10 +4,10 @@
 
 use std::{fmt::Display, str::FromStr};
 
-use snafu::{ensure, ResultExt, Snafu};
+use snafu::{ResultExt, Snafu, ensure};
 
 use crate::{
-    features::{FeatureId, ParseFeatureIdError, NAMESPACE_SEPARATOR},
+    features::{FeatureId, NAMESPACE_SEPARATOR, ParseFeatureIdError},
     modules::{ModuleId, ParseModuleIdError},
     utils::ExampleData,
 };
@@ -33,14 +33,14 @@ pub struct ModuleFeatureId {
 #[cfg(feature = "utoipa")]
 mod impl_utoipa {
     use utoipa::{
-        openapi::{schema::AnyOf, ObjectBuilder, RefOr, Schema, Type},
         PartialSchema, ToSchema,
+        openapi::{ObjectBuilder, RefOr, Schema, Type, schema::AnyOf},
     };
 
     use super::ModuleFeatureId;
     use crate::{
         features::{
-            FeatureId, FEATURE_ID_MAX_LENGTH, FEATURE_ID_MIN_LENGTH, FEATURE_ID_SCHEMA_CHARS_REGEX,
+            FEATURE_ID_MAX_LENGTH, FEATURE_ID_MIN_LENGTH, FEATURE_ID_SCHEMA_CHARS_REGEX, FeatureId,
         },
         modules::{MODULE_ID_MAX_LENGTH, MODULE_ID_MIN_LENGTH, MODULE_ID_SCHEMA_CHARS_REGEX},
         utils::ExampleData,
@@ -184,7 +184,7 @@ impl FromStr for ModuleFeatureId {
 mod diesel_traits {
     use std::{
         io::Write,
-        str::{from_utf8, FromStr},
+        str::{FromStr, from_utf8},
     };
 
     use diesel::{

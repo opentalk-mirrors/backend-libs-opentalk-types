@@ -6,7 +6,7 @@
 authors.workspace = true
 description = "Derive macro for defining kustos prefix"
 documentation = "https://docs.rs/opentalk-kustos-prefix"
-edition = "2021"
+edition = "2024"
 homepage.workspace = true
 license = "EUPL-1.2"
 name = "opentalk-kustos-prefix"

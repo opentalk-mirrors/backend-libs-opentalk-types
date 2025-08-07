@@ -5,8 +5,8 @@
 //! Signaling commands for the `moderation` namespace
 
 use crate::{
-    command::{Accept, Ban, ChangeDisplayName, Kick, ResetRaisedHands, SendToWaitingRoom},
     KickScope,
+    command::{Accept, Ban, ChangeDisplayName, Kick, ResetRaisedHands, SendToWaitingRoom},
 };
 
 /// Commands for the `moderation` namespace

@@ -53,8 +53,8 @@ impl From<EmailAddress> for String {
 mod impl_utoipa {
     use serde_json::json;
     use utoipa::{
-        openapi::{KnownFormat, ObjectBuilder, RefOr, Schema, SchemaFormat, Type},
         PartialSchema, ToSchema,
+        openapi::{KnownFormat, ObjectBuilder, RefOr, Schema, SchemaFormat, Type},
     };
 
     use super::EmailAddress;

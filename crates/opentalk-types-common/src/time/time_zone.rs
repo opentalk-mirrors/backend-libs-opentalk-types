@@ -65,7 +65,7 @@ impl chrono::TimeZone for TimeZone {
 mod diesel_traits {
     use std::{
         io::Write,
-        str::{from_utf8, FromStr},
+        str::{FromStr, from_utf8},
     };
 
     use chrono_tz::Tz;
@@ -105,8 +105,8 @@ impl ExampleData for TimeZone {
 mod impl_utoipa {
     use serde_json::json;
     use utoipa::{
-        openapi::{ObjectBuilder, RefOr, Schema, Type},
         PartialSchema, ToSchema,
+        openapi::{ObjectBuilder, RefOr, Schema, Type},
     };
 
     use super::TimeZone;

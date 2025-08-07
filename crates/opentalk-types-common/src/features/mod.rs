@@ -8,8 +8,8 @@ mod module_feature_id;
 
 pub use module_feature_id::{ModuleFeatureId, ParseModuleFeatureIdError};
 pub use opentalk_types_common_identifiers::feature_id::{
-    FeatureId, ParseFeatureIdError, FEATURE_ID_MAX_LENGTH, FEATURE_ID_MIN_LENGTH,
-    FEATURE_ID_SCHEMA_CHARS_REGEX,
+    FEATURE_ID_MAX_LENGTH, FEATURE_ID_MIN_LENGTH, FEATURE_ID_SCHEMA_CHARS_REGEX, FeatureId,
+    ParseFeatureIdError,
 };
 use opentalk_types_common_identifiers::module_id::DEFAULT_MODULE_ID;
 pub use opentalk_types_common_macros::feature_id;

@@ -6,7 +6,7 @@
 authors.workspace = true
 description = "Signaling types for the OpenTalk livekit module"
 documentation = "https://docs.rs/opentalk-types-signaling-livekit"
-edition = "2021"
+edition = "2024"
 homepage.workspace = true
 license = "EUPL-1.2"
 name = "opentalk-types-signaling-livekit"

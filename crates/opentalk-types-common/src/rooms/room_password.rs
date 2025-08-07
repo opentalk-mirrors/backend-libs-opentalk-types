@@ -4,7 +4,7 @@
 
 use std::str::FromStr;
 
-use snafu::{ensure, Snafu};
+use snafu::{Snafu, ensure};
 
 use crate::utils::ExampleData;
 
@@ -47,11 +47,11 @@ mod impl_utoipa {
 
     use serde_json::json;
     use utoipa::{
-        openapi::{ObjectBuilder, RefOr, Schema, Type},
         PartialSchema, ToSchema,
+        openapi::{ObjectBuilder, RefOr, Schema, Type},
     };
 
-    use super::{RoomPassword, ROOM_PASSWORD_MAX_LENGTH, ROOM_PASSWORD_MIN_LENGTH};
+    use super::{ROOM_PASSWORD_MAX_LENGTH, ROOM_PASSWORD_MIN_LENGTH, RoomPassword};
     use crate::utils::ExampleData;
 
     impl PartialSchema for RoomPassword {

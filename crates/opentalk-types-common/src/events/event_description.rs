@@ -4,7 +4,7 @@
 
 use std::str::FromStr;
 
-use snafu::{ensure, Snafu};
+use snafu::{Snafu, ensure};
 
 use crate::utils::ExampleData;
 
@@ -55,11 +55,11 @@ mod impl_utoipa {
 
     use serde_json::json;
     use utoipa::{
-        openapi::{ObjectBuilder, RefOr, Schema, Type},
         PartialSchema, ToSchema,
+        openapi::{ObjectBuilder, RefOr, Schema, Type},
     };
 
-    use super::{EventDescription, EVENT_DESCRIPTION_MAX_LENGTH};
+    use super::{EVENT_DESCRIPTION_MAX_LENGTH, EventDescription};
     use crate::utils::ExampleData as _;
 
     impl PartialSchema for EventDescription {

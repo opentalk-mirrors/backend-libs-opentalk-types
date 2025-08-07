@@ -4,7 +4,7 @@
 
 use std::convert::TryFrom;
 
-use snafu::{ensure, Snafu};
+use snafu::{Snafu, ensure};
 
 /// Maximum allowed length for a [`Name`].
 pub const MAX_NAME_LENGTH: usize = 150;

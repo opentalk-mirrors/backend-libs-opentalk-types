@@ -6,7 +6,7 @@
 
 use std::str::FromStr;
 
-use snafu::{ensure, Snafu};
+use snafu::{Snafu, ensure};
 
 use crate::Identifier;
 
@@ -100,25 +100,27 @@ mod impl_utoipa {
 
     use serde_json::json;
     use utoipa::{
-        openapi::{schema::AnyOf, ObjectBuilder, RefOr, Schema, Type},
         PartialSchema, ToSchema,
+        openapi::{ObjectBuilder, RefOr, Schema, Type, schema::AnyOf},
     };
 
     use super::{
-        ModuleId, MODULE_ID_MAX_LENGTH, MODULE_ID_MIN_LENGTH, MODULE_ID_SCHEMA_CHARS_REGEX,
+        MODULE_ID_MAX_LENGTH, MODULE_ID_MIN_LENGTH, MODULE_ID_SCHEMA_CHARS_REGEX, ModuleId,
     };
 
     impl PartialSchema for ModuleId {
         fn schema() -> RefOr<Schema> {
             Schema::AnyOf(AnyOf {
-                items: vec![ObjectBuilder::new()
-                    .schema_type(Type::String)
-                    .description(Some("A module identifier"))
-                    .min_length(Some(MODULE_ID_MIN_LENGTH))
-                    .max_length(Some(MODULE_ID_MAX_LENGTH))
-                    .pattern(Some(format!("^{MODULE_ID_SCHEMA_CHARS_REGEX}*$")))
-                    .examples([json!(ModuleId::example_data())])
-                    .into()],
+                items: vec![
+                    ObjectBuilder::new()
+                        .schema_type(Type::String)
+                        .description(Some("A module identifier"))
+                        .min_length(Some(MODULE_ID_MIN_LENGTH))
+                        .max_length(Some(MODULE_ID_MAX_LENGTH))
+                        .pattern(Some(format!("^{MODULE_ID_SCHEMA_CHARS_REGEX}*$")))
+                        .examples([json!(ModuleId::example_data())])
+                        .into(),
+                ],
                 description: None,
                 default: Some(json!(ModuleId::default())),
                 example: Some(json!(Self::example_data())),

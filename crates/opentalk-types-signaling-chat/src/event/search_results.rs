@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-use crate::{state::ChatChunk, Scope};
+use crate::{Scope, state::ChatChunk};
 
 /// Results from a search in the chat history
 #[derive(Clone, Debug, PartialEq, Eq)]

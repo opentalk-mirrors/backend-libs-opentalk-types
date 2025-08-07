@@ -54,8 +54,8 @@ impl ExampleData for InstanceId {
 mod impl_utoipa {
     use serde_json::json;
     use utoipa::{
-        openapi::{ObjectBuilder, RefOr, Schema, Type},
         PartialSchema, ToSchema,
+        openapi::{ObjectBuilder, RefOr, Schema, Type},
     };
 
     use super::InstanceId;

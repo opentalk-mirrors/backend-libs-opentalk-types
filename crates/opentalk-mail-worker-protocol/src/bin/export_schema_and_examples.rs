@@ -8,17 +8,17 @@ use std::{
 };
 
 use opentalk_mail_worker_protocol::{
+    MailTask,
     v1::{
         ExternalEventCancellation, ExternalEventInvite, ExternalEventUninvite, ExternalEventUpdate,
         Message, RegisteredEventCancellation, RegisteredEventInvite, RegisteredEventUninvite,
         RegisteredEventUpdate, UnregisteredEventCancellation, UnregisteredEventInvite,
         UnregisteredEventUninvite, UnregisteredEventUpdate,
     },
-    MailTask,
 };
 use opentalk_types_common::utils::ExampleData;
 use serde::Serialize;
-use utoipa::{openapi::Components, OpenApi as _};
+use utoipa::{OpenApi as _, openapi::Components};
 
 fn export_json_file<T>(base_path: &Option<PathBuf>, stem: &str, data: &T) -> Result<(), String>
 where

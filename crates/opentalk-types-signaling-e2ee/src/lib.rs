@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 use bytes::Bytes;
-use opentalk_types_common::modules::{module_id, ModuleId};
+use opentalk_types_common::modules::{ModuleId, module_id};
 use opentalk_types_signaling::ParticipantId;
 
 pub const MODULE_ID: ModuleId = module_id!("e2ee");

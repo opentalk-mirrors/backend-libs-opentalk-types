@@ -49,7 +49,7 @@ impl FromStr for AccessMethod {
             _ => {
                 return Err(ParsingError::InvalidAccessMethod {
                     method: s.to_owned(),
-                })
+                });
             }
         })
     }

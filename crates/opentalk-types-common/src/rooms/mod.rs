@@ -12,4 +12,4 @@ mod room_password;
 
 pub use breakout_room_id::BreakoutRoomId;
 pub use room_id::RoomId;
-pub use room_password::{RoomPassword, ROOM_PASSWORD_MAX_LENGTH, ROOM_PASSWORD_MIN_LENGTH};
+pub use room_password::{ROOM_PASSWORD_MAX_LENGTH, ROOM_PASSWORD_MIN_LENGTH, RoomPassword};

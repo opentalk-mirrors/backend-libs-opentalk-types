@@ -15,9 +15,9 @@ pub struct Cursor<T>(pub T);
 mod serde_impls {
     use std::marker::PhantomData;
 
-    use base64::{engine::general_purpose::URL_SAFE_NO_PAD, Engine};
+    use base64::{Engine, engine::general_purpose::URL_SAFE_NO_PAD};
     use bincode::serde::Compat;
-    use serde::{de::DeserializeOwned, Deserialize, Deserializer, Serialize, Serializer};
+    use serde::{Deserialize, Deserializer, Serialize, Serializer, de::DeserializeOwned};
 
     use super::*;
 

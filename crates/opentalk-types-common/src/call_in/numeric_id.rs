@@ -5,7 +5,7 @@
 use std::str::FromStr;
 
 use derive_more::{AsRef, Display, Into};
-use snafu::{ensure, Snafu};
+use snafu::{Snafu, ensure};
 
 use crate::{call_in::DIAL_IN_NUMERIC_ID_LENGTH, utils::ExampleData};
 
@@ -41,7 +41,7 @@ impl NumericId {
     /// Generate a new random `NumericId`
     #[cfg(feature = "rand")]
     pub fn generate() -> Self {
-        use rand::{distr::slice::Choose, rng, Rng as _};
+        use rand::{Rng as _, distr::slice::Choose, rng};
 
         /// The set of numbers used to generate [`SipId`] & [`SipPassword`]
         const NUMERIC: [char; 10] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
@@ -98,11 +98,11 @@ mod impl_utoipa {
 
     use serde_json::json;
     use utoipa::{
-        openapi::{ObjectBuilder, RefOr, Schema, Type},
         PartialSchema, ToSchema,
+        openapi::{ObjectBuilder, RefOr, Schema, Type},
     };
 
-    use super::{NumericId, DIAL_IN_NUMERIC_ID_LENGTH};
+    use super::{DIAL_IN_NUMERIC_ID_LENGTH, NumericId};
     use crate::utils::ExampleData as _;
 
     impl PartialSchema for NumericId {
@@ -127,7 +127,7 @@ mod impl_utoipa {
 
 #[cfg(test)]
 mod tests {
-    use super::{NumericId, ParseNumericIdError, DIAL_IN_NUMERIC_ID_LENGTH};
+    use super::{DIAL_IN_NUMERIC_ID_LENGTH, NumericId, ParseNumericIdError};
 
     #[test]
     fn from_str() {

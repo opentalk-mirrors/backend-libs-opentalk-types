@@ -13,4 +13,4 @@ mod shared_folder_access;
 pub use shared_folder::SharedFolder;
 pub use shared_folder_access::SharedFolderAccess;
 
-use crate::modules::{module_id, ModuleId};
+use crate::modules::{ModuleId, module_id};

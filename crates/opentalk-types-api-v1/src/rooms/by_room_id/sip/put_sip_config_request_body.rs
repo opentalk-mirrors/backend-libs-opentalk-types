@@ -46,7 +46,7 @@ impl ExampleData for PutSipConfigRequestBody {
 #[cfg(feature = "serde")]
 mod serde_impls {
     use opentalk_types_common::call_in::CallInPassword;
-    use serde::{de::Error, Deserialize, Deserializer};
+    use serde::{Deserialize, Deserializer, de::Error};
 
     impl<'de> Deserialize<'de> for super::PutSipConfigRequestBody {
         fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>

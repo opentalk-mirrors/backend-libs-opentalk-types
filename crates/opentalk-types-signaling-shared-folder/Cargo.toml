@@ -6,7 +6,7 @@
 authors.workspace = true
 description = "Signaling types the OpenTalk shared_folder module"
 documentation = "https://docs.rs/opentalk-types-signaling-shared-folder"
-edition = "2021"
+edition = "2024"
 homepage.workspace = true
 license = "EUPL-1.2"
 name = "opentalk-types-signaling-shared-folder"

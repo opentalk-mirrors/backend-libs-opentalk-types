@@ -38,8 +38,8 @@ mod tests {
     use serde_json::json;
 
     use crate::{
-        state::{ChatChunk, StoredMessage},
         MessageId, Scope,
+        state::{ChatChunk, StoredMessage},
     };
 
     #[test]

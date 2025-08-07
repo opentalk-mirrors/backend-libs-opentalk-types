@@ -4,7 +4,7 @@
 
 use std::str::FromStr;
 
-use snafu::{ensure, Snafu};
+use snafu::{Snafu, ensure};
 
 use crate::utils::ExampleData;
 
@@ -43,11 +43,11 @@ pub enum ParseRecurrenceRuleError {
 mod impl_utoipa {
     use serde_json::json;
     use utoipa::{
-        openapi::{ObjectBuilder, RefOr, Schema, Type},
         PartialSchema, ToSchema,
+        openapi::{ObjectBuilder, RefOr, Schema, Type},
     };
 
-    use super::{RecurrenceRule, RECURRENCE_RULE_MAX_LEN};
+    use super::{RECURRENCE_RULE_MAX_LEN, RecurrenceRule};
     use crate::utils::ExampleData as _;
 
     impl PartialSchema for RecurrenceRule {

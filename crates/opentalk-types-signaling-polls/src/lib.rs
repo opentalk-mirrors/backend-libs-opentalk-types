@@ -33,7 +33,7 @@ mod results;
 pub use choice::Choice;
 pub use choice_id::ChoiceId;
 pub use item::Item;
-use opentalk_types_common::modules::{module_id, ModuleId};
+use opentalk_types_common::modules::{ModuleId, module_id};
 pub use poll_id::PollId;
 pub use results::Results;
 

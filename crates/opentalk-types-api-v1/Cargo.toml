@@ -6,7 +6,7 @@
 authors.workspace = true
 description = "OpenTalk API v1 data types"
 documentation = "https://docs.rs/opentalk-types-api-v1"
-edition = "2021"
+edition = "2024"
 homepage.workspace = true
 license = "EUPL-1.2"
 name = "opentalk-types-api-v1"

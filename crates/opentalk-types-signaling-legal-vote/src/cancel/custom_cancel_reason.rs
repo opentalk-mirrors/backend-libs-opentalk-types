@@ -4,7 +4,7 @@
 
 //! Signaling custom cancel reason for the `legal-vote` namespace.
 
-use snafu::{ensure, Snafu};
+use snafu::{Snafu, ensure};
 
 /// The maximum allowed length for a custom cancel reason.
 pub const MAX_CUSTOM_CANCEL_REASON_LENGTH: usize = 255;

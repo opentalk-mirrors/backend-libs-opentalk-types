@@ -4,7 +4,7 @@
 
 use opentalk_types_common::{
     auth::ResumptionToken,
-    rooms::{invite_codes::InviteCode, BreakoutRoomId, RoomPassword},
+    rooms::{BreakoutRoomId, RoomPassword, invite_codes::InviteCode},
     utils::ExampleData,
 };
 

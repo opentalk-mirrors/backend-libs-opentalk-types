@@ -3,8 +3,8 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 use crate::{
-    event::{Error, Started},
     AssociatedParticipantInOtherRoom, ParticipantInOtherRoom,
+    event::{Error, Started},
 };
 
 /// Events sent out by the `breakout` module

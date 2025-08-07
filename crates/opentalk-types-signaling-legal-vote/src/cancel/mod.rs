@@ -10,7 +10,7 @@ use std::collections::BTreeSet;
 
 pub use cancel_reason::CancelReason;
 pub use custom_cancel_reason::{
-    CustomCancelReason, ParseCustomCancelReasonError, MAX_CUSTOM_CANCEL_REASON_LENGTH,
+    CustomCancelReason, MAX_CUSTOM_CANCEL_REASON_LENGTH, ParseCustomCancelReasonError,
 };
 use opentalk_types_common::users::UserId;
 

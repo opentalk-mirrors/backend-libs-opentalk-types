@@ -6,7 +6,7 @@
 authors.workspace = true
 description = "Macros for opentalk-types-common"
 documentation = "https://docs.rs/opentalk-types-common-macros"
-edition = "2021"
+edition = "2024"
 homepage.workspace = true
 license = "EUPL-1.2"
 name = "opentalk-types-common-macros"

@@ -35,8 +35,8 @@ mod stream_target_secret;
 mod stream_updated;
 
 use opentalk_types_common::{
-    features::{feature_id, FeatureId},
-    modules::{module_id, ModuleId},
+    features::{FeatureId, feature_id},
+    modules::{ModuleId, module_id},
 };
 pub use recording_id::RecordingId;
 pub use stream_error_reason::StreamErrorReason;

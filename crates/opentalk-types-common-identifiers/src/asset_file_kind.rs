@@ -6,7 +6,7 @@
 
 use std::str::FromStr;
 
-use snafu::{ensure, Snafu};
+use snafu::{Snafu, ensure};
 
 use crate::identifier::Identifier;
 
@@ -118,11 +118,11 @@ impl FromStr for AssetFileKind {
 mod impl_utoipa {
     use serde_json::json;
     use utoipa::{
-        openapi::{ObjectBuilder, RefOr, Schema, Type},
         PartialSchema, ToSchema,
+        openapi::{ObjectBuilder, RefOr, Schema, Type},
     };
 
-    use super::{AssetFileKind, ASSET_FILE_KIND_MAX_LENGTH, ASSET_FILE_KIND_MIN_LENGTH};
+    use super::{ASSET_FILE_KIND_MAX_LENGTH, ASSET_FILE_KIND_MIN_LENGTH, AssetFileKind};
 
     impl PartialSchema for AssetFileKind {
         fn schema() -> RefOr<Schema> {

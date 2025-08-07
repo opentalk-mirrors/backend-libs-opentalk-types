@@ -4,7 +4,7 @@
 
 use std::convert::TryFrom;
 
-use snafu::{ensure, Snafu};
+use snafu::{Snafu, ensure};
 
 /// Maximum allowed length for a [`Topic`].
 pub const MAX_TOPIC_LENGTH: usize = 500;

@@ -24,10 +24,10 @@ use opentalk_types_common_identifiers::{
     asset_file_kind::AssetFileKind, feature_id::FeatureId, module_id::ModuleId,
 };
 use proc_macro::TokenStream;
+use proc_macro_crate::{FoundCrate, crate_name};
 use proc_macro2::{Span, TokenStream as TokenStream2};
-use proc_macro_crate::{crate_name, FoundCrate};
 use quote::quote;
-use syn::{parse_macro_input, LitStr};
+use syn::{LitStr, parse_macro_input};
 
 fn generate_const_id<T: std::str::FromStr + ToString>(
     input: TokenStream,

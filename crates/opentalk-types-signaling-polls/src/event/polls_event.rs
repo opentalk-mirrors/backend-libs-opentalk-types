@@ -3,8 +3,8 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 use crate::{
-    event::{Error, Started},
     Results,
+    event::{Error, Started},
 };
 
 /// Events sent out by the `polls` module

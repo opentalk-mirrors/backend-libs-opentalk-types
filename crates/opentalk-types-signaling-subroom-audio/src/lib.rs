@@ -20,7 +20,7 @@
     unused_results
 )]
 
-use opentalk_types_common::modules::{module_id, ModuleId};
+use opentalk_types_common::modules::{ModuleId, module_id};
 
 pub mod command;
 pub mod event;

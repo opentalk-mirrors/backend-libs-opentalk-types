@@ -7,7 +7,7 @@ use std::collections::BTreeSet;
 use opentalk_types_signaling::ParticipantId;
 
 use super::Error;
-use crate::{command::UnrestrictedParticipants, Credentials};
+use crate::{Credentials, command::UnrestrictedParticipants};
 
 /// The events emitted for livekit
 #[derive(Clone, Debug, PartialEq, Eq)]
