@@ -29,7 +29,7 @@ mod message_id;
 mod scope;
 
 pub use message_id::MessageId;
-use opentalk_types_common::modules::{module_id, ModuleId};
+use opentalk_types_common::modules::{ModuleId, module_id};
 pub use scope::Scope;
 
 /// The module id for the signaling module

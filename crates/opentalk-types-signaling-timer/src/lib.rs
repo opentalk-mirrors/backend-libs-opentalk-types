@@ -30,7 +30,7 @@ mod timer_config;
 mod timer_id;
 
 pub use kind::Kind;
-use opentalk_types_common::modules::{module_id, ModuleId};
+use opentalk_types_common::modules::{ModuleId, module_id};
 pub use timer_config::TimerConfig;
 pub use timer_id::TimerId;
 

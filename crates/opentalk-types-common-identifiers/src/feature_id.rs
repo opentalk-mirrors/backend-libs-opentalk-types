@@ -6,7 +6,7 @@
 
 use std::str::FromStr;
 
-use snafu::{ensure, Snafu};
+use snafu::{Snafu, ensure};
 
 use crate::Identifier;
 
@@ -86,12 +86,12 @@ mod impl_utoipa {
 
     use serde_json::json;
     use utoipa::{
-        openapi::{ObjectBuilder, RefOr, Schema, Type},
         PartialSchema, ToSchema,
+        openapi::{ObjectBuilder, RefOr, Schema, Type},
     };
 
     use super::{
-        FeatureId, FEATURE_ID_MAX_LENGTH, FEATURE_ID_MIN_LENGTH, FEATURE_ID_SCHEMA_CHARS_REGEX,
+        FEATURE_ID_MAX_LENGTH, FEATURE_ID_MIN_LENGTH, FEATURE_ID_SCHEMA_CHARS_REGEX, FeatureId,
     };
 
     impl PartialSchema for FeatureId {

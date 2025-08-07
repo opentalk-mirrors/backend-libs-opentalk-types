@@ -7,5 +7,5 @@
 mod device_secret;
 mod token;
 
-pub use device_secret::{DeviceSecret, DEVICE_SECRET_MAX_LENGTH, DEVICE_SECRET_MIN_LENGTH};
+pub use device_secret::{DEVICE_SECRET_MAX_LENGTH, DEVICE_SECRET_MIN_LENGTH, DeviceSecret};
 pub use token::Token;

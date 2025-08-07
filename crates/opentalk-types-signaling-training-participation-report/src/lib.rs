@@ -24,7 +24,7 @@ pub mod command;
 pub mod event;
 pub mod state;
 
-use opentalk_types_common::modules::{module_id, ModuleId};
+use opentalk_types_common::modules::{ModuleId, module_id};
 
 /// The module id for the signaling module
 pub const MODULE_ID: ModuleId = module_id!("training_participation_report");
@@ -33,7 +33,7 @@ pub const MODULE_ID: ModuleId = module_id!("training_participation_report");
 mod tests {
     use pretty_assertions::assert_eq;
 
-    use crate::{module_id, MODULE_ID};
+    use crate::{MODULE_ID, module_id};
 
     #[test]
     fn verify_module_id() {

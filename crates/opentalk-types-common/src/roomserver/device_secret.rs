@@ -4,7 +4,7 @@
 
 use std::str::FromStr;
 
-use snafu::{ensure, Snafu};
+use snafu::{Snafu, ensure};
 
 use crate::utils::ExampleData;
 
@@ -40,11 +40,11 @@ mod impl_utoipa {
 
     use serde_json::json;
     use utoipa::{
-        openapi::{ObjectBuilder, RefOr, Schema, Type},
         PartialSchema, ToSchema,
+        openapi::{ObjectBuilder, RefOr, Schema, Type},
     };
 
-    use super::{DeviceSecret, DEVICE_SECRET_MAX_LENGTH, DEVICE_SECRET_MIN_LENGTH};
+    use super::{DEVICE_SECRET_MAX_LENGTH, DEVICE_SECRET_MIN_LENGTH, DeviceSecret};
     use crate::utils::ExampleData;
 
     impl PartialSchema for DeviceSecret {
@@ -81,7 +81,9 @@ impl std::fmt::Debug for DeviceSecret {
 }
 
 #[derive(Debug, Snafu)]
-#[snafu(display("device secret has an invalid length of {len}, it must be between {DEVICE_SECRET_MIN_LENGTH} and {DEVICE_SECRET_MAX_LENGTH}"))]
+#[snafu(display(
+    "device secret has an invalid length of {len}, it must be between {DEVICE_SECRET_MIN_LENGTH} and {DEVICE_SECRET_MAX_LENGTH}"
+))]
 pub struct InvalidDeviceSecretLength {
     len: usize,
 }

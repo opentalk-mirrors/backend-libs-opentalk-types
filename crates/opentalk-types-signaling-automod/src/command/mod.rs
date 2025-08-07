@@ -12,6 +12,6 @@ mod r#yield;
 
 pub use automod_command::AutomodCommand;
 pub use edit::Edit;
-pub use r#yield::Yield;
 pub use select::{Select, SelectSpecific};
 pub use start::Start;
+pub use r#yield::Yield;

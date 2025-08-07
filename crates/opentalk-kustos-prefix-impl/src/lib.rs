@@ -3,8 +3,8 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 use proc_macro::TokenStream;
+use proc_macro_crate::{FoundCrate, crate_name};
 use proc_macro2::Span;
-use proc_macro_crate::{crate_name, FoundCrate};
 use quote::quote;
 
 const ATTRIBUTE_NAME: &str = "kustos_prefix";

@@ -6,13 +6,13 @@
 authors.workspace = true
 description = "Common types and traits for OpenTalk crates"
 documentation = "https://docs.rs/opentalk-types-common"
-edition = "2021"
+edition = "2024"
 homepage.workspace = true
 license = "EUPL-1.2"
 name = "opentalk-types-common"
 publish = true
 repository.workspace = true
-version = "0.35.5"
+version = "0.36.0"
 
 [package.metadata.docs.rs]
 all-features = true

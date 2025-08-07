@@ -5,7 +5,7 @@
 use std::convert::TryFrom;
 
 use opentalk_types_signaling::ParticipantId;
-use snafu::{ensure, Snafu};
+use snafu::{Snafu, ensure};
 
 /// Minimum required number of participants.
 pub const MIN_PARTICIPANTS: usize = 1;

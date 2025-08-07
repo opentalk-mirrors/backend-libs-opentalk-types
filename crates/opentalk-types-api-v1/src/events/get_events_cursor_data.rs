@@ -33,8 +33,8 @@ mod impl_utoipa {
     use opentalk_types_common::utils::ExampleData as _;
     use serde_json::json;
     use utoipa::{
-        openapi::{ObjectBuilder, RefOr, Schema, Type},
         PartialSchema, ToSchema,
+        openapi::{ObjectBuilder, RefOr, Schema, Type},
     };
 
     use super::GetEventsCursorData;

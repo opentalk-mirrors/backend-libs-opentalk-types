@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 use opentalk_types_common::{
-    events::{invites::EventInviteStatus, EventDescription, EventId, EventTitle},
+    events::{EventDescription, EventId, EventTitle, invites::EventInviteStatus},
     shared_folders::SharedFolder,
     time::{DateTimeTz, Timestamp},
     training_participation_report::TrainingParticipationReportParameterSet,

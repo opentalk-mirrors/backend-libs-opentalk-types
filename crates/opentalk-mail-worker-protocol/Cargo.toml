@@ -6,13 +6,13 @@
 authors.workspace = true
 description = "Protocol datatypes for communicating mail tasks from OpenTalk Controller to OpenTalk Mailer"
 documentation = "https://docs.rs/opentalk-mail-worker-protocol"
-edition = "2021"
+edition = "2024"
 homepage.workspace = true
 license = "EUPL-1.2"
 name = "opentalk-mail-worker-protocol"
 publish = true
 repository.workspace = true
-version = "0.36.0"
+version = "0.37.0"
 
 [lints]
 workspace = true

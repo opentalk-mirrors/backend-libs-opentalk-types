@@ -41,8 +41,8 @@ mod impl_utoipa {
 
     use serde_json::json;
     use utoipa::{
-        openapi::{schema::AnyOf, ObjectBuilder, RefOr, Schema, Type},
         PartialSchema, ToSchema,
+        openapi::{ObjectBuilder, RefOr, Schema, Type, schema::AnyOf},
     };
 
     use super::QuotaType;
@@ -51,11 +51,13 @@ mod impl_utoipa {
     impl PartialSchema for QuotaType {
         fn schema() -> RefOr<Schema> {
             Schema::AnyOf(AnyOf {
-                items: vec![ObjectBuilder::new()
-                    .schema_type(Type::String)
-                    .description(Some("A quota type"))
-                    .examples([json!(QuotaType::example_data())])
-                    .into()],
+                items: vec![
+                    ObjectBuilder::new()
+                        .schema_type(Type::String)
+                        .description(Some("A quota type"))
+                        .examples([json!(QuotaType::example_data())])
+                        .into(),
+                ],
                 description: None,
                 example: Some(json!(Self::example_data())),
                 discriminator: None,

@@ -51,7 +51,7 @@ mod serde_tests {
     use serde_json::json;
 
     use super::*;
-    use crate::{state::StoredMessage, MessageId, Scope};
+    use crate::{MessageId, Scope, state::StoredMessage};
 
     #[test]
     fn server_message() {

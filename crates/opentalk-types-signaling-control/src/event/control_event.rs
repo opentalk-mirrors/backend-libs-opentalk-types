@@ -75,7 +75,7 @@ mod serde_tests {
     use chrono::DateTime;
     use opentalk_types_common::{
         events::{EventId, EventInfo},
-        modules::{module_id, ModuleId},
+        modules::{ModuleId, module_id},
         rooms::RoomId,
         tariffs::{TariffId, TariffResource},
         users::{UserInfo, UserTitle},

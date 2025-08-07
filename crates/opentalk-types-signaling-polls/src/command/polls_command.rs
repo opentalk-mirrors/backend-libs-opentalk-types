@@ -48,7 +48,7 @@ mod serde_tests {
     use serde_json::json;
 
     use super::*;
-    use crate::{command::Choices, ChoiceId, PollId};
+    use crate::{ChoiceId, PollId, command::Choices};
 
     #[test]
     fn start() {

@@ -5,7 +5,7 @@
 use std::str::FromStr;
 
 use itertools::Itertools as _;
-use snafu::{ensure, ResultExt as _, Snafu};
+use snafu::{ResultExt as _, Snafu, ensure};
 
 use crate::{
     time::{ParseRecurrenceRuleError, RecurrenceRule},
@@ -47,11 +47,11 @@ impl RecurrencePattern {
 mod impl_utoipa {
     use serde_json::json;
     use utoipa::{
-        openapi::{Ref, RefOr, Schema},
         PartialSchema, ToSchema,
+        openapi::{Ref, RefOr, Schema},
     };
 
-    use super::{RecurrencePattern, RECURRENCE_PATTERN_MAX_LEN};
+    use super::{RECURRENCE_PATTERN_MAX_LEN, RecurrencePattern};
     use crate::{time::RecurrenceRule, utils::ExampleData as _};
 
     impl PartialSchema for RecurrencePattern {

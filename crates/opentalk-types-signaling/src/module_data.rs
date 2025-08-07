@@ -5,7 +5,7 @@
 use std::collections::BTreeMap;
 
 use opentalk_types_common::{
-    modules::{module_id, ModuleId},
+    modules::{ModuleId, module_id},
     utils::ExampleData,
 };
 use serde::{Deserialize, Serialize};

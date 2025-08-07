@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-use opentalk_types_common::rooms::{invite_codes::InviteCode, RoomId};
+use opentalk_types_common::rooms::{RoomId, invite_codes::InviteCode};
 
 /// Path for *GET /rooms/{room_id}/invites/{invite_code}*
 #[derive(Clone, Debug, PartialEq, Eq)]

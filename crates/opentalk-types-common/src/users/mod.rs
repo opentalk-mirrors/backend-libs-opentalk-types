@@ -20,4 +20,4 @@ pub use language::Language;
 pub use theme::Theme;
 pub use user_id::UserId;
 pub use user_info::UserInfo;
-pub use user_title::{ParseUserTitleError, UserTitle, USER_TITLE_MAX_LENGTH};
+pub use user_title::{ParseUserTitleError, USER_TITLE_MAX_LENGTH, UserTitle};

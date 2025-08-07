@@ -25,7 +25,7 @@ pub mod config;
 pub mod event;
 pub mod state;
 
-pub use opentalk_types_common::modules::{module_id, ModuleId};
+pub use opentalk_types_common::modules::{ModuleId, module_id};
 
 /// The module id for the signaling module
 pub const MODULE_ID: ModuleId = module_id!("automod");

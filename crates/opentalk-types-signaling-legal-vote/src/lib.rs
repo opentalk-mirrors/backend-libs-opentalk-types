@@ -25,7 +25,7 @@ pub mod command;
 pub mod event;
 pub mod state;
 pub mod token;
-pub use opentalk_types_common::modules::{module_id, ModuleId};
+pub use opentalk_types_common::modules::{ModuleId, module_id};
 pub mod invalid;
 pub mod issue;
 pub mod parameters;

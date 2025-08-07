@@ -12,8 +12,8 @@ mod timestamp;
 
 pub use date_time_tz::DateTimeTz;
 pub use recurrence_pattern::{
-    RecurrencePattern, TryFromRecurrenceRulesError, RECURRENCE_PATTERN_MAX_LEN,
+    RECURRENCE_PATTERN_MAX_LEN, RecurrencePattern, TryFromRecurrenceRulesError,
 };
-pub use recurrence_rule::{ParseRecurrenceRuleError, RecurrenceRule, RECURRENCE_RULE_MAX_LEN};
+pub use recurrence_rule::{ParseRecurrenceRuleError, RECURRENCE_RULE_MAX_LEN, RecurrenceRule};
 pub use time_zone::TimeZone;
 pub use timestamp::Timestamp;

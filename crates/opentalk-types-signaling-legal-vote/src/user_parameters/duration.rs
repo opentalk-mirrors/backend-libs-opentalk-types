@@ -4,7 +4,7 @@
 
 use std::convert::TryFrom;
 
-use snafu::{ensure, Snafu};
+use snafu::{Snafu, ensure};
 
 /// Minimum allowed length for a [`Duration`].
 pub const MIN_DURATION_LENGTH: u64 = 5;

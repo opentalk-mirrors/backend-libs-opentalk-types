@@ -97,7 +97,7 @@ impl ModulePeerData {
 
 #[cfg(test)]
 mod tests {
-    use opentalk_types_common::modules::{module_id, ModuleId};
+    use opentalk_types_common::modules::{ModuleId, module_id};
     use serde::{Deserialize, Serialize};
 
     // NOTE: Clippy is not understanding that the import is necessary

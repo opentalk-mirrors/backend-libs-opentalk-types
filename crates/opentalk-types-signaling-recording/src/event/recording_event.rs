@@ -3,8 +3,8 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 use crate::{
-    event::{Error, RecorderError},
     StreamUpdated,
+    event::{Error, RecorderError},
 };
 
 /// Events sent out by the `recording` module

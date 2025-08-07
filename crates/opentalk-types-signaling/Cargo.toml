@@ -6,13 +6,13 @@
 authors.workspace = true
 description = "Signaling types and traits for OpenTalk"
 documentation = "https://docs.rs/opentalk-types-signaling"
-edition = "2021"
+edition = "2024"
 homepage.workspace = true
 license = "EUPL-1.2"
 name = "opentalk-types-signaling"
 publish = true
 repository.workspace = true
-version = "0.37.0"
+version = "0.38.0"
 
 [package.metadata.docs.rs]
 all-features = true

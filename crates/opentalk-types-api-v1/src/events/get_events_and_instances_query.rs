@@ -6,7 +6,7 @@
 use opentalk_types_common::utils::comma_separated;
 use opentalk_types_common::{events::invites::EventInviteStatus, time::Timestamp};
 
-use crate::{events::GetEventsAndInstancesCursorData, Cursor};
+use crate::{Cursor, events::GetEventsAndInstancesCursorData};
 
 /// Path query parameters of the `GET /events/instances` endpoint
 ///

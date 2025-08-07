@@ -13,7 +13,7 @@ pub struct EventAndInstanceId(pub EventId, pub InstanceId);
 #[cfg(feature = "serde")]
 mod serde_impls {
     use chrono::{DateTime, Utc};
-    use serde::{de::Error, Deserialize, Deserializer, Serialize, Serializer};
+    use serde::{Deserialize, Deserializer, Serialize, Serializer, de::Error};
 
     use super::*;
 
@@ -64,8 +64,8 @@ impl ExampleData for EventAndInstanceId {
 mod impl_utoipa {
     use serde_json::json;
     use utoipa::{
-        openapi::{ObjectBuilder, RefOr, Schema, Type},
         PartialSchema, ToSchema,
+        openapi::{ObjectBuilder, RefOr, Schema, Type},
     };
 
     use super::{EventAndInstanceId, ExampleData as _};

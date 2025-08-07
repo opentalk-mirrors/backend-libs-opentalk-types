@@ -3,9 +3,9 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 use super::{
-    error::Error, participants_invited::ParticipantsInvited, whisper_accepted::WhisperAccepted,
-    whisper_participant_info::WhisperParticipantInfo, whisper_token::WhisperToken,
-    WhisperGroupOutgoing, WhisperInvite,
+    WhisperGroupOutgoing, WhisperInvite, error::Error, participants_invited::ParticipantsInvited,
+    whisper_accepted::WhisperAccepted, whisper_participant_info::WhisperParticipantInfo,
+    whisper_token::WhisperToken,
 };
 use crate::whisper_id::WhisperId;
 

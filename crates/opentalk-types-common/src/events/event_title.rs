@@ -4,7 +4,7 @@
 
 use std::str::FromStr;
 
-use snafu::{ensure, Snafu};
+use snafu::{Snafu, ensure};
 
 use crate::utils::ExampleData;
 
@@ -53,11 +53,7 @@ impl EventTitle {
         }
 
         fn to_valid_char(c: char) -> char {
-            if is_allowed_char(c) {
-                c
-            } else {
-                '_'
-            }
+            if is_allowed_char(c) { c } else { '_' }
         }
 
         self.0.chars().take(max_length).map(to_valid_char).collect()
@@ -73,11 +69,11 @@ mod impl_utoipa {
 
     use serde_json::json;
     use utoipa::{
-        openapi::{ObjectBuilder, RefOr, Schema, Type},
         PartialSchema, ToSchema,
+        openapi::{ObjectBuilder, RefOr, Schema, Type},
     };
 
-    use super::{EventTitle, EVENT_TITLE_MAX_LENGTH};
+    use super::{EVENT_TITLE_MAX_LENGTH, EventTitle};
     use crate::utils::ExampleData as _;
 
     impl PartialSchema for EventTitle {

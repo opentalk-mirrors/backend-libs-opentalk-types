@@ -6,13 +6,13 @@
 authors.workspace = true
 description = "Signaling types for the OpenTalk automod module"
 documentation = "https://docs.rs/opentalk-types-signaling-automod"
-edition = "2021"
+edition = "2024"
 homepage.workspace = true
 license = "EUPL-1.2"
 name = "opentalk-types-signaling-automod"
 publish = true
 repository.workspace = true
-version = "0.6.1"
+version = "0.7.0"
 
 [package.metadata.docs.rs]
 all-features = true

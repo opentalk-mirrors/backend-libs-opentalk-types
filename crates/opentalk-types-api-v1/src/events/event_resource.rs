@@ -4,7 +4,7 @@
 
 use chrono::{TimeZone as _, Utc};
 use opentalk_types_common::{
-    events::{invites::EventInviteStatus, EventDescription, EventId, EventTitle},
+    events::{EventDescription, EventId, EventTitle, invites::EventInviteStatus},
     shared_folders::SharedFolder,
     streaming::RoomStreamingTarget,
     time::{DateTimeTz, RecurrencePattern, Timestamp},

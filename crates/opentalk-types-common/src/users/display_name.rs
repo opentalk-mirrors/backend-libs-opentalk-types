@@ -5,7 +5,7 @@
 use std::str::FromStr;
 
 use itertools::Itertools as _;
-use snafu::{ensure, Snafu};
+use snafu::{Snafu, ensure};
 
 use crate::utils::ExampleData;
 
@@ -86,11 +86,11 @@ mod impl_to_schema {
 
     use serde_json::json;
     use utoipa::{
-        openapi::{ObjectBuilder, RefOr, Schema, Type},
         PartialSchema, ToSchema,
+        openapi::{ObjectBuilder, RefOr, Schema, Type},
     };
 
-    use super::{DisplayName, DISPLAY_NAME_MAX_LENGTH};
+    use super::{DISPLAY_NAME_MAX_LENGTH, DisplayName};
     use crate::utils::ExampleData as _;
 
     impl PartialSchema for DisplayName {

@@ -92,11 +92,11 @@ impl FromStr for FileExtension {
 mod impl_utoipa {
     use serde_json::json;
     use utoipa::{
-        openapi::{ObjectBuilder, RefOr, Schema, Type},
         PartialSchema, ToSchema,
+        openapi::{ObjectBuilder, RefOr, Schema, Type},
     };
 
-    use super::{FileExtension, FILE_EXTENSION_MAX_LENGTH};
+    use super::{FILE_EXTENSION_MAX_LENGTH, FileExtension};
     use crate::utils::ExampleData;
 
     impl PartialSchema for FileExtension {

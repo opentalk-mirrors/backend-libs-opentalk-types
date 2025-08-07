@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-use opentalk_types_common::modules::{module_id, ModuleId};
+use opentalk_types_common::modules::{ModuleId, module_id};
 
 /// The namespace string for the waiting room state
 pub const MODULE_ID: ModuleId = module_id!("waiting_room_state");

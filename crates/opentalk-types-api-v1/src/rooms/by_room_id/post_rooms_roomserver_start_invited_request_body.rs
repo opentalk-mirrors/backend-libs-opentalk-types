@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 use opentalk_types_common::{
-    rooms::{invite_codes::InviteCode, RoomPassword},
+    rooms::{RoomPassword, invite_codes::InviteCode},
     roomserver::DeviceSecret,
     users::DisplayName,
     utils::ExampleData,

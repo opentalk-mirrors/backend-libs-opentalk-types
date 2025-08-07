@@ -6,13 +6,13 @@
 authors.workspace = true
 description = "Macros for opentalk-types-common"
 documentation = "https://docs.rs/opentalk-types-common-macros"
-edition = "2021"
+edition = "2024"
 homepage.workspace = true
 license = "EUPL-1.2"
 name = "opentalk-types-common-macros"
 publish = true
 repository.workspace = true
-version = "0.31.2"
+version = "0.32.0"
 
 [lib]
 proc-macro = true

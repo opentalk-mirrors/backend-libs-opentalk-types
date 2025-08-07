@@ -44,7 +44,7 @@ mod serde_tests {
     use serde_json::json;
 
     use super::*;
-    use crate::{command::Kind, TimerId};
+    use crate::{TimerId, command::Kind};
 
     #[test]
     fn countdown_start() {
