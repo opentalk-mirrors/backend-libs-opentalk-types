@@ -29,7 +29,7 @@ actix = [
   "http",
   "serde",
 ]
-axum = ["dep:axum"]
+axum = ["dep:axum", "dep:serde_json", "serde"]
 backend = ["diesel", "http", "opentalk-types-common/backend", "serde", "utoipa"]
 bincode = ["dep:bincode"]
 diesel = ["opentalk-types-common/diesel"]
