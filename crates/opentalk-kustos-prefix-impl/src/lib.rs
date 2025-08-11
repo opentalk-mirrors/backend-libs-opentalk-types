@@ -64,16 +64,16 @@ fn try_derive_kustos_prefix(ast: syn::DeriveInput) -> Result<TokenStream, syn::E
 fn get_prefix_from_attributes(attrs: &[syn::Attribute]) -> Result<syn::LitStr, syn::Error> {
     let mut found_attr = None;
     for attr in attrs {
-        if let Some(segment) = attr.path().segments.iter().next() {
-            if segment.ident == ATTRIBUTE_NAME {
-                if found_attr.is_some() {
-                    return Err(syn::Error::new(
-                        Span::call_site(),
-                        format!("Multiple #[{ATTRIBUTE_NAME}(...)] found"),
-                    ));
-                } else {
-                    found_attr = Some(attr);
-                }
+        if let Some(segment) = attr.path().segments.iter().next()
+            && segment.ident == ATTRIBUTE_NAME
+        {
+            if found_attr.is_some() {
+                return Err(syn::Error::new(
+                    Span::call_site(),
+                    format!("Multiple #[{ATTRIBUTE_NAME}(...)] found"),
+                ));
+            } else {
+                found_attr = Some(attr);
             }
         }
     }
