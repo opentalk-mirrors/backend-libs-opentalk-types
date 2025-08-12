@@ -17,6 +17,11 @@ use crate::{
 #[derive(Clone, Debug, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(
+    feature = "redis",
+    derive(redis_args::ToRedisArgs, redis_args::FromRedisValue)
+)]
+#[cfg_attr(feature = "redis", to_redis_args(serde), from_redis_value(serde))]
+#[cfg_attr(
     feature = "utoipa",
     derive(utoipa::ToSchema),
     schema(example = json!(TariffResource::example_data())),
