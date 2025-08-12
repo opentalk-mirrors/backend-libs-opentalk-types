@@ -53,6 +53,11 @@ impl TariffResource {
     pub fn module_features(&self, module: &ModuleId) -> Option<&BTreeSet<FeatureId>> {
         self.modules.get(module).map(|m| &m.features)
     }
+
+    /// Get a quota value. Returns [`None`] if the quota is not set.
+    pub fn quota(&self, quota: &QuotaType) -> Option<u64> {
+        self.quotas.get(quota).copied()
+    }
 }
 
 impl ExampleData for TariffResource {
