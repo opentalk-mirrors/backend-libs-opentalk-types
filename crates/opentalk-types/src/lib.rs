@@ -182,6 +182,8 @@ pub mod signaling {
     pub use opentalk_types_signaling_timer as timer;
     #[cfg(feature = "signaling-training-participation-report")]
     pub use opentalk_types_signaling_training_participation_report as training_participation_report;
+    #[cfg(feature = "signaling-transcription")]
+    pub use opentalk_types_signaling_transcription as transcription;
     #[cfg(feature = "signaling-whiteboard")]
     pub use opentalk_types_signaling_whiteboard as whiteboard;
 }

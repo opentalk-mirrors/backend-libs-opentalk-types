@@ -1504,7 +1504,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types"
-version = "0.47.0"
+version = "0.47.1"
 dependencies = [
  "opentalk-types-api-v1",
  "opentalk-types-common",
@@ -1526,6 +1526,7 @@ dependencies = [
  "opentalk-types-signaling-subroom-audio",
  "opentalk-types-signaling-timer",
  "opentalk-types-signaling-training-participation-report",
+ "opentalk-types-signaling-transcription",
  "opentalk-types-signaling-whiteboard",
 ]
 
@@ -1836,6 +1837,15 @@ dependencies = [
  "pretty_assertions",
  "serde",
  "serde_json",
+]
+
+[[package]]
+name = "opentalk-types-signaling-transcription"
+version = "0.1.0"
+dependencies = [
+ "opentalk-types-common",
+ "opentalk-types-signaling",
+ "serde",
 ]
 
 [[package]]

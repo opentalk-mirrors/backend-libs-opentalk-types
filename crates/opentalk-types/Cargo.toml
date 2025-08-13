@@ -12,7 +12,7 @@ license = "EUPL-1.2"
 name = "opentalk-types"
 publish = true
 repository.workspace = true
-version = "0.47.0"
+version = "0.47.1"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -50,6 +50,7 @@ backend = [
   "opentalk-types-signaling-subroom-audio?/backend",
   "opentalk-types-signaling-timer?/backend",
   "opentalk-types-signaling-training-participation-report?/backend",
+  "opentalk-types-signaling-transcription?/backend",
   "opentalk-types-signaling-whiteboard?/backend",
   "opentalk-types-signaling?/backend",
 ]
@@ -119,6 +120,7 @@ serde = [
   "opentalk-types-signaling-subroom-audio?/serde",
   "opentalk-types-signaling-timer?/serde",
   "opentalk-types-signaling-training-participation-report?/serde",
+  "opentalk-types-signaling-transcription?/serde",
   "opentalk-types-signaling-whiteboard?/serde",
   "opentalk-types-signaling?/serde",
 ]
@@ -149,6 +151,7 @@ signaling-all = [
   "signaling-subroom-audio",
   "signaling-timer",
   "signaling-training-participation-report",
+  "signaling-transcription",
   "signaling-whiteboard",
 ]
 signaling-automod = ["dep:opentalk-types-signaling-automod", "signaling"]
@@ -186,6 +189,10 @@ signaling-training-participation-report = [
   "dep:opentalk-types-signaling-training-participation-report",
   "signaling",
 ]
+signaling-transcription = [
+  "dep:opentalk-types-signaling-transcription",
+  "signaling",
+]
 signaling-whiteboard = ["dep:opentalk-types-signaling-whiteboard", "signaling"]
 
 
@@ -210,4 +217,5 @@ opentalk-types-signaling-shared-folder = { workspace = true, optional = true }
 opentalk-types-signaling-subroom-audio = { workspace = true, optional = true }
 opentalk-types-signaling-timer = { workspace = true, optional = true }
 opentalk-types-signaling-training-participation-report = { workspace = true, optional = true }
+opentalk-types-signaling-transcription = { workspace = true, optional = true }
 opentalk-types-signaling-whiteboard = { workspace = true, optional = true }
