@@ -90,6 +90,14 @@ impl ModuleData {
         self.remove::<T>();
         Ok(entry)
     }
+
+    /// Retains only the entries specified by the predicate
+    pub fn retain<F>(&mut self, f: F)
+    where
+        F: FnMut(&ModuleId, &mut serde_json::Value) -> bool,
+    {
+        self.0.retain(f);
+    }
 }
 
 impl ExampleData for ModuleData {
