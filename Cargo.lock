@@ -1617,7 +1617,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling"
-version = "0.38.0"
+version = "0.38.1"
 dependencies = [
  "derive_more",
  "opentalk-types-common",
