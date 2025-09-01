@@ -13,7 +13,13 @@
 )]
 pub enum TranscriptionCommand {
     /// Start transcribing
-    Start,
+    Start {
+        /// Target language of the transcription, specified as a two-letter language code (e.g., `de`, `en`).
+        ///
+        /// Set to `None` for auto-detection.
+        language: Option<String>,
+    },
+
     /// Stop transcribing
     Stop,
 }
