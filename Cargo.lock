@@ -1512,7 +1512,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types"
-version = "0.47.1"
+version = "0.48.0"
 dependencies = [
  "opentalk-types-api-v1",
  "opentalk-types-common",
