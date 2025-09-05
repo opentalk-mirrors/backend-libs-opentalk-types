@@ -27,6 +27,7 @@ pub mod event;
 pub mod http;
 pub mod segment;
 pub mod service;
+pub mod state;
 
 /// The namespace string for the signaling module
 pub const MODULE_ID: ModuleId = module_id!("transcription");
