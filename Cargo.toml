@@ -39,7 +39,7 @@ opentalk-types-signaling-shared-folder = { path = "crates/opentalk-types-signali
 opentalk-types-signaling-subroom-audio = { path = "crates/opentalk-types-signaling-subroom-audio", version = "0.37.0" }
 opentalk-types-signaling-timer = { path = "crates/opentalk-types-signaling-timer", version = "0.37.0" }
 opentalk-types-signaling-training-participation-report = { path = "crates/opentalk-types-signaling-training-participation-report", version = "0.8.0" }
-opentalk-types-signaling-transcription = { path = "crates/opentalk-types-signaling-transcription", version = "0.2.1" }
+opentalk-types-signaling-transcription = { path = "crates/opentalk-types-signaling-transcription", version = "0.2.2" }
 opentalk-types-signaling-whiteboard = { path = "crates/opentalk-types-signaling-whiteboard", version = "0.37.0" }
 
 actix-http = "3"
