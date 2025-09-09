@@ -11,8 +11,3 @@
 mod page_pagination_query;
 
 pub use page_pagination_query::PagePaginationQuery;
-
-/// The number of entries per page when using pagination
-pub const fn default_pagination_per_page() -> i64 {
-    30
-}

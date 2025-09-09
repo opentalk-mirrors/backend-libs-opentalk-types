@@ -129,3 +129,88 @@ impl ExampleData for FileSize {
         Self(17)
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use pretty_assertions::{assert_eq, assert_matches};
+
+    use super::{FileSize, MAX_VALUE, TryFromFileSizeError};
+
+    #[test]
+    fn saturating_add() {
+        assert_eq!(
+            FileSize::from(5423).saturating_add(FileSize::from(3)),
+            FileSize::from(5426)
+        );
+        assert_eq!(
+            FileSize::MAX.saturating_add(FileSize::from(3)),
+            FileSize::MAX
+        );
+    }
+
+    #[test]
+    fn try_from() {
+        assert_eq!(FileSize::try_from(0usize).unwrap(), FileSize::ZERO);
+        assert_eq!(FileSize::try_from(0i64).unwrap(), FileSize::ZERO);
+        assert_eq!(FileSize::try_from(0u64).unwrap(), FileSize::ZERO);
+
+        assert_eq!(FileSize::try_from(14usize).unwrap(), FileSize(14));
+        assert_eq!(FileSize::try_from(16i64).unwrap(), FileSize(16));
+        assert_eq!(FileSize::try_from(18u64).unwrap(), FileSize(18));
+
+        assert_matches!(
+            FileSize::try_from(-42i64),
+            Err(TryFromFileSizeError::ValueNegative)
+        );
+        assert_matches!(
+            FileSize::try_from((i64::MAX as usize) + 1),
+            Err(TryFromFileSizeError::ValueTooLarge {
+                file_size_max: MAX_VALUE
+            })
+        );
+        assert_matches!(
+            FileSize::try_from((i64::MAX as u64) + 1),
+            Err(TryFromFileSizeError::ValueTooLarge {
+                file_size_max: MAX_VALUE
+            })
+        );
+    }
+
+    #[test]
+    fn from_u32() {
+        assert_eq!(FileSize::from(0u32), FileSize::ZERO);
+        assert_eq!(FileSize::from(42u32), FileSize(42));
+    }
+}
+
+#[cfg(all(test, feature = "serde"))]
+mod serde_tests {
+    use pretty_assertions::assert_eq;
+    use serde_json::json;
+
+    use super::FileSize;
+
+    #[test]
+    fn serialize_default() {
+        let example = FileSize::default();
+        assert_eq!(json!(example), json!(0));
+    }
+
+    #[test]
+    fn serialize() {
+        let example = FileSize::from(423);
+        assert_eq!(json!(example), json!(423));
+    }
+
+    #[test]
+    fn deserialize_default() {
+        let example = FileSize::default();
+        assert_eq!(example, serde_json::from_value(json!(0)).unwrap());
+    }
+
+    #[test]
+    fn deserialize() {
+        let example = FileSize::from(64);
+        assert_eq!(example, serde_json::from_value(json!(64)).unwrap());
+    }
+}

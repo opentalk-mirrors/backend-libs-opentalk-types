@@ -4,69 +4,20 @@
 
 //! Pagination Query types
 
+use opentalk_types_common::pagination::{Page, PageSize};
+
 /// Page-based pagination query
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "utoipa", derive(utoipa::IntoParams, utoipa::ToSchema))]
 pub struct PagePaginationQuery {
     /// The number of entries per page
-    #[cfg_attr(
-        feature = "serde",
-        serde(
-            default = "super::default_pagination_per_page",
-            deserialize_with = "deserialize_pagination_per_page"
-        )
-    )]
-    pub per_page: i64,
+    #[cfg_attr(feature = "serde", serde(default))]
+    pub per_page: PageSize,
 
     /// The number of the page
-    #[cfg_attr(
-        feature = "serde",
-        serde(
-            default = "default_pagination_page",
-            deserialize_with = "deserialize_pagination_page"
-        )
-    )]
-    pub page: i64,
-}
-
-/// Enforce the per_page setting to be <=100 and >0
-#[cfg(feature = "serde")]
-fn deserialize_pagination_per_page<'de, D>(deserializer: D) -> Result<i64, D::Error>
-where
-    D: serde::Deserializer<'de>,
-{
-    use serde::Deserialize as _;
-
-    let per_page = i64::deserialize(deserializer)?;
-    if per_page <= 100 && per_page > 0 {
-        Ok(per_page)
-    } else if per_page <= 0 {
-        Err(serde::de::Error::custom("per_page <= 0"))
-    } else {
-        Err(serde::de::Error::custom("per_page too large"))
-    }
-}
-
-#[cfg(feature = "serde")]
-const fn default_pagination_page() -> i64 {
-    1
-}
-
-/// Enforce the page setting to be >0
-#[cfg(feature = "serde")]
-fn deserialize_pagination_page<'de, D>(deserializer: D) -> Result<i64, D::Error>
-where
-    D: serde::Deserializer<'de>,
-{
-    use serde::Deserialize as _;
-
-    let page = i64::deserialize(deserializer)?;
-    if page > 0 {
-        Ok(page)
-    } else {
-        Err(serde::de::Error::custom("page must be greater than 0"))
-    }
+    #[cfg_attr(feature = "serde", serde(default,))]
+    pub page: Page,
 }
 
 #[cfg(all(test, feature = "serde"))]
@@ -78,8 +29,8 @@ mod tests {
     #[test]
     fn pagination_query() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
         let paging = PagePaginationQuery {
-            per_page: 12,
-            page: 2,
+            per_page: 12.try_into().unwrap(),
+            page: 2i64.try_into().unwrap(),
         };
 
         let paging_urlencoded = "per_page=12&page=2";
@@ -99,27 +50,30 @@ mod tests {
 
         assert_eq!(
             serde_urlencoded::from_str::<PagePaginationQuery>("per_page=12&page=-2"),
-            Err(serde_urlencoded::de::Error::custom(
-                "page must be greater than 0"
-            )),
+            Err(serde_urlencoded::de::Error::custom(format!(
+                "Page number is outside the allowed range (1..={})",
+                i64::MAX
+            ))),
         );
         assert_eq!(
             serde_urlencoded::from_str::<PagePaginationQuery>("per_page=-12&page=2"),
-            Err(serde_urlencoded::de::Error::custom("per_page <= 0")),
+            Err(serde_urlencoded::de::Error::custom(
+                "Page size is outside the allowed range (1..=100)"
+            )),
         );
         assert_eq!(
             serde_urlencoded::from_str::<PagePaginationQuery>("per_page=101&page=2"),
-            Err(serde_urlencoded::de::Error::custom("per_page too large")),
+            Err(serde_urlencoded::de::Error::custom(
+                "Page size is outside the allowed range (1..=100)"
+            )),
         );
     }
 
     #[test]
     fn default_values() {
-        use crate::pagination::default_pagination_per_page;
-
         let default_page = PagePaginationQuery {
-            per_page: 12,
-            page: default_pagination_page(),
+            per_page: 12.try_into().unwrap(),
+            page: Page::default(),
         };
 
         assert_eq!(
@@ -128,8 +82,8 @@ mod tests {
         );
 
         let default_per_page = PagePaginationQuery {
-            per_page: default_pagination_per_page(),
-            page: 13,
+            per_page: PageSize::default(),
+            page: 13i64.try_into().unwrap(),
         };
 
         assert_eq!(
@@ -138,8 +92,8 @@ mod tests {
         );
 
         let default_query = PagePaginationQuery {
-            per_page: default_pagination_per_page(),
-            page: default_pagination_page(),
+            per_page: PageSize::default(),
+            page: Page::default(),
         };
         assert_eq!(
             Ok(default_query),

@@ -54,3 +54,43 @@ impl ExampleData for AssetResource {
         }
     }
 }
+
+#[cfg(all(test, feature = "serde"))]
+mod serde_tests {
+    use opentalk_types_common::{assets::AssetId, utils::ExampleData as _};
+    use pretty_assertions::assert_eq;
+    use serde_json::json;
+
+    use super::AssetResource;
+
+    #[test]
+    fn serialize_example_data() {
+        let example = AssetResource::example_data();
+        assert_eq!(
+            json!(example),
+            json!({"id": AssetId::example_data(),
+                "filename": "recording.webm",
+                "namespace": "recording",
+                "created_at": "2024-06-18T11:22:33Z",
+                "kind":"record",
+                "size":98765432
+            })
+        );
+    }
+
+    #[test]
+    fn deserialize_example_data() {
+        let example = AssetResource::example_data();
+        assert_eq!(
+            example,
+            serde_json::from_value(json!({"id": AssetId::example_data(),
+                "filename": "recording.webm",
+                "namespace": "recording",
+                "created_at": "2024-06-18T11:22:33Z",
+                "kind":"record",
+                "size":98765432
+            }))
+            .unwrap()
+        );
+    }
+}
