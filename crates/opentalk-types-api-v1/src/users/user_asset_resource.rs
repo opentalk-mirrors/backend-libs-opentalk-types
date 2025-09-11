@@ -73,7 +73,7 @@ mod serde_tests {
                 namespace: Some("legal_vote".parse()?),
                 kind: "protocol_pdf".to_string(),
                 filename: "vote_protocol_2023-09something.pdf".to_string(),
-                size: 230423,
+                size: 230423.into(),
             },
             room_id: RoomId::from_u128(0xe693fdc6_2b4d_4623_a423_a191675908d7),
             event_id: Some(EventId::from_u128(0x660bc9f5_58a4_46a4_9621_23743c70e3b4)),

@@ -34,6 +34,7 @@ pub mod features;
 pub mod module_resources;
 pub mod modules;
 pub mod order;
+pub mod pagination;
 pub mod rooms;
 pub mod roomserver;
 pub mod shared_folders;

@@ -3,7 +3,11 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 use chrono::{DateTime, TimeZone as _, Utc};
-use opentalk_types_common::{assets::AssetId, modules::ModuleId, utils::ExampleData};
+use opentalk_types_common::{
+    assets::{AssetId, FileSize},
+    modules::ModuleId,
+    utils::ExampleData,
+};
 
 /// Representation of an asset resource
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -35,7 +39,7 @@ pub struct AssetResource {
     pub kind: String,
 
     /// The size of the asset in bytes
-    pub size: i64,
+    pub size: FileSize,
 }
 
 impl ExampleData for AssetResource {
@@ -46,7 +50,47 @@ impl ExampleData for AssetResource {
             namespace: Some("recording".parse().expect("valid module id")),
             created_at: Utc.with_ymd_and_hms(2024, 6, 18, 11, 22, 33).unwrap(),
             kind: "record".to_string(),
-            size: 98765432,
+            size: 98765432.into(),
         }
+    }
+}
+
+#[cfg(all(test, feature = "serde"))]
+mod serde_tests {
+    use opentalk_types_common::{assets::AssetId, utils::ExampleData as _};
+    use pretty_assertions::assert_eq;
+    use serde_json::json;
+
+    use super::AssetResource;
+
+    #[test]
+    fn serialize_example_data() {
+        let example = AssetResource::example_data();
+        assert_eq!(
+            json!(example),
+            json!({"id": AssetId::example_data(),
+                "filename": "recording.webm",
+                "namespace": "recording",
+                "created_at": "2024-06-18T11:22:33Z",
+                "kind":"record",
+                "size":98765432
+            })
+        );
+    }
+
+    #[test]
+    fn deserialize_example_data() {
+        let example = AssetResource::example_data();
+        assert_eq!(
+            example,
+            serde_json::from_value(json!({"id": AssetId::example_data(),
+                "filename": "recording.webm",
+                "namespace": "recording",
+                "created_at": "2024-06-18T11:22:33Z",
+                "kind":"record",
+                "size":98765432
+            }))
+            .unwrap()
+        );
     }
 }

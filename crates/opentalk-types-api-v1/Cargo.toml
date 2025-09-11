@@ -80,12 +80,6 @@ utoipa = { workspace = true, features = [
   "uuid",
 ], optional = true }
 
-[package.metadata.cargo-machete]
-ignored = [
-  # Required by `utoipa::ToSchema`, not detected by compiler
-  "serde_json",
-]
-
 [dev-dependencies]
 pretty_assertions.workspace = true
 serde_json.workspace = true
