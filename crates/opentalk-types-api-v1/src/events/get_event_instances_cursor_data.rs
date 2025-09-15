@@ -31,7 +31,7 @@ mod impl_utoipa {
     };
 
     use super::GetEventInstancesCursorData;
-    use crate::Cursor;
+    use crate::pagination::Cursor;
 
     impl PartialSchema for GetEventInstancesCursorData {
         fn schema() -> RefOr<Schema> {

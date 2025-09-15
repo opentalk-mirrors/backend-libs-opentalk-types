@@ -28,7 +28,3 @@ pub mod pagination;
 pub mod rooms;
 pub mod services;
 pub mod users;
-
-mod cursor;
-
-pub use cursor::Cursor;

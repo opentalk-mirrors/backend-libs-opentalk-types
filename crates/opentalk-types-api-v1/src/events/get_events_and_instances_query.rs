@@ -10,7 +10,7 @@ use opentalk_types_common::{
     time::Timestamp,
 };
 
-use crate::{Cursor, events::GetEventsAndInstancesCursorData};
+use crate::{events::GetEventsAndInstancesCursorData, pagination::Cursor};
 
 /// Path query parameters of the `GET /events/instances` endpoint
 ///
@@ -102,7 +102,7 @@ mod serde_tests {
     use serde_json::json;
 
     use super::GetEventsAndInstancesQuery;
-    use crate::{Cursor, events::GetEventsAndInstancesCursorData};
+    use crate::{events::GetEventsAndInstancesCursorData, pagination::Cursor};
 
     fn example_cursor_data() -> GetEventsAndInstancesCursorData {
         GetEventsAndInstancesCursorData::example_data()

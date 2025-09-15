@@ -8,7 +8,7 @@ use opentalk_types_common::{
 };
 
 use super::GetEventInstancesCursorData;
-use crate::Cursor;
+use crate::pagination::Cursor;
 
 /// Query parameters for the `GET /events/{event_id}/instances` endpoint
 #[derive(Default, Debug, Clone, PartialEq, Eq)]
@@ -45,7 +45,7 @@ mod serde_tests {
     use serde_json::json;
 
     use super::GetEventInstancesQuery;
-    use crate::{Cursor, events::GetEventInstancesCursorData};
+    use crate::{events::GetEventInstancesCursorData, pagination::Cursor};
 
     #[test]
     fn serialize_default() {
