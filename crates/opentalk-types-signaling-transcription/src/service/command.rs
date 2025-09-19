@@ -14,6 +14,12 @@ use crate::segment::Segment;
     serde(rename_all = "snake_case", tag = "action")
 )]
 pub enum TranscriptionServiceCommand {
+    /// Tell the controller that the service has started transcribing
+    Started,
+
+    /// Tell the controller that the service has stopped transcribing
+    Stopped,
+
     /// Send a new segment
     Segment(Segment),
 }
