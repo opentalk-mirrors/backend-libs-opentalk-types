@@ -1856,7 +1856,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling-transcription"
-version = "0.2.2"
+version = "0.3.0"
 dependencies = [
  "opentalk-types-common",
  "opentalk-types-signaling",
