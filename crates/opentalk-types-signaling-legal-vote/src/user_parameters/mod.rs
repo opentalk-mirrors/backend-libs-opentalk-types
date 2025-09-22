@@ -74,11 +74,6 @@ mod serde_tests {
 
     use super::*;
 
-    #[derive(Debug, PartialEq, serde::Serialize, serde::Deserialize)]
-    struct TestStruct {
-        duration: Duration,
-    }
-
     #[test]
     fn serialization() {
         let produced = serde_json::to_value(UserParameters {
