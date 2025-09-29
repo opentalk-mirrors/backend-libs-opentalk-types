@@ -34,6 +34,11 @@ impl ModuleResourceId {
         Self(Uuid::from_u128(id))
     }
 
+    /// Create a module resource id from a [`Uuid`]
+    pub const fn from_uuid(id: Uuid) -> Self {
+        Self(id)
+    }
+
     /// Generate a new random module resource id
     #[cfg(feature = "rand")]
     pub fn generate() -> Self {
