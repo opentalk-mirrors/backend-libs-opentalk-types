@@ -23,9 +23,8 @@
 pub mod assets;
 pub mod auth;
 pub mod events;
-pub mod pagination;
 pub mod rooms;
 pub mod services;
 pub mod users;
 
-pub use opentalk_types_api_common::error;
+pub use opentalk_types_api_common::{error, pagination};

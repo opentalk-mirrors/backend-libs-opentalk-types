@@ -30,7 +30,7 @@ backend = [
   "serde",
   "utoipa",
 ]
-bincode = ["dep:bincode", "opentalk-types-api-common/bincode"]
+bincode = ["opentalk-types-api-common/bincode"]
 diesel = ["opentalk-types-common/diesel"]
 frontend = [
   "opentalk-types-api-common/frontend",
@@ -40,10 +40,8 @@ frontend = [
 http = ["opentalk-types-api-common/http"]
 serde = [
   "bincode",
-  "bincode/serde",
   "chrono-tz/serde",
   "chrono/serde",
-  "dep:base64",
   "dep:serde",
   "dep:serde_with",
   "opentalk-types-api-common/serde",
@@ -58,8 +56,6 @@ utoipa = [
 ]
 
 [dependencies]
-base64 = { workspace = true, optional = true }
-bincode = { workspace = true, optional = true }
 chrono.workspace = true
 chrono-tz.workspace = true
 derive_more = { workspace = true, features = [
