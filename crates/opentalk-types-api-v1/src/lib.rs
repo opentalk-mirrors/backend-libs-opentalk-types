@@ -27,4 +27,4 @@ pub mod rooms;
 pub mod services;
 pub mod users;
 
-pub use opentalk_types_api_common::{error, pagination};
+pub use opentalk_types_api_common::{error, pagination, result};
