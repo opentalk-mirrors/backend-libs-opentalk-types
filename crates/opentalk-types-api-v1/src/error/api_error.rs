@@ -145,6 +145,15 @@ impl ApiError {
             },
         }
     }
+
+    /// Create a new 503 Service Unavailable error
+    pub fn service_unavailable() -> Self {
+        Self::new_standard(
+            StatusCode::SERVICE_UNAVAILABLE,
+            "service_unavailable",
+            "The service is currently unavailable",
+        )
+    }
 }
 
 impl Display for ApiError {
