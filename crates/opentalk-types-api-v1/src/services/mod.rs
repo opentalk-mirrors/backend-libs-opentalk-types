@@ -8,5 +8,6 @@ pub mod call_in;
 pub mod recording;
 
 mod post_service_start_response_body;
+pub mod roomserver;
 
 pub use post_service_start_response_body::PostServiceStartResponseBody;

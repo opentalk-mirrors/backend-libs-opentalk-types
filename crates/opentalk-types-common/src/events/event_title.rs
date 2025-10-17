@@ -58,6 +58,11 @@ impl EventTitle {
 
         self.0.chars().take(max_length).map(to_valid_char).collect()
     }
+
+    /// Extracts a string slice containing the entire EventTitle.
+    pub fn as_str(&self) -> &str {
+        &self.0
+    }
 }
 
 #[cfg(feature = "utoipa")]
