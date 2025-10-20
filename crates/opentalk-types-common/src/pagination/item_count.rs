@@ -4,7 +4,7 @@
 
 use snafu::{Snafu, ensure};
 
-use crate::utils::ExampleData;
+use crate::{pagination::PageSize, utils::ExampleData};
 
 /// The maximum number for an item count to be valid.
 pub const ITEM_COUNT_MAX: ItemCount = ItemCount(MAX_VALUE);
@@ -149,6 +149,12 @@ impl From<u32> for ItemCount {
 impl From<ItemCount> for usize {
     fn from(value: ItemCount) -> Self {
         value.0 as usize
+    }
+}
+
+impl From<PageSize> for ItemCount {
+    fn from(value: PageSize) -> Self {
+        Self(value.into())
     }
 }
 
