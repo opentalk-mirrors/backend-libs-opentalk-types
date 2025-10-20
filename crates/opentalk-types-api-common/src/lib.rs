@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-//! OpenTalk API v1 data types
+//! OpenTalk API common data types
 
 #![deny(
     bad_style,
@@ -20,11 +20,6 @@
     unused_results
 )]
 
-pub mod assets;
-pub mod auth;
-pub mod events;
-pub mod rooms;
-pub mod services;
-pub mod users;
-
-pub use opentalk_types_api_common::{error, pagination, result};
+pub mod error;
+pub mod pagination;
+pub mod result;
