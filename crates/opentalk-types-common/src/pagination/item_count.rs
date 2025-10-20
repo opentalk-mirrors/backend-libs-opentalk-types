@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+use std::cmp::Ordering;
+
 use snafu::{Snafu, ensure};
 
 use crate::{pagination::PageSize, utils::ExampleData};
@@ -164,6 +166,18 @@ impl ExampleData for ItemCount {
     }
 }
 
+impl PartialEq<PageSize> for ItemCount {
+    fn eq(&self, other: &PageSize) -> bool {
+        self.0 == i64::from(*other)
+    }
+}
+
+impl PartialOrd<PageSize> for ItemCount {
+    fn partial_cmp(&self, other: &PageSize) -> Option<Ordering> {
+        self.0.partial_cmp(&i64::from(*other))
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use pretty_assertions::{assert_eq, assert_matches};
@@ -239,12 +253,18 @@ mod serde_tests {
     #[test]
     fn deserialize_default() {
         let example = ItemCount::default();
-        assert_eq!(example, serde_json::from_value(json!(0)).unwrap());
+        assert_eq!(
+            example,
+            serde_json::from_value::<ItemCount>(json!(0)).unwrap()
+        );
     }
 
     #[test]
     fn deserialize() {
         let example = ItemCount::from(64);
-        assert_eq!(example, serde_json::from_value(json!(64)).unwrap());
+        assert_eq!(
+            example,
+            serde_json::from_value::<ItemCount>(json!(64)).unwrap()
+        );
     }
 }
