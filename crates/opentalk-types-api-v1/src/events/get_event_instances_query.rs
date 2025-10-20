@@ -2,10 +2,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-use opentalk_types_common::{
-    pagination::{ItemCount, PageSize},
-    time::Timestamp,
-};
+use opentalk_types_common::{pagination::PageSize, time::Timestamp};
 
 use super::GetEventInstancesCursorData;
 use crate::pagination::Cursor;
@@ -16,8 +13,8 @@ use crate::pagination::Cursor;
 #[cfg_attr(feature = "utoipa", derive(utoipa::IntoParams))]
 pub struct GetEventInstancesQuery {
     /// Maximum number of invitees to include inside the event
-    #[cfg_attr(feature = "serde", serde(default))]
-    pub invitees_max: ItemCount,
+    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    pub invitees_max: Option<PageSize>,
     /// Minimum time of the event instances
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
     pub time_min: Option<Timestamp>,
@@ -50,7 +47,7 @@ mod serde_tests {
     #[test]
     fn serialize_default() {
         let example = GetEventInstancesQuery::default();
-        assert_eq!(json!(example), json!({"invitees_max": 0}));
+        assert_eq!(json!(example), json!({}));
     }
 
     #[test]
@@ -59,7 +56,7 @@ mod serde_tests {
             page: 26u64.try_into().unwrap(),
         };
         let example = GetEventInstancesQuery {
-            invitees_max: 50.into(),
+            invitees_max: Some(50.try_into().unwrap()),
             time_min: Some("2025-08-14T11:22:33Z".parse().unwrap()),
             time_max: Some("2025-09-14T12:23:34Z".parse().unwrap()),
             per_page: Some(30.try_into().unwrap()),
@@ -89,7 +86,7 @@ mod serde_tests {
             page: 26u64.try_into().unwrap(),
         };
         let example = GetEventInstancesQuery {
-            invitees_max: 65.into(),
+            invitees_max: Some(65.try_into().unwrap()),
             time_min: Some("2025-08-14T11:22:33Z".parse().unwrap()),
             time_max: Some("2025-09-14T12:23:34Z".parse().unwrap()),
             per_page: Some(30.try_into().unwrap()),
