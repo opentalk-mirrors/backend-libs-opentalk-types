@@ -154,6 +154,15 @@ impl ApiError {
             "The service is currently unavailable",
         )
     }
+
+    /// Creates a new 413 Payload Too Large error that indicates that the storage quota was exceeded.
+    pub fn storage_quota_exceeded() -> Self {
+        Self::new_standard(
+            StatusCode::PAYLOAD_TOO_LARGE,
+            "storage_quota_exceeded",
+            "Storage quota has been exceeded",
+        )
+    }
 }
 
 impl Display for ApiError {
