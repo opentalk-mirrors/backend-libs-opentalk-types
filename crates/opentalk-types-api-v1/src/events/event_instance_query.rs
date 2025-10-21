@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-use opentalk_types_common::pagination::ItemCount;
+use opentalk_types_common::pagination::PageSize;
 
 /// Path query for the `PATCH /events/{event_id}/{instance_id}` endpoint
 #[derive(Default, Debug, Eq, PartialEq, Clone)]
@@ -12,8 +12,8 @@ pub struct EventInstanceQuery {
     /// Maximum number of invitees to return inside the event instance resource
     ///
     /// Default: 0
-    #[cfg_attr(feature = "serde", serde(default))]
-    pub invitees_max: ItemCount,
+    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    pub invitees_max: Option<PageSize>,
 
     /// Flag to suppress email notification
     #[cfg_attr(feature = "serde", serde(default))]
@@ -32,14 +32,14 @@ mod serde_tests {
         let example = EventInstanceQuery::default();
         assert_eq!(
             json!(example),
-            json!({"invitees_max": 0, "suppress_email_notification": false})
+            json!({"suppress_email_notification": false})
         );
     }
 
     #[test]
     fn serialize() {
         let example = EventInstanceQuery {
-            invitees_max: 50.into(),
+            invitees_max: Some(50.try_into().unwrap()),
             suppress_email_notification: true,
         };
         assert_eq!(
@@ -57,7 +57,7 @@ mod serde_tests {
     #[test]
     fn deserialize() {
         let example = EventInstanceQuery {
-            invitees_max: 65.into(),
+            invitees_max: Some(65.try_into().unwrap()),
             suppress_email_notification: true,
         };
         assert_eq!(

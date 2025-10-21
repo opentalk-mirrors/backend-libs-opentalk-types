@@ -1,6 +1,8 @@
 // SPDX-FileCopyrightText: OpenTalk GmbH <mail@opentalk.eu>
-//
+
 // SPDX-License-Identifier: EUPL-1.2
+
+use std::cmp::Ordering;
 
 use snafu::{Snafu, ensure};
 
@@ -191,6 +193,18 @@ impl From<PageSize> for usize {
     }
 }
 
+impl PartialEq<ItemCount> for PageSize {
+    fn eq(&self, other: &ItemCount) -> bool {
+        self.0 == i64::from(*other)
+    }
+}
+
+impl PartialOrd<ItemCount> for PageSize {
+    fn partial_cmp(&self, other: &ItemCount) -> Option<Ordering> {
+        self.0.partial_cmp(&i64::from(*other))
+    }
+}
+
 impl ExampleData for PageSize {
     fn example_data() -> Self {
         Self::default()
@@ -280,12 +294,18 @@ mod serde_tests {
     #[test]
     fn deserialize_default() {
         let example = PageSize::default();
-        assert_eq!(example, serde_json::from_value(json!(30)).unwrap());
+        assert_eq!(
+            example,
+            serde_json::from_value::<PageSize>(json!(30)).unwrap()
+        );
     }
 
     #[test]
     fn deserialize() {
         let example = PageSize::try_from(64).unwrap();
-        assert_eq!(example, serde_json::from_value(json!(64)).unwrap());
+        assert_eq!(
+            example,
+            serde_json::from_value::<PageSize>(json!(64)).unwrap()
+        );
     }
 }

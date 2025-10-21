@@ -2,9 +2,11 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+use std::cmp::Ordering;
+
 use snafu::{Snafu, ensure};
 
-use crate::utils::ExampleData;
+use crate::{pagination::PageSize, utils::ExampleData};
 
 /// The maximum number for an item count to be valid.
 pub const ITEM_COUNT_MAX: ItemCount = ItemCount(MAX_VALUE);
@@ -152,9 +154,27 @@ impl From<ItemCount> for usize {
     }
 }
 
+impl From<PageSize> for ItemCount {
+    fn from(value: PageSize) -> Self {
+        Self(value.into())
+    }
+}
+
 impl ExampleData for ItemCount {
     fn example_data() -> Self {
         Self(17)
+    }
+}
+
+impl PartialEq<PageSize> for ItemCount {
+    fn eq(&self, other: &PageSize) -> bool {
+        self.0 == i64::from(*other)
+    }
+}
+
+impl PartialOrd<PageSize> for ItemCount {
+    fn partial_cmp(&self, other: &PageSize) -> Option<Ordering> {
+        self.0.partial_cmp(&i64::from(*other))
     }
 }
 
@@ -233,12 +253,18 @@ mod serde_tests {
     #[test]
     fn deserialize_default() {
         let example = ItemCount::default();
-        assert_eq!(example, serde_json::from_value(json!(0)).unwrap());
+        assert_eq!(
+            example,
+            serde_json::from_value::<ItemCount>(json!(0)).unwrap()
+        );
     }
 
     #[test]
     fn deserialize() {
         let example = ItemCount::from(64);
-        assert_eq!(example, serde_json::from_value(json!(64)).unwrap());
+        assert_eq!(
+            example,
+            serde_json::from_value::<ItemCount>(json!(64)).unwrap()
+        );
     }
 }

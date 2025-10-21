@@ -40,9 +40,9 @@ pub struct GetEventsAndInstancesQuery {
     /// Default value is 0
     #[cfg_attr(
         feature = "serde",
-        serde(default, skip_serializing_if = "ItemCount::is_default")
+        serde(default, skip_serializing_if = "Option::is_none")
     )]
-    pub invitees_max: ItemCount,
+    pub invitees_max: Option<PageSize>,
 
     /// Maximum number of instances to return for each recurring event
     ///
@@ -114,7 +114,7 @@ mod serde_tests {
             time_max: Some("2025-09-14T12:23:34Z".parse().unwrap()),
             created_after: Some("2024-08-14T11:22:33Z".parse().unwrap()),
             created_before: Some("2025-06-14T12:23:34Z".parse().unwrap()),
-            invitees_max: 50.into(),
+            invitees_max: Some(50.try_into().unwrap()),
             instances_max: 10.into(),
             favorites: true,
             invite_status: vec![EventInviteStatus::Accepted, EventInviteStatus::Pending],

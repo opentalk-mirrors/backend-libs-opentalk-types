@@ -5,9 +5,7 @@
 #[cfg(feature = "serde")]
 use opentalk_types_common::utils::comma_separated;
 use opentalk_types_common::{
-    events::invites::EventInviteStatus,
-    pagination::{ItemCount, PageSize},
-    time::Timestamp,
+    events::invites::EventInviteStatus, pagination::PageSize, time::Timestamp,
 };
 
 use crate::{events::GetEventsCursorData, pagination::Cursor};
@@ -40,9 +38,9 @@ pub struct GetEventsQuery {
     /// Default value is 0
     #[cfg_attr(
         feature = "serde",
-        serde(default, skip_serializing_if = "ItemCount::is_default")
+        serde(default, skip_serializing_if = "Option::is_none")
     )]
-    pub invitees_max: ItemCount,
+    pub invitees_max: Option<PageSize>,
 
     /// Return only favorite events
     #[cfg_attr(feature = "serde", serde(default))]
@@ -105,7 +103,7 @@ mod serde_tests {
             time_max: Some("2025-09-14T12:23:34Z".parse().unwrap()),
             created_after: Some("2024-08-14T11:22:33Z".parse().unwrap()),
             created_before: Some("2025-06-14T12:23:34Z".parse().unwrap()),
-            invitees_max: 50.into(),
+            invitees_max: Some(50.try_into().unwrap()),
             favorites: true,
             invite_status: vec![EventInviteStatus::Accepted, EventInviteStatus::Pending],
             per_page: Some(100u64.try_into().unwrap()),

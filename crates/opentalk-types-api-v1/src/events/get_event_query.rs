@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-use opentalk_types_common::pagination::ItemCount;
+use opentalk_types_common::pagination::PageSize;
 
 /// Path query parameters for the `GET /events/{event_id}` endpoint
 #[derive(Default, Debug, Clone, PartialEq, Eq)]
@@ -12,8 +12,8 @@ pub struct GetEventQuery {
     /// Maximum number of invitees to return inside the event resource
     ///
     /// Default value is 0
-    #[cfg_attr(feature = "serde", serde(default))]
-    pub invitees_max: ItemCount,
+    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    pub invitees_max: Option<PageSize>,
 }
 
 #[cfg(all(test, feature = "serde"))]
@@ -26,13 +26,13 @@ mod serde_tests {
     #[test]
     fn serialize_default() {
         let example = GetEventQuery::default();
-        assert_eq!(json!(example), json!({"invitees_max": 0}));
+        assert_eq!(json!(example), json!({}));
     }
 
     #[test]
     fn serialize() {
         let example = GetEventQuery {
-            invitees_max: 50.into(),
+            invitees_max: Some(50.try_into().unwrap()),
         };
         assert_eq!(json!(example), json!({"invitees_max": 50}));
     }
@@ -46,7 +46,7 @@ mod serde_tests {
     #[test]
     fn deserialize() {
         let example = GetEventQuery {
-            invitees_max: 65.into(),
+            invitees_max: Some(65.try_into().unwrap()),
         };
         assert_eq!(
             example,
