@@ -2,7 +2,10 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-use crate::utils::ExampleData;
+use crate::{
+    training_participation_report::{TimeRangeStart, time_range_window::TimeRangeWindow},
+    utils::ExampleData,
+};
 
 /// A time range within which checkpoints can be randomly created
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -14,17 +17,17 @@ use crate::utils::ExampleData;
 )]
 pub struct TimeRange {
     /// The earliest number of seconds after which the checkpoint can be created.
-    pub after: u64,
+    pub after: TimeRangeStart,
 
     /// The number of seconds within which the checkpoint can be created after the `after` value.
-    pub within: u64,
+    pub within: TimeRangeWindow,
 }
 
 impl ExampleData for TimeRange {
     fn example_data() -> Self {
         Self {
-            after: 1200,
-            within: 600,
+            after: TimeRangeStart::from_i64_clamped(1200),
+            within: TimeRangeWindow::from_i64_clamped(600),
         }
     }
 }
@@ -34,20 +37,25 @@ mod serde_tests {
     use pretty_assertions::assert_eq;
     use serde_json::json;
 
-    use crate::{training_participation_report::TimeRange, utils::ExampleData as _};
+    use crate::{
+        training_participation_report::{
+            TimeRange, TimeRangeStart, time_range_window::TimeRangeWindow,
+        },
+        utils::ExampleData as _,
+    };
 
     #[test]
     fn deserialize_time_range_zero() {
         let json = json!({
-            "after": 0,
+            "after": 60,
             "within": 0,
         });
 
         assert_eq!(
             serde_json::from_value::<TimeRange>(json).unwrap(),
             TimeRange {
-                after: 0,
-                within: 0,
+                after: TimeRangeStart::from_i64_clamped(60),
+                within: TimeRangeWindow::from_i64_clamped(0),
             }
         );
     }
@@ -56,11 +64,11 @@ mod serde_tests {
     fn serialize_time_range_zero() {
         assert_eq!(
             json!(TimeRange {
-                after: 0,
-                within: 0
+                after: TimeRangeStart::from_i64_clamped(60),
+                within: TimeRangeWindow::from_i64_clamped(0)
             }),
             json!({
-                "after": 0,
+                "after": 60,
                 "within": 0,
             })
         );

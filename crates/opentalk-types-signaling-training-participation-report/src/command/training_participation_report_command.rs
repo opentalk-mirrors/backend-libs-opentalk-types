@@ -72,11 +72,11 @@ mod serde_tests {
             TrainingParticipationReportCommand::EnablePresenceLogging {
                 initial_checkpoint_delay: Some(TimeRange {
                     after: 600.try_into().expect("value must be non-zero"),
-                    within: 1200
+                    within: 1200.try_into().expect("value must be non-zero")
                 }),
                 checkpoint_interval: Some(TimeRange {
                     after: 6300.try_into().expect("value must be non-zero"),
-                    within: 1800
+                    within: 1800.try_into().expect("value must be non-zero")
                 })
             }
         );
