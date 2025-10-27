@@ -310,7 +310,9 @@ impl ExampleData for PatchEventBody {
 mod serde_tests {
     use opentalk_types_common::{
         time::RecurrencePattern,
-        training_participation_report::{TimeRange, TrainingParticipationReportParameterSet},
+        training_participation_report::{
+            TimeRange, TimeRangeStart, TimeRangeWindow, TrainingParticipationReportParameterSet,
+        },
     };
     use pretty_assertions::assert_eq;
     use serde_json::json;
@@ -402,12 +404,12 @@ mod serde_tests {
                 training_participation_report: Some(Some(
                     TrainingParticipationReportParameterSet {
                         initial_checkpoint_delay: TimeRange {
-                            after: 100,
-                            within: 200,
+                            after: TimeRangeStart::from_i64_clamped(100),
+                            within: TimeRangeWindow::from_i64_clamped(200),
                         },
                         checkpoint_interval: TimeRange {
-                            after: 300,
-                            within: 400,
+                            after: TimeRangeStart::from_i64_clamped(300),
+                            within: TimeRangeWindow::from_i64_clamped(400),
                         }
                     }
                 ))
@@ -436,12 +438,12 @@ mod serde_tests {
                 training_participation_report: Some(Some(
                     TrainingParticipationReportParameterSet {
                         initial_checkpoint_delay: TimeRange {
-                            after: 100,
-                            within: 200,
+                            after: TimeRangeStart::from_i64_clamped(100),
+                            within: TimeRangeWindow::from_i64_clamped(200),
                         },
                         checkpoint_interval: TimeRange {
-                            after: 300,
-                            within: 400,
+                            after: TimeRangeStart::from_i64_clamped(300),
+                            within: TimeRangeWindow::from_i64_clamped(400),
                         }
                     }
                 ))

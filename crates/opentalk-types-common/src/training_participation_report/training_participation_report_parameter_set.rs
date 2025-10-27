@@ -2,8 +2,10 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-use super::TimeRange;
-use crate::utils::ExampleData;
+use super::{TimeRange, TimeRangeStart};
+use crate::{
+    training_participation_report::time_range_window::TimeRangeWindow, utils::ExampleData,
+};
 
 /// The parameters for a training participant report checkpoint procedure.
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -30,12 +32,12 @@ impl ExampleData for TrainingParticipationReportParameterSet {
     fn example_data() -> Self {
         Self {
             initial_checkpoint_delay: TimeRange {
-                after: 100,
-                within: 200,
+                after: TimeRangeStart::from_i64_clamped(100),
+                within: TimeRangeWindow::from_i64_clamped(200),
             },
             checkpoint_interval: TimeRange {
-                after: 300,
-                within: 400,
+                after: TimeRangeStart::from_i64_clamped(300),
+                within: TimeRangeWindow::from_i64_clamped(400),
             },
         }
     }
