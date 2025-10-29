@@ -42,7 +42,7 @@ stages:
         EXTRA_ARGS: ['', --no-default-features]
   script:
     - cargo clippy --package $PACKAGE $EXTRA_ARGS --features=$FEATURES
-    - cargo test --package $PACKAGE $EXTRA_ARGS --features=$FEATURES
+    - cargo nextest run --package $PACKAGE $EXTRA_ARGS --features=$FEATURES
 
 include: crates/**/gitlab-ci.yml
 
@@ -208,7 +208,7 @@ test:cargo_test:
   script:
     - RUSTFLAGS="-C instrument-coverage -C link-arg=-fuse-ld=lld"
       LLVM_PROFILE_FILE="$(pwd)/target/coverage/raw/coverage-%p-%m.profraw"
-      cargo test --workspace --locked --all-features
+      cargo nextest run --workspace --locked --all-features
 
     # Extract code coverage data
     - grcov target/coverage/raw
