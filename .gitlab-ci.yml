@@ -199,5 +199,7 @@ test:cargo_test:
   # this uses region for coverage summary
   coverage: /TOTAL\s+(\d+\s+)+(\d+\.\d+\%)/
   script:
-    - cargo llvm-cov nextest --profile ci --workspace --locked --all-features
-    - cargo llvm-cov report --cobertura --output-path target/llvm-cov-target/cobertura.xml
+    - cargo +nightly llvm-cov --no-report nextest --profile ci --workspace --locked --all-features
+    - cargo +nightly llvm-cov --no-report --doc --workspace --locked --all-features
+    - cargo +nightly llvm-cov report --doctests --cobertura --output-path target/llvm-cov-target/cobertura.xml
+    - cargo +nightly llvm-cov report --summary-only
