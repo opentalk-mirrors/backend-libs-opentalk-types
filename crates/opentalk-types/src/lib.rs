@@ -61,9 +61,9 @@ available that pull in a set of dependencies.
 * **signaling-livekit** -
   Re-exports [`opentalk-types-signaling-livekit`](https://docs.rs/opentalk-types-signaling-livekit) crate as [`signaling::livekit`].
 * **signaling-meeting-notes** -
-  Re-exports [`opentalk-types-signaling-meeting-notes`](https://docs.rs/opentalk-types-signaling-meeting-notes) crate as [`signaling::meeting-notes`].
+  Re-exports [`opentalk-types-signaling-meeting-notes`](https://docs.rs/opentalk-types-signaling-meeting-notes) crate as [`signaling::meeting_notes`].
 * **signaling-meeting-report** -
-  Re-exports [`opentalk-types-signaling-meeting-report`](https://docs.rs/opentalk-types-signaling-meeting-report) crate as [`signaling::meeting-report`].
+  Re-exports [`opentalk-types-signaling-meeting-report`](https://docs.rs/opentalk-types-signaling-meeting-report) crate as [`signaling::meeting_report`].
 * **signaling-moderation** -
   Re-exports [`opentalk-types-signaling-moderation`](https://docs.rs/opentalk-types-signaling-moderation) crate as [`signaling::moderation`].
 * **signaling-polls** -
@@ -71,11 +71,11 @@ available that pull in a set of dependencies.
 * **signaling-recording** -
   Re-exports [`opentalk-types-signaling-recording`](https://docs.rs/opentalk-types-signaling-recording) crate as [`signaling::recording`].
 * **signaling-recording-service** -
-  Re-exports [`opentalk-types-signaling-recording-service`](https://docs.rs/opentalk-types-signaling-recording-service) crate as [`signaling::recording-service`].
+  Re-exports [`opentalk-types-signaling-recording-service`](https://docs.rs/opentalk-types-signaling-recording-service) crate as [`signaling::recording_service`].
 * **signaling-shared-folder** -
-  Re-exports [`opentalk-types-signaling-shared-folder`](https://docs.rs/opentalk-types-signaling-shared-folder) crate as [`signaling::shared-folder`].
+  Re-exports [`opentalk-types-signaling-shared-folder`](https://docs.rs/opentalk-types-signaling-shared-folder) crate as [`signaling::shared_folder`].
 * **signaling-subroom-audio** -
-  Re-exports [`opentalk-types-signaling-subroom-audio`](https://docs.rs/opentalk-types-signaling-subroom-audio) crate as [`signaling::subroom-audio`].
+  Re-exports [`opentalk-types-signaling-subroom-audio`](https://docs.rs/opentalk-types-signaling-subroom-audio) crate as [`signaling::subroom_audio`].
 * **signaling-timer** -
   Re-exports [`opentalk-types-signaling-timer`](https://docs.rs/opentalk-types-signaling-timer) crate as [`signaling::timer`].
 * **signaling-training-participation-report** -
