@@ -27,6 +27,8 @@ sql_enum!(
     }
 );
 
+// This is a false positive, due the the sql_enum macro expansion.
+#[allow(clippy::derivable_impls)]
 impl Default for EmailInviteRole {
     fn default() -> Self {
         Self::Guest
