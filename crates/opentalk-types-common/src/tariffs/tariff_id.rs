@@ -23,6 +23,7 @@ use uuid::Uuid;
 )]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "utoipa", derive(utoipa::ToSchema))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS), ts(export_to = "common/"))]
 pub struct TariffId(Uuid);
 
 impl TariffId {

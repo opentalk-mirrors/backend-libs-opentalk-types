@@ -17,6 +17,11 @@ use crate::utils::ExampleData;
     derive(clap::ValueEnum),
     clap(rename_all = "snake_case")
 )]
+#[cfg_attr(
+    feature = "typescript",
+    derive(ts_rs::TS),
+    ts(export_to = "common/", repr(enum = name))
+)]
 pub enum QuotaType {
     /// This quota limits the total amount of data, measured bytes, that can be
     /// stored by the tenant. This is a soft limit which allows the user to store

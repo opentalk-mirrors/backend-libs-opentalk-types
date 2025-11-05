@@ -31,6 +31,7 @@ use crate::utils::ExampleData;
     derive(utoipa::ToSchema),
     schema(example = json!(EventId::example_data()))
 )]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS), ts(export_to = "common/"))]
 pub struct EventId(Uuid);
 
 impl EventId {

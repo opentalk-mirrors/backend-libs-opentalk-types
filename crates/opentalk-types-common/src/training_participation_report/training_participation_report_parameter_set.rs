@@ -20,6 +20,11 @@ use crate::utils::ExampleData;
     derive(utoipa::ToSchema),
     schema(example = json!(TrainingParticipationReportParameterSet::example_data())),
 )]
+#[cfg_attr(
+    feature = "typescript",
+    derive(ts_rs::TS),
+    ts(export_to = "training-participation-report/")
+)]
 pub struct TrainingParticipationReportParameterSet {
     /// The time range definition for the initial checkpoint delay.
     pub initial_checkpoint_delay: TimeRange,

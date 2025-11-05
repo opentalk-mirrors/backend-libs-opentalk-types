@@ -10,6 +10,7 @@ use crate::features::FeatureId;
 #[derive(Default, Clone, Debug, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "utoipa", derive(utoipa::ToSchema))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS), ts(export_to = "common/"))]
 pub struct TariffModuleResource {
     /// Enabled features for the tariff
     pub features: BTreeSet<FeatureId>,

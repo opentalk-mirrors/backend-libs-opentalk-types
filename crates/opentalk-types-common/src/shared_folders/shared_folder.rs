@@ -20,6 +20,11 @@ use crate::{shared_folders::SharedFolderAccess, utils::ExampleData};
     derive(utoipa::ToSchema),
     schema(example = json!(SharedFolder::example_data())),
 )]
+#[cfg_attr(
+    feature = "typescript",
+    derive(ts_rs::TS),
+    ts(export, export_to = "shared-folder/")
+)]
 pub struct SharedFolder {
     /// Read access information for the shared folder
     pub read: SharedFolderAccess,

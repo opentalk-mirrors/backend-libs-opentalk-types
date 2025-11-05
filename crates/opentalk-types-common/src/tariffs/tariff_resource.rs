@@ -26,6 +26,7 @@ use crate::{
     derive(utoipa::ToSchema),
     schema(example = json!(TariffResource::example_data())),
 )]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS), ts(export_to = "common/"))]
 pub struct TariffResource {
     /// The ID of the tariff
     pub id: TariffId,

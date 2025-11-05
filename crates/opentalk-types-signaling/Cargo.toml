@@ -31,6 +31,7 @@ serde = [
   "opentalk-types-common/serde",
   "uuid/serde",
 ]
+typescript = ["dep:ts-rs"]
 utoipa = ["dep:utoipa", "opentalk-types-common/utoipa", "serde"]
 
 [dependencies]
@@ -46,6 +47,7 @@ redis-args = { workspace = true, optional = true }
 serde = { workspace = true, optional = true }
 serde_json = { workspace = true, optional = true }
 strum.workspace = true
+ts-rs = { workspace = true, optional = true }
 utoipa = { workspace = true, optional = true }
 uuid.workspace = true
 

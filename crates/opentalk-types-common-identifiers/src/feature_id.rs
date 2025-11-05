@@ -40,6 +40,11 @@ pub const FEATURE_ID_SCHEMA_CHARS_REGEX: &str = "[_0-9a-z]";
     feature = "serde",
     derive(serde::Serialize, serde_with::DeserializeFromStr)
 )]
+#[cfg_attr(
+    feature = "typescript",
+    derive(ts_rs::TS),
+    ts(export_to = "common-identifiers/")
+)]
 pub struct FeatureId(Identifier);
 
 impl FeatureId {

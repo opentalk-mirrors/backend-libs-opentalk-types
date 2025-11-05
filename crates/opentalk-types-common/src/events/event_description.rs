@@ -30,6 +30,7 @@ pub const EVENT_DESCRIPTION_MAX_LENGTH: usize = 4096;
     feature = "serde",
     derive(serde::Serialize, serde_with::DeserializeFromStr)
 )]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS), ts(export_to = "common/"))]
 pub struct EventDescription(String);
 
 impl EventDescription {

@@ -14,6 +14,7 @@ use crate::utils::ExampleData;
     derive(utoipa::ToSchema),
     schema(example = json!(StreamingLink::example_data()))
 )]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS), ts(export_to = "common/"))]
 pub struct StreamingLink {
     /// The name of the streaming link
     pub name: String,

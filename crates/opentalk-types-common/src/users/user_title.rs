@@ -31,6 +31,7 @@ pub const USER_TITLE_MAX_LENGTH: usize = 255;
     feature = "serde",
     derive(serde::Serialize, serde_with::DeserializeFromStr)
 )]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS), ts(export_to = "common/"))]
 pub struct UserTitle(String);
 
 impl UserTitle {

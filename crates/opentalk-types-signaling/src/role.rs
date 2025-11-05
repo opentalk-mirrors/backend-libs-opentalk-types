@@ -31,6 +31,11 @@ use strum::{AsRefStr, Display, EnumCount, EnumIter, EnumString, IntoStaticStr, V
     serde(rename_all = "lowercase")
 )]
 #[strum(serialize_all = "snake_case")]
+#[cfg_attr(
+    feature = "typescript",
+    derive(ts_rs::TS),
+    ts(export_to = "signaling/", repr(enum = name))
+)]
 pub enum Role {
     /// Guest participant without a registered user account
     Guest,

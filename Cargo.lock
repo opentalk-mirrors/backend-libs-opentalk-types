@@ -1678,6 +1678,7 @@ dependencies = [
  "serde_json",
  "serde_urlencoded",
  "serde_with",
+ "ts-rs",
  "url",
  "utoipa",
 ]
@@ -1706,12 +1707,14 @@ dependencies = [
  "rand 0.10.1",
  "redis",
  "redis-args",
+ "regex",
  "serde",
  "serde_json",
  "serde_with",
  "snafu",
  "strum",
  "trybuild",
+ "ts-rs",
  "url",
  "utoipa",
  "uuid",
@@ -1729,6 +1732,7 @@ dependencies = [
  "serde_json",
  "serde_with",
  "snafu",
+ "ts-rs",
  "utoipa",
 ]
 
@@ -1754,6 +1758,7 @@ dependencies = [
  "serde",
  "serde_json",
  "strum",
+ "ts-rs",
  "utoipa",
  "uuid",
 ]
@@ -2896,6 +2901,31 @@ dependencies = [
  "target-triple",
  "termcolor",
  "toml",
+]
+
+[[package]]
+name = "ts-rs"
+version = "12.0.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "756050066659291d47a554a9f558125db17428b073c5ffce1daf5dcb0f7231d8"
+dependencies = [
+ "chrono",
+ "thiserror",
+ "ts-rs-macros",
+ "url",
+ "uuid",
+]
+
+[[package]]
+name = "ts-rs-macros"
+version = "12.0.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "38d90eea51bc7988ef9e674bf80a85ba6804739e535e9cab48e4bb34a8b652aa"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
+ "termcolor",
 ]
 
 [[package]]

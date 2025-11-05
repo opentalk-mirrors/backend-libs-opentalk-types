@@ -12,6 +12,11 @@ use crate::{streaming::StreamingTargetKind, utils::ExampleData};
     derive(utoipa::ToSchema),
     schema(example = json!(StreamingTarget::example_data()))
 )]
+#[cfg_attr(
+    feature = "typescript",
+    derive(ts_rs::TS),
+    ts(export, export_to = "common/")
+)]
 pub struct StreamingTarget {
     /// The name of the streaming target
     pub name: String,

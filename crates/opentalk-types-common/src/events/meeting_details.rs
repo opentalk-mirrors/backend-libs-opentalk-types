@@ -15,6 +15,7 @@ use crate::{
     derive(utoipa::ToSchema),
     schema(example = json!(MeetingDetails::example_data()))
 )]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS), ts(export_to = "common/"))]
 pub struct MeetingDetails {
     /// The invite code id of the event
     #[cfg_attr(

@@ -33,6 +33,11 @@ use crate::utils::ExampleData;
     derive(utoipa::ToSchema),
     schema(example = json!(StreamingKey::example_data()))
 )]
+#[cfg_attr(
+    feature = "typescript",
+    derive(ts_rs::TS),
+    ts(export, export_to = "common/")
+)]
 pub struct StreamingKey(String);
 
 impl StreamingKey {

@@ -26,6 +26,7 @@ use crate::utils::ExampleData;
     derive(utoipa::ToSchema),
     schema(example = json!(AssetId::example_data().to_string()))
 )]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS), ts(export_to = "common/"))]
 pub struct AssetId(Uuid);
 
 impl AssetId {

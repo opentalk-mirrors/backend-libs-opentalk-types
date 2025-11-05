@@ -35,6 +35,7 @@ use crate::{call_in::DIAL_IN_NUMERIC_ID_LENGTH, utils::ExampleData};
     feature = "serde",
     derive(serde::Serialize, serde_with::DeserializeFromStr)
 )]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS), ts(export_to = "common/"))]
 pub struct NumericId(String);
 
 impl NumericId {
