@@ -42,7 +42,7 @@ stages:
         EXTRA_ARGS: ['', --no-default-features]
   script:
     - cargo clippy --package $PACKAGE $EXTRA_ARGS --features=$FEATURES
-    - cargo test --package $PACKAGE $EXTRA_ARGS --features=$FEATURES
+    - cargo nextest run --package $PACKAGE $EXTRA_ARGS --features=$FEATURES
 
 include: crates/**/gitlab-ci.yml
 
@@ -191,34 +191,15 @@ test:cargo_test:
   stage: test
   <<: *default_job_condition
   artifacts:
-    paths:
-      - target/coverage/html
     reports:
+      junit: target/nextest/ci/junit.xml
       coverage_report:
         coverage_format: cobertura
-        path: target/coverage/cobertura.xml
-  coverage: '/Coverage: \d+(?:\.\d+)?/'
-  variables:
-    # Used for coverage
-    COVERAGE_XML_PATH: 'concat("Coverage: ", 100 * string(//coverage/@line-rate), "%")'
-  before_script:
-    - rustup component add rustfmt llvm-tools-preview
-    # libxml2-utils contains the xmllint command used below
-    - apt-get update && apt-get install -y libxml2-utils
+        path: target/llvm-cov-target/cobertura.xml
+  # this uses region for coverage summary
+  coverage: /TOTAL\s+(\d+\s+)+(\d+\.\d+\%)/
   script:
-    - RUSTFLAGS="-C instrument-coverage -C link-arg=-fuse-ld=lld"
-      LLVM_PROFILE_FILE="$(pwd)/target/coverage/raw/coverage-%p-%m.profraw"
-      cargo test --workspace --locked --all-features
-
-    # Extract code coverage data
-    - grcov target/coverage/raw
-      --binary-path ./target/debug/
-      --source-dir .
-      --output-types cobertura,html
-      --branch
-      --ignore-not-existing
-      --ignore "*cargo*"
-      --output-path target/coverage
-
-    # Print out the coverage percentage for GitLab
-    - xmllint --xpath "$COVERAGE_XML_PATH" target/coverage/cobertura.xml
+    - cargo +nightly llvm-cov --no-report nextest --profile ci --workspace --locked --all-features
+    - cargo +nightly llvm-cov --no-report --doc --workspace --locked --all-features
+    - cargo +nightly llvm-cov report --doctests --cobertura --output-path target/llvm-cov-target/cobertura.xml
+    - cargo +nightly llvm-cov report --summary-only
