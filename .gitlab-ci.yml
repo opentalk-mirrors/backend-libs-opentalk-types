@@ -42,7 +42,7 @@ stages:
         EXTRA_ARGS: ['', --no-default-features]
   script:
     - cargo clippy --package $PACKAGE $EXTRA_ARGS --features=$FEATURES
-    - cargo nextest run --package $PACKAGE $EXTRA_ARGS --features=$FEATURES
+    - cargo nextest run --package $PACKAGE $EXTRA_ARGS --features=$FEATURES --no-tests pass
 
 include: crates/**/gitlab-ci.yml
 
