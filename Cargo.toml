@@ -59,6 +59,7 @@ diesel = "2"
 email_address = "0.2.4"
 http = "1"
 http0 = { version = "0.2", package = "http" }
+icu_locid = "1"
 itertools = "0.14"
 log = "0.4"
 opentalk-diesel-newtype = "0.13"
