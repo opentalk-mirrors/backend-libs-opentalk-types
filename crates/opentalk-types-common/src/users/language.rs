@@ -2,57 +2,75 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-use std::str::FromStr;
-
-use snafu::{Snafu, ensure};
+use icu_locid::{LanguageIdentifier, langid};
 
 use crate::utils::ExampleData;
 
-/// The maximum allowed number of characters for a [`Language`]
-pub const LANGUAGE_MAX_LENGTH: usize = 35;
-
 /// A language identifier
-///
-/// Can be parsed using [`std::str::FromStr`].
-#[derive(Default, Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash, derive_more::Display)]
-#[cfg_attr(
-    feature = "diesel",
-    derive(
-        opentalk_diesel_newtype::DieselNewtype,
-        diesel::expression::AsExpression,
-        diesel::deserialize::FromSqlRow
-    )
-)]
-#[cfg_attr(
-    feature = "diesel",
-    diesel(sql_type = diesel::sql_types::Text)
+#[derive(
+    Default,
+    Debug,
+    Clone,
+    PartialEq,
+    Eq,
+    Hash,
+    derive_more::Display,
+    derive_more::FromStr,
+    derive_more::From,
+    derive_more::Into,
+    derive_more::AsRef,
+    derive_more::AsMut,
 )]
 #[cfg_attr(
     feature = "serde",
     derive(serde::Serialize, serde_with::DeserializeFromStr)
 )]
-#[cfg_attr(feature = "bincode", derive(bincode::Encode, bincode::Decode))]
-pub struct Language(String);
+pub struct Language(pub LanguageIdentifier);
 
-impl Language {
-    /// Returns `true` if this `Language` has a length of zero, and `false` otherwise.
-    pub fn is_empty(&self) -> bool {
-        self.0.is_empty()
+#[cfg(feature = "bincode")]
+mod bincode_impls {
+    use bincode::{
+        BorrowDecode, Decode, Encode,
+        de::{BorrowDecoder, Decoder},
+        enc::Encoder,
+        error::{DecodeError, EncodeError},
+    };
+
+    use super::Language;
+
+    impl Encode for Language {
+        fn encode<E: Encoder>(&self, encoder: &mut E) -> Result<(), EncodeError> {
+            Encode::encode(&self.0.to_string(), encoder)
+        }
     }
 
+    impl<Context> Decode<Context> for Language {
+        fn decode<D: Decoder<Context = Context>>(decoder: &mut D) -> Result<Self, DecodeError> {
+            let decoded: String = Decode::<Context>::decode(decoder)?;
+            let language_identifier = decoded.parse().map_err(|e| {
+                DecodeError::OtherString(format!("Invalid language identifier: {e}"))
+            })?;
+            Ok(Self(language_identifier))
+        }
+    }
+
+    impl<'de, Context> BorrowDecode<'de, Context> for Language {
+        fn borrow_decode<D: BorrowDecoder<'de, Context = Context>>(
+            decoder: &mut D,
+        ) -> Result<Self, DecodeError> {
+            let decoded: String = Decode::<Context>::decode(decoder)?;
+            let language_identifier = decoded.parse().map_err(|e| {
+                DecodeError::OtherString(format!("Invalid language identifier: {e}"))
+            })?;
+            Ok(Self(language_identifier))
+        }
+    }
+}
+
+impl Language {
     /// Create a new empty [`Language`]
     pub fn new() -> Self {
         Self::default()
-    }
-
-    /// Get the `&str` reference to the language string
-    pub fn as_str(&self) -> &str {
-        self.0.as_str()
-    }
-
-    /// Get the length of the language string (in characters)
-    pub fn len(&self) -> usize {
-        self.0.chars().count()
     }
 }
 
@@ -69,7 +87,7 @@ mod impl_to_schema {
         openapi::{ObjectBuilder, RefOr, Schema, Type},
     };
 
-    use super::{LANGUAGE_MAX_LENGTH, Language};
+    use super::Language;
     use crate::utils::ExampleData as _;
 
     impl PartialSchema for Language {
@@ -77,7 +95,9 @@ mod impl_to_schema {
             ObjectBuilder::new()
                 .schema_type(Type::String)
                 .description(Some("A language identifier"))
-                .max_length(Some(LANGUAGE_MAX_LENGTH))
+                .format(Some(utoipa::openapi::SchemaFormat::Custom(
+                    "bcp-47".to_string(),
+                )))
                 .examples([json!(Language::example_data())])
                 .into()
         }
@@ -92,68 +112,29 @@ mod impl_to_schema {
 
 impl ExampleData for Language {
     fn example_data() -> Self {
-        Self("de".to_string())
-    }
-}
-
-/// The error that is returned by [Language::from_str] on failure.
-#[derive(Debug, Snafu)]
-pub enum ParseLanguageError {
-    /// The input string was longer than the maximum length [LANGUAGE_MAX_LENGTH].
-    #[snafu(display("Language must not be longer than {max_length} characters"))]
-    TooLong {
-        /// The maximum allowed length.
-        max_length: usize,
-    },
-}
-
-impl FromStr for Language {
-    type Err = ParseLanguageError;
-
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
-        ensure!(
-            s.len() <= LANGUAGE_MAX_LENGTH,
-            TooLongSnafu {
-                max_length: LANGUAGE_MAX_LENGTH
-            }
-        );
-        Ok(Self(s.to_string()))
+        Self(langid!("de"))
     }
 }
 
 #[cfg(test)]
 mod tests {
+    use icu_locid::langid;
     use pretty_assertions::assert_eq;
 
-    use super::{Language, ParseLanguageError};
+    use super::Language;
 
     #[test]
     fn parse() {
         assert_eq!(
-            "hello".parse::<Language>().unwrap(),
-            Language("hello".to_string())
+            "de-AT".parse::<Language>().unwrap(),
+            Language(langid!("de-AT"))
         );
-        assert_eq!("".parse::<Language>().unwrap(), Language("".to_string()));
-        assert_eq!("_".parse::<Language>().unwrap(), Language("_".to_string()));
-        assert_eq!(
-            "hello world".parse::<Language>().unwrap(),
-            Language("hello world".to_string())
-        );
-        assert_eq!(
-            "🚀".parse::<Language>().unwrap(),
-            Language("🚀".to_string())
-        );
-
-        let longest: String = "x".repeat(35);
-        assert_eq!(longest.parse::<Language>().unwrap(), Language(longest));
+        assert_eq!("xx".parse::<Language>().unwrap(), Language(langid!("xx")));
     }
 
     #[test]
     fn parse_invalid() {
-        let too_long: String = "x".repeat(36);
-        assert!(matches!(
-            too_long.parse::<Language>(),
-            Err(ParseLanguageError::TooLong { max_length: 35 })
-        ));
+        assert!("".parse::<Language>().is_err());
+        assert!("🚀".parse::<Language>().is_err());
     }
 }

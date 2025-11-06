@@ -40,6 +40,7 @@ serde = [
   "chrono/serde",
   "dep:serde",
   "dep:serde_with",
+  "icu_locid/serde",
   "opentalk-types-common-identifiers/serde",
   "url/serde",
   "uuid/serde",
@@ -69,6 +70,7 @@ derive_more = { workspace = true, features = [
 ] }
 diesel = { workspace = true, features = ["uuid"], optional = true }
 email_address.workspace = true
+icu_locid.workspace = true
 itertools.workspace = true
 kustos-shared = { workspace = true, optional = true }
 opentalk-diesel-newtype = { workspace = true, optional = true }
