@@ -308,11 +308,11 @@ impl ExampleData for PatchEventBody {
 
 #[cfg(all(test, feature = "serde"))]
 mod serde_tests {
+    use std::time::Duration;
+
     use opentalk_types_common::{
         time::RecurrencePattern,
-        training_participation_report::{
-            TimeRange, TimeRangeStart, TimeRangeWindow, TrainingParticipationReportParameterSet,
-        },
+        training_participation_report::{TimeRange, TrainingParticipationReportParameterSet},
     };
     use pretty_assertions::assert_eq;
     use serde_json::json;
@@ -403,14 +403,14 @@ mod serde_tests {
                 has_shared_folder: None,
                 training_participation_report: Some(Some(
                     TrainingParticipationReportParameterSet {
-                        initial_checkpoint_delay: TimeRange {
-                            after: TimeRangeStart::from_i64_clamped(100),
-                            within: TimeRangeWindow::from_i64_clamped(200),
-                        },
-                        checkpoint_interval: TimeRange {
-                            after: TimeRangeStart::from_i64_clamped(300),
-                            within: TimeRangeWindow::from_i64_clamped(400),
-                        }
+                        initial_checkpoint_delay: TimeRange::new_with_clamped_durations(
+                            Duration::from_secs(100),
+                            Duration::from_secs(200)
+                        ),
+                        checkpoint_interval: TimeRange::new_with_clamped_durations(
+                            Duration::from_secs(300),
+                            Duration::from_secs(400)
+                        ),
                     }
                 ))
             }
@@ -437,14 +437,14 @@ mod serde_tests {
                 has_shared_folder: None,
                 training_participation_report: Some(Some(
                     TrainingParticipationReportParameterSet {
-                        initial_checkpoint_delay: TimeRange {
-                            after: TimeRangeStart::from_i64_clamped(100),
-                            within: TimeRangeWindow::from_i64_clamped(200),
-                        },
-                        checkpoint_interval: TimeRange {
-                            after: TimeRangeStart::from_i64_clamped(300),
-                            within: TimeRangeWindow::from_i64_clamped(400),
-                        }
+                        initial_checkpoint_delay: TimeRange::new_with_clamped_durations(
+                            Duration::from_secs(100),
+                            Duration::from_secs(200)
+                        ),
+                        checkpoint_interval: TimeRange::new_with_clamped_durations(
+                            Duration::from_secs(300),
+                            Duration::from_secs(400)
+                        ),
                     }
                 ))
             }),

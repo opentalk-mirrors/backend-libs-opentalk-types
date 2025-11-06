@@ -2,47 +2,138 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-use crate::{
-    training_participation_report::{TimeRangeStart, time_range_window::TimeRangeWindow},
-    utils::ExampleData,
-};
+use std::time::Duration;
 
-/// A time range within which checkpoints can be randomly created
+use crate::utils::ExampleData;
+
+/// The minimum initial delay until the first checkpoint is reached. This prevents a DoS attack in
+/// which a user could spam the creation of reports.
+const MIN_INITIAL_DELAY: Duration = Duration::from_mins(1);
+/// The maximum initial delay until the first checkpoint is reached.
+const MAX_INITIAL_DELAY: Duration = Duration::from_hours(10);
+/// The maximum time window within which a checkpoint can be created.
+const MAX_TIME_WINDOW: Duration = Duration::from_hours(10);
+
+/// Defines a time window within which a checkpoint can be created.
+///
+/// The checkpoint can be created after a minimum delay (`after`) has elapsed, and is created
+/// randomly within a maximum duration (`within`) after the initial delay.
 #[derive(Debug, Clone, PartialEq, Eq)]
-#[cfg_attr(feature = "serde", derive(serde::Deserialize, serde::Serialize))]
+#[cfg_attr(feature = "serde", derive(serde::Serialize))]
 #[cfg_attr(
     feature = "utoipa",
     derive(utoipa::ToSchema),
     schema(example = json!(TimeRange::example_data())),
 )]
 pub struct TimeRange {
-    /// The earliest number of seconds after which the checkpoint can be created.
-    pub after: TimeRangeStart,
+    /// The shortest duration that needs to elapse before the checkpoint can be created.
+    #[cfg_attr(feature = "serde", serde(with = "crate::utils::duration_seconds"))]
+    after: Duration,
+    /// The time window within which the checkpoint is created.
+    #[cfg_attr(feature = "serde", serde(with = "crate::utils::duration_seconds"))]
+    within: Duration,
+}
 
-    /// The number of seconds within which the checkpoint can be created after the `after` value.
-    pub within: TimeRangeWindow,
+#[cfg(feature = "serde")]
+impl<'de> serde::Deserialize<'de> for TimeRange {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[derive(serde::Deserialize)]
+        struct TimeRangeHelper {
+            #[serde(with = "crate::utils::duration_seconds")]
+            after: Duration,
+            #[serde(with = "crate::utils::duration_seconds")]
+            within: Duration,
+        }
+
+        let helper = TimeRangeHelper::deserialize(deserializer)?;
+
+        if helper.after < MIN_INITIAL_DELAY {
+            return Err(serde::de::Error::custom(format!(
+                "`after` must be at least {MIN_INITIAL_DELAY:?}"
+            )));
+        }
+
+        if helper.after > MAX_INITIAL_DELAY {
+            return Err(serde::de::Error::custom(format!(
+                "`after` must be at most {MAX_INITIAL_DELAY:?}",
+            )));
+        }
+
+        if helper.within > MAX_TIME_WINDOW {
+            return Err(serde::de::Error::custom(format!(
+                "`within` must be at most {MAX_TIME_WINDOW:?} seconds"
+            )));
+        }
+
+        Ok(TimeRange {
+            after: helper.after,
+            within: helper.within,
+        })
+    }
+}
+
+impl TimeRange {
+    /// Creates a new [`TimeRange`]. Clamps the given durations to their respective minimum and
+    /// maximum values.
+    pub fn new_with_clamped_durations(after: Duration, within: Duration) -> Self {
+        Self {
+            after: after.clamp(MIN_INITIAL_DELAY, MAX_INITIAL_DELAY),
+            within: within.min(MAX_TIME_WINDOW),
+        }
+    }
+
+    /// The shortest duration that needs to elapse before the checkpoint can be created.
+    pub fn after(&self) -> Duration {
+        self.after
+    }
+
+    /// The time window within which the checkpoint is created.
+    pub fn within(&self) -> Duration {
+        self.within
+    }
 }
 
 impl ExampleData for TimeRange {
     fn example_data() -> Self {
         Self {
-            after: TimeRangeStart::from_i64_clamped(1200),
-            within: TimeRangeWindow::from_i64_clamped(600),
+            after: Duration::from_mins(20),
+            within: Duration::from_mins(10),
         }
     }
 }
 
 #[cfg(all(test, feature = "serde"))]
 mod serde_tests {
+    use std::time::Duration;
+
     use pretty_assertions::assert_eq;
     use serde_json::json;
 
-    use crate::{
-        training_participation_report::{
-            TimeRange, TimeRangeStart, time_range_window::TimeRangeWindow,
-        },
-        utils::ExampleData as _,
-    };
+    use super::*;
+
+    #[test]
+    fn time_range_clamping() {
+        let time_range = TimeRange::new_with_clamped_durations(Duration::ZERO, Duration::ZERO);
+        assert_eq!(time_range.after(), MIN_INITIAL_DELAY);
+        assert_eq!(time_range.within(), Duration::ZERO);
+
+        let time_range = TimeRange::new_with_clamped_durations(
+            Duration::from_hours(1000),
+            Duration::from_hours(1000),
+        );
+        assert_eq!(time_range.after(), MAX_INITIAL_DELAY);
+        assert_eq!(time_range.within(), MAX_TIME_WINDOW);
+
+        let time_range = TimeRange::new_with_clamped_durations(
+            Duration::from_secs(120),
+            Duration::from_hours(5),
+        );
+        assert_eq!(time_range.after(), Duration::from_secs(120));
+        assert_eq!(time_range.within(), Duration::from_hours(5));
+    }
 
     #[test]
     fn deserialize_time_range_zero() {
@@ -54,8 +145,8 @@ mod serde_tests {
         assert_eq!(
             serde_json::from_value::<TimeRange>(json).unwrap(),
             TimeRange {
-                after: TimeRangeStart::from_i64_clamped(60),
-                within: TimeRangeWindow::from_i64_clamped(0),
+                after: MIN_INITIAL_DELAY,
+                within: Duration::ZERO,
             }
         );
     }
@@ -64,8 +155,8 @@ mod serde_tests {
     fn serialize_time_range_zero() {
         assert_eq!(
             json!(TimeRange {
-                after: TimeRangeStart::from_i64_clamped(60),
-                within: TimeRangeWindow::from_i64_clamped(0)
+                after: Duration::from_mins(1),
+                within: Duration::ZERO,
             }),
             json!({
                 "after": 60,
@@ -99,6 +190,26 @@ mod serde_tests {
     }
 
     #[test]
+    fn deserialize_invalid_below_minimum_after() {
+        let json = json!({
+            "after": 59,
+            "within": 600,
+        });
+
+        assert!(serde_json::from_value::<TimeRange>(json).is_err());
+    }
+
+    #[test]
+    fn deserialize_invalid_above_maximum_after() {
+        let json = json!({
+            "after": 36001,
+            "within": 600,
+        });
+
+        assert!(serde_json::from_value::<TimeRange>(json).is_err());
+    }
+
+    #[test]
     fn deserialize_invalid_negative_after() {
         let json = json!({
             "after": -1200,
@@ -113,6 +224,16 @@ mod serde_tests {
         let json = json!({
             "after": 1200,
             "within": -600,
+        });
+
+        assert!(serde_json::from_value::<TimeRange>(json).is_err());
+    }
+
+    #[test]
+    fn deserialize_invalid_above_maximum_within() {
+        let json = json!({
+            "after": 1200,
+            "within": 36001,
         });
 
         assert!(serde_json::from_value::<TimeRange>(json).is_err());
