@@ -26,11 +26,20 @@ const MAX_TIME_WINDOW: Duration = Duration::from_hours(10);
     schema(example = json!(TimeRange::example_data())),
 )]
 pub struct TimeRange {
-    /// The shortest duration that needs to elapse before the checkpoint can be created.
+    /// The shortest duration that needs to elapse before the checkpoint can be created, represented in seconds.
     #[cfg_attr(feature = "serde", serde(with = "crate::utils::duration_seconds"))]
+    #[cfg_attr(
+        feature = "utoipa",
+        schema(value_type = u32, minimum = 60, maximum = 36000)
+    )]
     after: Duration,
-    /// The time window within which the checkpoint is created.
+
+    /// The time window within which the checkpoint is created, represented in seconds.
     #[cfg_attr(feature = "serde", serde(with = "crate::utils::duration_seconds"))]
+    #[cfg_attr(
+        feature = "utoipa",
+        schema(value_type = u32, minimum = 0, maximum = 36000)
+    )]
     within: Duration,
 }
 
