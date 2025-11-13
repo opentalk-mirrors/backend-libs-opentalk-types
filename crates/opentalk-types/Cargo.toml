@@ -134,6 +134,7 @@ common = ["dep:opentalk-types-common"]
 signaling = ["common", "dep:opentalk-types-signaling"]
 signaling-all = [
   "signaling",
+  "signaling-asset-storage",
   "signaling-automod",
   "signaling-breakout",
   "signaling-chat",
@@ -153,6 +154,10 @@ signaling-all = [
   "signaling-training-participation-report",
   "signaling-transcription",
   "signaling-whiteboard",
+]
+signaling-asset-storage = [
+  "dep:opentalk-types-signaling-asset-storage",
+  "signaling",
 ]
 signaling-automod = ["dep:opentalk-types-signaling-automod", "signaling"]
 signaling-breakout = ["dep:opentalk-types-signaling-breakout", "signaling"]
@@ -195,11 +200,11 @@ signaling-transcription = [
 ]
 signaling-whiteboard = ["dep:opentalk-types-signaling-whiteboard", "signaling"]
 
-
 [dependencies]
 opentalk-types-api-v1 = { workspace = true, optional = true }
 opentalk-types-common = { workspace = true, optional = true }
 opentalk-types-signaling = { workspace = true, optional = true }
+opentalk-types-signaling-asset-storage = { workspace = true, optional = true }
 opentalk-types-signaling-automod = { workspace = true, optional = true }
 opentalk-types-signaling-breakout = { workspace = true, optional = true }
 opentalk-types-signaling-chat = { workspace = true, optional = true }
