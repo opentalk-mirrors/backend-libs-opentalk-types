@@ -1452,6 +1452,7 @@ dependencies = [
  "opentalk-types-api-v1",
  "opentalk-types-common",
  "opentalk-types-signaling",
+ "opentalk-types-signaling-asset-storage",
  "opentalk-types-signaling-automod",
  "opentalk-types-signaling-breakout",
  "opentalk-types-signaling-chat",
@@ -1588,6 +1589,17 @@ dependencies = [
  "strum",
  "utoipa",
  "uuid",
+]
+
+[[package]]
+name = "opentalk-types-signaling-asset-storage"
+version = "0.1.0"
+dependencies = [
+ "opentalk-types-common",
+ "opentalk-types-signaling",
+ "pretty_assertions",
+ "serde",
+ "serde_json",
 ]
 
 [[package]]
