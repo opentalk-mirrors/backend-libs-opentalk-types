@@ -38,10 +38,10 @@ pub struct PrivateUserProfile {
     pub avatar_url: String,
 
     /// The dashboard theme
-    pub dashboard_theme: Theme,
+    pub dashboard_theme: Option<Theme>,
 
     /// The conference theme
-    pub conference_theme: Theme,
+    pub conference_theme: Option<Theme>,
 
     /// The language for the user
     pub language: Language,
