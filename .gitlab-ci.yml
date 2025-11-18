@@ -128,7 +128,7 @@ lint:markdown:
   <<: *default_job_condition
   image: registry.gitlab.com/pipeline-components/markdownlint:latest
   script:
-    - mdl --style .markdown_style.rb  --warnings .
+    - mdl --style .markdown_style.rb --warnings .
 
 lint:licensing:
   stage: lint
