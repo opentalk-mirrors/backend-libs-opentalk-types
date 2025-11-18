@@ -21,6 +21,18 @@ pub struct DateTimeTz {
     pub timezone: TimeZone,
 }
 
+impl PartialOrd for DateTimeTz {
+    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+        Some(self.cmp(other))
+    }
+}
+
+impl Ord for DateTimeTz {
+    fn cmp(&self, other: &Self) -> std::cmp::Ordering {
+        self.datetime.cmp(&other.datetime)
+    }
+}
+
 impl ExampleData for DateTimeTz {
     fn example_data() -> Self {
         Self {
