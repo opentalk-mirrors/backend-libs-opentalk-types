@@ -7,7 +7,7 @@ use std::{ops::Add, time::SystemTime};
 use chrono::{DateTime, TimeZone as _, Timelike as _, Utc};
 use derive_more::{AsRef, Deref, Display, From, FromStr};
 
-use crate::utils::ExampleData;
+use crate::{time::DateTimeTz, utils::ExampleData};
 
 /// A UTC DateTime wrapper that implements ToRedisArgs and FromRedisValue.
 ///
@@ -69,6 +69,12 @@ impl ExampleData for Timestamp {
 impl From<SystemTime> for Timestamp {
     fn from(value: SystemTime) -> Self {
         Self(value.into())
+    }
+}
+
+impl From<DateTimeTz> for Timestamp {
+    fn from(value: DateTimeTz) -> Self {
+        value.datetime.into()
     }
 }
 
