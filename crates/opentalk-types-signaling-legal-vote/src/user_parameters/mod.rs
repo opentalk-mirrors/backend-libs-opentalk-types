@@ -60,9 +60,13 @@ pub struct UserParameters {
     /// A PDF document will be created when the vote is over
     pub create_pdf: bool,
 
-    /// An optional timezone, defaults to UTC.
+    /// An optional timezone for the PDF generation.
+    ///
     /// Format as standardized by IANA, e.g.\"CET\" or \"Europe/Vienna\".
     /// See: <https://www.iana.org/time-zones>
+    ///
+    /// If absent, the server side will choose an appropriate timezone (e.g. the
+    /// one that is configured for the user).
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
     pub timezone: Option<TimeZone>,
 }

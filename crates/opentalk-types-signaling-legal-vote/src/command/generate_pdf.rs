@@ -13,9 +13,13 @@ pub struct GeneratePdf {
     /// The identifier of the targeted vote.
     pub legal_vote_id: LegalVoteId,
 
-    /// An optional timezone for the PDF generation. Defaults to UTC.
+    /// An optional timezone for the PDF generation.
+    ///
     /// The timezone should be in a format standardized by IANA (e.g., "CET" or "Europe/Vienna").
     /// For more details, visit: <https://www.iana.org/time-zones>
+    ///
+    /// If absent, the server side will choose an appropriate timezone (e.g. the
+    /// one that is configured for the user).
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
     pub timezone: Option<TimeZone>,
 }
