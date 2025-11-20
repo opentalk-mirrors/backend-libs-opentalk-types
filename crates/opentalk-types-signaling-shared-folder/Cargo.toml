@@ -12,7 +12,7 @@ license = "EUPL-1.2"
 name = "opentalk-types-signaling-shared-folder"
 publish = true
 repository.workspace = true
-version = "0.40.0"
+version = "0.41.0"
 
 [package.metadata.docs.rs]
 all-features = true
