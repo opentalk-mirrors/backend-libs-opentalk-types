@@ -4,6 +4,8 @@
 
 use opentalk_types_common::{events::EventId, time::Timestamp, utils::ExampleData};
 
+use crate::events::InstanceId;
+
 /// Data stored inside the `GET /events` query cursor
 #[derive(Debug, Clone, Copy, Eq, PartialEq)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -16,6 +18,9 @@ pub struct GetEventsCursorData {
 
     /// Last event starts_at
     pub event_starts_at: Option<Timestamp>,
+
+    /// last instance id
+    pub instance_id: Option<InstanceId>,
 }
 
 impl ExampleData for GetEventsCursorData {
@@ -24,6 +29,7 @@ impl ExampleData for GetEventsCursorData {
             event_id: EventId::example_data(),
             event_created_at: Timestamp::example_data(),
             event_starts_at: None,
+            instance_id: None,
         }
     }
 }
