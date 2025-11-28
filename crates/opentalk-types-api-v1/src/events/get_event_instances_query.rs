@@ -13,7 +13,14 @@ use crate::pagination::Cursor;
 #[cfg_attr(feature = "utoipa", derive(utoipa::IntoParams))]
 pub struct GetEventInstancesQuery {
     /// Maximum number of invitees to include inside the event
-    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(
+            default,
+            skip_serializing_if = "Option::is_none",
+            deserialize_with = "super::serde_utils::invitees_max_or_zero"
+        )
+    )]
     pub invitees_max: Option<PageSize>,
     /// Minimum time of the event instances
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
@@ -78,6 +85,18 @@ mod serde_tests {
     fn deserialize_default() {
         let example = GetEventInstancesQuery::default();
         assert_eq!(example, serde_json::from_value(json!({})).unwrap());
+    }
+
+    #[test]
+    fn deserialize_invitees_max_zero() {
+        let example = GetEventInstancesQuery {
+            invitees_max: None,
+            ..Default::default()
+        };
+        assert_eq!(
+            example,
+            serde_json::from_value(json!({"invitees_max": 0})).unwrap()
+        );
     }
 
     #[test]

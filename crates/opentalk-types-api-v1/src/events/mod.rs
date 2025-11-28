@@ -47,6 +47,8 @@ mod post_event_invite_query;
 mod post_events_body;
 mod public_invite_user_profile;
 mod put_shared_folder_query;
+#[cfg(feature = "serde")]
+mod serde_utils;
 mod streaming_target_options_query;
 mod user_invite;
 

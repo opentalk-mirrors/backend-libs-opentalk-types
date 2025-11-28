@@ -12,7 +12,14 @@ pub struct EventInstanceQuery {
     /// Maximum number of invitees to return inside the event instance resource
     ///
     /// Default: 0
-    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(
+            default,
+            skip_serializing_if = "Option::is_none",
+            deserialize_with = "super::serde_utils::invitees_max_or_zero"
+        )
+    )]
     pub invitees_max: Option<PageSize>,
 
     /// Flag to suppress email notification
@@ -45,6 +52,18 @@ mod serde_tests {
         assert_eq!(
             json!(example),
             json!({"invitees_max": 50, "suppress_email_notification": true})
+        );
+    }
+
+    #[test]
+    fn deserialize_invitees_max_zero() {
+        let example = EventInstanceQuery {
+            invitees_max: None,
+            suppress_email_notification: false,
+        };
+        assert_eq!(
+            example,
+            serde_json::from_value(json!({"invitees_max": 0})).unwrap()
         );
     }
 
