@@ -38,7 +38,11 @@ pub struct GetEventsQuery {
     /// Default value is 0
     #[cfg_attr(
         feature = "serde",
-        serde(default, skip_serializing_if = "Option::is_none")
+        serde(
+            default,
+            skip_serializing_if = "Option::is_none",
+            deserialize_with = "super::serde_utils::invitees_max_or_zero"
+        )
     )]
     pub invitees_max: Option<PageSize>,
 
@@ -145,6 +149,18 @@ mod serde_tests {
     fn deserialize_default() {
         let example = GetEventsQuery::default();
         assert_eq!(example, serde_json::from_value(json!({})).unwrap());
+    }
+
+    #[test]
+    fn deserialize_invitees_max_zero() {
+        let example = GetEventsQuery {
+            invitees_max: None,
+            ..Default::default()
+        };
+        assert_eq!(
+            example,
+            serde_json::from_value(json!({"invitees_max": 0})).unwrap()
+        );
     }
 
     #[test]

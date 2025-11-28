@@ -10,7 +10,14 @@ use opentalk_types_common::pagination::PageSize;
 #[cfg_attr(feature = "utoipa", derive(utoipa::IntoParams))]
 pub struct PatchEventQuery {
     /// Maximum number of invitees to include inside the event
-    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
+    #[cfg_attr(
+        feature = "serde",
+        serde(
+            default,
+            skip_serializing_if = "Option::is_none",
+            deserialize_with = "super::serde_utils::invitees_max_or_zero"
+        )
+    )]
     pub invitees_max: Option<PageSize>,
 
     /// Flag to disable email notification
@@ -50,6 +57,18 @@ mod serde_tests {
     fn deserialize_default() {
         let example = PatchEventQuery::default();
         assert_eq!(example, serde_json::from_value(json!({})).unwrap());
+    }
+
+    #[test]
+    fn deserialize_invitees_max_zero() {
+        let example = PatchEventQuery {
+            invitees_max: None,
+            suppress_email_notification: false,
+        };
+        assert_eq!(
+            example,
+            serde_json::from_value(json!({"invitees_max": 0})).unwrap()
+        );
     }
 
     #[test]
