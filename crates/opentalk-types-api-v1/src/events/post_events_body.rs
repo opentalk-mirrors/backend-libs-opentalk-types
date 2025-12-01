@@ -174,3 +174,199 @@ impl ExampleData for PostEventsBody {
         }
     }
 }
+
+#[cfg(all(test, feature = "serde"))]
+mod serde_tests {
+    use pretty_assertions::assert_eq;
+    use serde_json::json;
+
+    use super::*;
+
+    #[test]
+    fn serialize_without_options() {
+        let expected = json!({
+            "title": "Teammeeting",
+            "description": "The weekly teammeeting",
+            "waiting_room": false,
+            "is_time_independent": false,
+            "is_adhoc": false,
+            "has_shared_folder": false,
+            "show_meeting_details": true,
+            "e2e_encryption": false,
+        });
+
+        let produced = json!(PostEventsBody {
+            title: "Teammeeting".parse().expect("valid event title"),
+            description: "The weekly teammeeting"
+                .parse()
+                .expect("valid event description"),
+            password: None,
+            waiting_room: false,
+            is_time_independent: false,
+            is_all_day: None,
+            starts_at: None,
+            ends_at: None,
+            recurrence_pattern: RecurrencePattern::default(),
+            is_adhoc: false,
+            streaming_targets: vec![],
+            has_shared_folder: false,
+            show_meeting_details: true,
+            e2e_encryption: false,
+            training_participation_report: None,
+        });
+
+        assert_eq!(expected, produced);
+    }
+
+    #[test]
+    fn deserialize_without_options() {
+        let expected = PostEventsBody {
+            title: "Teammeeting".parse().expect("valid event title"),
+            description: "The weekly teammeeting"
+                .parse()
+                .expect("valid event description"),
+            password: None,
+            waiting_room: false,
+            is_time_independent: false,
+            is_all_day: None,
+            starts_at: None,
+            ends_at: None,
+            recurrence_pattern: RecurrencePattern::default(),
+            is_adhoc: false,
+            streaming_targets: vec![],
+            has_shared_folder: false,
+            show_meeting_details: true,
+            e2e_encryption: false,
+            training_participation_report: None,
+        };
+
+        let produced = serde_json::from_value(json!({
+            "title": "Teammeeting",
+            "description": "The weekly teammeeting",
+            "waiting_room": false,
+            "is_time_independent": false,
+            "is_adhoc": false,
+            "has_shared_folder": false,
+            "show_meeting_details": true,
+            "e2e_encryption": false,
+        }))
+        .unwrap();
+
+        assert_eq!(expected, produced);
+    }
+
+    #[test]
+    fn serialize_with_options() {
+        let expected = json!({
+            "title": "Teammeeting",
+            "description": "The weekly teammeeting",
+            "password": "password",
+            "waiting_room": false,
+            "e2e_encryption": false,
+            "is_time_independent": false,
+            "is_all_day": true,
+            "starts_at": {
+                "datetime": "2002-04-01T10:41:35Z",
+                "timezone": "Europe/Berlin",
+            },
+            "ends_at": {
+                "datetime": "2002-04-01T11:41:35Z",
+                "timezone": "Europe/Berlin",
+            },
+           "recurrence_pattern": RecurrencePattern::example_data(),
+            "is_adhoc": false,
+            "streaming_targets": [StreamingTarget::example_data()],
+            "has_shared_folder": false,
+            "show_meeting_details": true,
+            "training_participation_report": TrainingParticipationReportParameterSet::example_data()
+        });
+
+        let produced = json!(PostEventsBody {
+            title: "Teammeeting".parse().expect("valid event title"),
+            description: "The weekly teammeeting"
+                .parse()
+                .expect("valid event description"),
+            password: Some("password".parse().unwrap()),
+            waiting_room: false,
+            is_time_independent: false,
+            is_all_day: Some(true),
+            starts_at: Some(DateTimeTz {
+                datetime: Utc.with_ymd_and_hms(2002, 4, 1, 10, 41, 35).unwrap(),
+                timezone: chrono_tz::Europe::Berlin.into(),
+            }),
+            ends_at: Some(DateTimeTz {
+                datetime: Utc.with_ymd_and_hms(2002, 4, 1, 11, 41, 35).unwrap(),
+                timezone: chrono_tz::Europe::Berlin.into(),
+            }),
+            recurrence_pattern: RecurrencePattern::example_data(),
+            is_adhoc: false,
+            streaming_targets: vec![StreamingTarget::example_data()],
+            has_shared_folder: false,
+            show_meeting_details: true,
+            e2e_encryption: false,
+            training_participation_report: Some(
+                TrainingParticipationReportParameterSet::example_data()
+            ),
+        });
+
+        assert_eq!(expected, produced);
+    }
+
+    #[test]
+    fn deserialize_with_options() {
+        let expected = PostEventsBody {
+            title: "Teammeeting".parse().expect("valid event title"),
+            description: "The weekly teammeeting"
+                .parse()
+                .expect("valid event description"),
+            password: Some("password".parse().unwrap()),
+            waiting_room: false,
+            is_time_independent: false,
+            is_all_day: Some(true),
+            starts_at: Some(DateTimeTz {
+                datetime: Utc.with_ymd_and_hms(2002, 4, 1, 10, 41, 35).unwrap(),
+                timezone: chrono_tz::Europe::Berlin.into(),
+            }),
+            ends_at: Some(DateTimeTz {
+                datetime: Utc.with_ymd_and_hms(2002, 4, 1, 11, 41, 35).unwrap(),
+                timezone: chrono_tz::Europe::Berlin.into(),
+            }),
+            recurrence_pattern: RecurrencePattern::example_data(),
+            is_adhoc: false,
+            streaming_targets: vec![StreamingTarget::example_data()],
+            has_shared_folder: false,
+            show_meeting_details: true,
+            e2e_encryption: false,
+            training_participation_report: Some(
+                TrainingParticipationReportParameterSet::example_data(),
+            ),
+        };
+
+        let produced = serde_json::from_value(json!({
+            "title": "Teammeeting",
+            "description": "The weekly teammeeting",
+            "password": "password",
+            "waiting_room": false,
+            "e2e_encryption": false,
+            "is_time_independent": false,
+            "is_all_day": true,
+            "starts_at": {
+                "datetime": "2002-04-01T10:41:35Z",
+                "timezone": "Europe/Berlin",
+            },
+            "ends_at": {
+                "datetime": "2002-04-01T11:41:35Z",
+                "timezone": "Europe/Berlin",
+            },
+           "recurrence_pattern": RecurrencePattern::example_data(),
+            "is_adhoc": false,
+            "streaming_targets": [StreamingTarget::example_data()],
+            "has_shared_folder": false,
+            "show_meeting_details": true,
+            "training_participation_report": TrainingParticipationReportParameterSet::example_data()
+        }))
+        .unwrap();
+
+        assert_eq!(expected, produced);
+    }
+}
