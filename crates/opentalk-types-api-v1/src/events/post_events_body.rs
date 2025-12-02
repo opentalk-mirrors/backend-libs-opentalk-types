@@ -2,15 +2,15 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-use chrono::{TimeZone as _, Utc};
 use opentalk_types_common::{
     events::{EventDescription, EventTitle},
     rooms::RoomPassword,
     streaming::StreamingTarget,
-    time::{DateTimeTz, RecurrencePattern},
     training_participation_report::TrainingParticipationReportParameterSet,
     utils::ExampleData,
 };
+
+use crate::events::EventDateKind;
 
 /// Body of the `POST /events` endpoint
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -46,69 +46,6 @@ pub struct PostEventsBody {
     #[cfg_attr(feature = "serde", serde(default))]
     pub e2e_encryption: bool,
 
-    /// Should the created event be time independent?
-    ///
-    /// If true, all following fields must be null
-    /// If false, requires `is_all_day`, `starts_at`, `ends_at`
-    pub is_time_independent: bool,
-
-    /// Should the event be all-day?
-    ///
-    /// If true, requires `starts_at.datetime` and `ends_at.datetime` to have a 00:00 time part
-    #[cfg_attr(
-        feature = "serde",
-        serde(default, skip_serializing_if = "Option::is_none")
-    )]
-    // Field is non-required already, utoipa adds a `nullable: true` entry
-    // by default which creates a false positive in the spectral linter when
-    // combined with example data.
-    #[cfg_attr(feature = "utoipa", schema(nullable = false))]
-    pub is_all_day: Option<bool>,
-
-    /// Start time of the event
-    ///
-    /// For recurring events these must contain the datetime of the first instance
-    #[cfg_attr(
-        feature = "serde",
-        serde(default, skip_serializing_if = "Option::is_none")
-    )]
-    // Field is non-required already, utoipa adds a `nullable: true` entry
-    // by default which creates a false positive in the spectral linter when
-    // combined with example data.
-    #[cfg_attr(feature = "utoipa", schema(nullable = false))]
-    pub starts_at: Option<DateTimeTz>,
-
-    /// End time of the event
-    ///
-    /// For recurring events these must contain the datetime of the first instance
-    #[cfg_attr(
-        feature = "serde",
-        serde(default, skip_serializing_if = "Option::is_none")
-    )]
-    // Field is non-required already, utoipa adds a `nullable: true` entry
-    // by default which creates a false positive in the spectral linter when
-    // combined with example data.
-    #[cfg_attr(feature = "utoipa", schema(nullable = false))]
-    pub ends_at: Option<DateTimeTz>,
-
-    /// Recurrence pattern(s) for recurring events
-    ///
-    /// May contain RRULE, EXRULE, RDATE and EXDATE strings
-    ///
-    /// Requires `type` to be `recurring`
-    ///
-    /// Contains a list of recurrence rules which describe the occurrences of the event.
-    ///
-    /// Allowed are `RRULE`, `RDATE`, `EXRULE` and `EXDATE`.
-    ////
-    /// The `DTSTART` and `DTEND` attributes are not allowed as their information is stored
-    /// in the `starts_at` and `ends_at` fields.
-    #[cfg_attr(
-        feature = "serde",
-        serde(default, skip_serializing_if = "RecurrencePattern::is_empty")
-    )]
-    pub recurrence_pattern: RecurrencePattern,
-
     /// Is this an ad-hoc chatroom?
     #[cfg_attr(feature = "serde", serde(default))]
     pub is_adhoc: bool,
@@ -141,6 +78,10 @@ pub struct PostEventsBody {
     // combined with example data.
     #[cfg_attr(feature = "utoipa", schema(nullable = false))]
     pub training_participation_report: Option<TrainingParticipationReportParameterSet>,
+
+    /// The field containing optional parameter related to the date of the event.
+    #[cfg_attr(feature = "serde", serde(flatten,))]
+    pub date: EventDateKind,
 }
 
 impl ExampleData for PostEventsBody {
@@ -152,17 +93,6 @@ impl ExampleData for PostEventsBody {
                 .expect("valid event description"),
             password: Some(RoomPassword::example_data()),
             waiting_room: false,
-            is_time_independent: false,
-            is_all_day: None,
-            starts_at: Some(DateTimeTz {
-                datetime: Utc.with_ymd_and_hms(2024, 7, 22, 10, 0, 0).unwrap(),
-                timezone: chrono_tz::Europe::Berlin.into(),
-            }),
-            ends_at: Some(DateTimeTz {
-                datetime: Utc.with_ymd_and_hms(2024, 7, 22, 11, 0, 0).unwrap(),
-                timezone: chrono_tz::Europe::Berlin.into(),
-            }),
-            recurrence_pattern: RecurrencePattern::example_data(),
             is_adhoc: false,
             streaming_targets: vec![StreamingTarget::example_data()],
             has_shared_folder: false,
@@ -171,16 +101,20 @@ impl ExampleData for PostEventsBody {
             training_participation_report: Some(
                 TrainingParticipationReportParameterSet::example_data(),
             ),
+            date: EventDateKind::example_data(),
         }
     }
 }
 
 #[cfg(all(test, feature = "serde"))]
 mod serde_tests {
+    use chrono::{TimeZone, Utc};
+    use opentalk_types_common::time::{DateTimeTz, RecurrencePattern};
     use pretty_assertions::assert_eq;
     use serde_json::json;
 
     use super::*;
+    use crate::events::EventDate;
 
     #[test]
     fn serialize_without_options() {
@@ -188,7 +122,7 @@ mod serde_tests {
             "title": "Teammeeting",
             "description": "The weekly teammeeting",
             "waiting_room": false,
-            "is_time_independent": false,
+            "is_time_independent": true,
             "is_adhoc": false,
             "has_shared_folder": false,
             "show_meeting_details": true,
@@ -202,17 +136,13 @@ mod serde_tests {
                 .expect("valid event description"),
             password: None,
             waiting_room: false,
-            is_time_independent: false,
-            is_all_day: None,
-            starts_at: None,
-            ends_at: None,
-            recurrence_pattern: RecurrencePattern::default(),
             is_adhoc: false,
             streaming_targets: vec![],
             has_shared_folder: false,
             show_meeting_details: true,
             e2e_encryption: false,
             training_participation_report: None,
+            date: EventDateKind::TIME_INDEPENDENT,
         });
 
         assert_eq!(expected, produced);
@@ -227,24 +157,20 @@ mod serde_tests {
                 .expect("valid event description"),
             password: None,
             waiting_room: false,
-            is_time_independent: false,
-            is_all_day: None,
-            starts_at: None,
-            ends_at: None,
-            recurrence_pattern: RecurrencePattern::default(),
             is_adhoc: false,
             streaming_targets: vec![],
             has_shared_folder: false,
             show_meeting_details: true,
             e2e_encryption: false,
             training_participation_report: None,
+            date: EventDateKind::TIME_INDEPENDENT,
         };
 
         let produced = serde_json::from_value(json!({
             "title": "Teammeeting",
             "description": "The weekly teammeeting",
             "waiting_room": false,
-            "is_time_independent": false,
+            "is_time_independent": true,
             "is_adhoc": false,
             "has_shared_folder": false,
             "show_meeting_details": true,
@@ -273,7 +199,7 @@ mod serde_tests {
                 "datetime": "2002-04-01T11:41:35Z",
                 "timezone": "Europe/Berlin",
             },
-           "recurrence_pattern": RecurrencePattern::example_data(),
+            "recurrence_pattern": RecurrencePattern::example_data(),
             "is_adhoc": false,
             "streaming_targets": [StreamingTarget::example_data()],
             "has_shared_folder": false,
@@ -288,17 +214,6 @@ mod serde_tests {
                 .expect("valid event description"),
             password: Some("password".parse().unwrap()),
             waiting_room: false,
-            is_time_independent: false,
-            is_all_day: Some(true),
-            starts_at: Some(DateTimeTz {
-                datetime: Utc.with_ymd_and_hms(2002, 4, 1, 10, 41, 35).unwrap(),
-                timezone: chrono_tz::Europe::Berlin.into(),
-            }),
-            ends_at: Some(DateTimeTz {
-                datetime: Utc.with_ymd_and_hms(2002, 4, 1, 11, 41, 35).unwrap(),
-                timezone: chrono_tz::Europe::Berlin.into(),
-            }),
-            recurrence_pattern: RecurrencePattern::example_data(),
             is_adhoc: false,
             streaming_targets: vec![StreamingTarget::example_data()],
             has_shared_folder: false,
@@ -307,6 +222,19 @@ mod serde_tests {
             training_participation_report: Some(
                 TrainingParticipationReportParameterSet::example_data()
             ),
+            date: EventDate {
+                is_all_day: true,
+                starts_at: DateTimeTz {
+                    datetime: Utc.with_ymd_and_hms(2002, 4, 1, 10, 41, 35).unwrap(),
+                    timezone: chrono_tz::Europe::Berlin.into(),
+                },
+                ends_at: DateTimeTz {
+                    datetime: Utc.with_ymd_and_hms(2002, 4, 1, 11, 41, 35).unwrap(),
+                    timezone: chrono_tz::Europe::Berlin.into(),
+                },
+                recurrence_pattern: RecurrencePattern::example_data(),
+            }
+            .into(),
         });
 
         assert_eq!(expected, produced);
@@ -321,17 +249,6 @@ mod serde_tests {
                 .expect("valid event description"),
             password: Some("password".parse().unwrap()),
             waiting_room: false,
-            is_time_independent: false,
-            is_all_day: Some(true),
-            starts_at: Some(DateTimeTz {
-                datetime: Utc.with_ymd_and_hms(2002, 4, 1, 10, 41, 35).unwrap(),
-                timezone: chrono_tz::Europe::Berlin.into(),
-            }),
-            ends_at: Some(DateTimeTz {
-                datetime: Utc.with_ymd_and_hms(2002, 4, 1, 11, 41, 35).unwrap(),
-                timezone: chrono_tz::Europe::Berlin.into(),
-            }),
-            recurrence_pattern: RecurrencePattern::example_data(),
             is_adhoc: false,
             streaming_targets: vec![StreamingTarget::example_data()],
             has_shared_folder: false,
@@ -340,6 +257,19 @@ mod serde_tests {
             training_participation_report: Some(
                 TrainingParticipationReportParameterSet::example_data(),
             ),
+            date: EventDate {
+                is_all_day: true,
+                starts_at: DateTimeTz {
+                    datetime: Utc.with_ymd_and_hms(2002, 4, 1, 10, 41, 35).unwrap(),
+                    timezone: chrono_tz::Europe::Berlin.into(),
+                },
+                ends_at: DateTimeTz {
+                    datetime: Utc.with_ymd_and_hms(2002, 4, 1, 11, 41, 35).unwrap(),
+                    timezone: chrono_tz::Europe::Berlin.into(),
+                },
+                recurrence_pattern: RecurrencePattern::example_data(),
+            }
+            .into(),
         };
 
         let produced = serde_json::from_value(json!({
