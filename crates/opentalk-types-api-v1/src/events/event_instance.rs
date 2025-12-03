@@ -130,7 +130,7 @@ impl ExampleData for EventInstance {
                 datetime: Utc.with_ymd_and_hms(2024, 7, 22, 11, 0, 0).unwrap(),
                 timezone: chrono_tz::Europe::Berlin.into(),
             },
-            type_: EventType::Recurring,
+            type_: EventType::Instance,
             status: EventStatus::Ok,
             invite_status: EventInviteStatus::Pending,
             is_favorite: false,

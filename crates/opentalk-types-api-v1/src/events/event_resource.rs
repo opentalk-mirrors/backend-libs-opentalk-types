@@ -2,18 +2,17 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-use chrono::{TimeZone as _, Utc};
 use opentalk_types_common::{
     events::{EventDescription, EventId, EventTitle, invites::EventInviteStatus},
     shared_folders::SharedFolder,
     streaming::RoomStreamingTarget,
-    time::{DateTimeTz, RecurrencePattern, Timestamp},
+    time::Timestamp,
     training_participation_report::TrainingParticipationReportParameterSet,
     utils::ExampleData,
 };
 
-use super::{EventInvitee, EventRoomInfo, EventType};
-use crate::users::PublicUserProfile;
+use super::{EventInvitee, EventRoomInfo};
+use crate::{events::EventResourceDateKind, users::PublicUserProfile};
 
 /// Event Resource representation
 ///
@@ -61,84 +60,8 @@ pub struct EventResource {
     /// List of event invitees and their invite status. Might not be complete, see `invite_truncated`
     pub invitees: Vec<EventInvitee>,
 
-    /// Is the event time independent?
-    ///
-    /// Time independent events are not bound to any time but instead are constantly available to join
-    pub is_time_independent: bool,
-
-    /// Is the event an all day event
-    ///
-    /// All-day events have no start/end time, they last the entire day(s)
-    #[cfg_attr(
-        feature = "serde",
-        serde(default, skip_serializing_if = "Option::is_none")
-    )]
-    // Field is non-required already, utoipa adds a `nullable: true` entry
-    // by default which creates a false positive in the spectral linter when
-    // combined with example data.
-    #[cfg_attr(feature = "utoipa", schema(nullable = false))]
-    pub is_all_day: Option<bool>,
-
-    /// Start time of the event.
-    ///
-    /// Omitted if `is_time_independent` is true
-    ///
-    /// For events of type `recurring` the datetime contains the time of the first instance.
-    /// The datetimes of subsequent recurrences are computed using the datetime of the first instance and its timezone.
-    #[cfg_attr(
-        feature = "serde",
-        serde(default, skip_serializing_if = "Option::is_none")
-    )]
-    // Field is non-required already, utoipa adds a `nullable: true` entry
-    // by default which creates a false positive in the spectral linter when
-    // combined with example data.
-    #[cfg_attr(feature = "utoipa", schema(nullable = false))]
-    pub starts_at: Option<DateTimeTz>,
-
-    /// End time of the event.
-    ///
-    /// Omitted if `is_time_independent` is true
-    ///
-    /// For events of type `recurring` the datetime contains the time of the first instance.
-    /// The datetimes of subsequent recurrences are computed using the datetime of the first instance and its timezone.
-    #[cfg_attr(
-        feature = "serde",
-        serde(default, skip_serializing_if = "Option::is_none")
-    )]
-    // Field is non-required already, utoipa adds a `nullable: true` entry
-    // by default which creates a false positive in the spectral linter when
-    // combined with example data.
-    #[cfg_attr(feature = "utoipa", schema(nullable = false))]
-    pub ends_at: Option<DateTimeTz>,
-
-    /// Recurrence pattern(s) for recurring events
-    ///
-    /// May contain RRULE, EXRULE, RDATE and EXDATE strings
-    ///
-    /// Requires `type` to be `recurring`
-    ///
-    /// Contains a list of recurrence rules which describe the occurrences of the event.
-    /// To get all event instances resolved use the `GET /events/{event_id}/instances` endpoint.
-    /// Changing this field will always remove all exceptions for the event.
-    ///
-    /// Allowed are `RRULE`, `RDATE`, `EXRULE` and `EXDATE`.
-    ////
-    /// The `DTSTART` and `DTEND` attributes are not allowed as their information is stored
-    /// in the `starts_at` and `ends_at` fields.
-    #[cfg_attr(
-        feature = "serde",
-        serde(default, skip_serializing_if = "RecurrencePattern::is_empty")
-    )]
-    pub recurrence_pattern: RecurrencePattern,
-
     /// Flag indicating whether the event is ad-hoc created.
     pub is_adhoc: bool,
-
-    /// Type of event
-    ///
-    /// Time independent events or events without recurrence are `single` while recurring events are `recurring`
-    #[cfg_attr(feature = "serde", serde(rename = "type"))]
-    pub type_: EventType,
 
     /// The invite status of the current user for this event
     pub invite_status: EventInviteStatus,
@@ -183,6 +106,10 @@ pub struct EventResource {
     // combined with example data.
     #[cfg_attr(feature = "utoipa", schema(nullable = false))]
     pub training_participation_report: Option<TrainingParticipationReportParameterSet>,
+
+    /// The field containing optional parameter related to the date of the event.
+    #[cfg_attr(feature = "serde", serde(flatten,))]
+    pub date: EventResourceDateKind,
 }
 
 impl ExampleData for EventResource {
@@ -198,16 +125,8 @@ impl ExampleData for EventResource {
             room: EventRoomInfo::example_data(),
             invitees_truncated: false,
             invitees: vec![EventInvitee::example_data()],
-            is_time_independent: false,
-            is_all_day: None,
-            starts_at: Some(DateTimeTz {
-                datetime: Utc.with_ymd_and_hms(2024, 7, 5, 17, 2, 42).unwrap(),
-                timezone: chrono_tz::Europe::Berlin.into(),
-            }),
-            ends_at: None,
-            recurrence_pattern: RecurrencePattern::default(),
+            date: EventResourceDateKind::example_data(),
             is_adhoc: false,
-            type_: EventType::Single,
             invite_status: EventInviteStatus::Accepted,
             is_favorite: false,
             can_edit: false,
@@ -223,10 +142,13 @@ impl ExampleData for EventResource {
 
 #[cfg(all(test, feature = "serde"))]
 mod serde_tests {
+    use chrono::{TimeZone, Utc};
+    use opentalk_types_common::time::{DateTimeTz, RecurrencePattern};
     use pretty_assertions::assert_eq;
     use serde_json::json;
 
     use super::*;
+    use crate::events::EventResourceDate;
 
     #[test]
     fn serialize_without_options() {
@@ -261,13 +183,8 @@ mod serde_tests {
             room: EventRoomInfo::example_data(),
             invitees_truncated: false,
             invitees: vec![],
-            is_time_independent: true,
-            is_all_day: None,
-            starts_at: None,
-            ends_at: None,
-            recurrence_pattern: RecurrencePattern::try_from(vec![]).unwrap(),
+            date: EventResourceDateKind::TIME_INDEPENDENT,
             is_adhoc: false,
-            type_: EventType::Single,
             invite_status: EventInviteStatus::Accepted,
             is_favorite: false,
             can_edit: false,
@@ -293,13 +210,8 @@ mod serde_tests {
             room: EventRoomInfo::example_data(),
             invitees_truncated: false,
             invitees: vec![],
-            is_time_independent: true,
-            is_all_day: None,
-            starts_at: None,
-            ends_at: None,
-            recurrence_pattern: RecurrencePattern::try_from(vec![]).unwrap(),
+            date: EventResourceDateKind::TIME_INDEPENDENT,
             is_adhoc: false,
-            type_: EventType::Single,
             invite_status: EventInviteStatus::Accepted,
             is_favorite: false,
             can_edit: false,
@@ -358,7 +270,7 @@ mod serde_tests {
             },
             "recurrence_pattern": RecurrencePattern::example_data(),
             "is_adhoc": false,
-            "type": "single",
+            "type": "recurring",
             "invite_status": "accepted",
             "is_favorite": false,
             "can_edit": false,
@@ -379,19 +291,20 @@ mod serde_tests {
             room: EventRoomInfo::example_data(),
             invitees_truncated: false,
             invitees: vec![EventInvitee::example_data()],
-            is_time_independent: false,
-            is_all_day: Some(false),
-            starts_at: Some(DateTimeTz {
-                datetime: Utc.with_ymd_and_hms(2002, 4, 1, 10, 41, 35).unwrap(),
-                timezone: chrono_tz::Europe::Berlin.into(),
-            }),
-            ends_at: Some(DateTimeTz {
-                datetime: Utc.with_ymd_and_hms(2002, 4, 1, 11, 41, 35).unwrap(),
-                timezone: chrono_tz::Europe::Berlin.into(),
-            }),
-            recurrence_pattern: RecurrencePattern::example_data(),
+            date: EventResourceDate::Recurring {
+                is_all_day: false,
+                starts_at: DateTimeTz {
+                    datetime: Utc.with_ymd_and_hms(2002, 4, 1, 10, 41, 35).unwrap(),
+                    timezone: chrono_tz::Europe::Berlin.into(),
+                },
+                ends_at: DateTimeTz {
+                    datetime: Utc.with_ymd_and_hms(2002, 4, 1, 11, 41, 35).unwrap(),
+                    timezone: chrono_tz::Europe::Berlin.into(),
+                },
+                recurrence_pattern: RecurrencePattern::example_data(),
+            }
+            .into(),
             is_adhoc: false,
-            type_: EventType::Single,
             invite_status: EventInviteStatus::Accepted,
             is_favorite: false,
             can_edit: false,
@@ -419,19 +332,20 @@ mod serde_tests {
             room: EventRoomInfo::example_data(),
             invitees_truncated: false,
             invitees: vec![EventInvitee::example_data()],
-            is_time_independent: false,
-            is_all_day: Some(false),
-            starts_at: Some(DateTimeTz {
-                datetime: Utc.with_ymd_and_hms(2002, 4, 1, 10, 41, 35).unwrap(),
-                timezone: chrono_tz::Europe::Berlin.into(),
-            }),
-            ends_at: Some(DateTimeTz {
-                datetime: Utc.with_ymd_and_hms(2002, 4, 1, 11, 41, 35).unwrap(),
-                timezone: chrono_tz::Europe::Berlin.into(),
-            }),
-            recurrence_pattern: RecurrencePattern::example_data(),
+            date: EventResourceDate::Recurring {
+                is_all_day: false,
+                starts_at: DateTimeTz {
+                    datetime: Utc.with_ymd_and_hms(2002, 4, 1, 10, 41, 35).unwrap(),
+                    timezone: chrono_tz::Europe::Berlin.into(),
+                },
+                ends_at: DateTimeTz {
+                    datetime: Utc.with_ymd_and_hms(2002, 4, 1, 11, 41, 35).unwrap(),
+                    timezone: chrono_tz::Europe::Berlin.into(),
+                },
+                recurrence_pattern: RecurrencePattern::example_data(),
+            }
+            .into(),
             is_adhoc: false,
-            type_: EventType::Single,
             invite_status: EventInviteStatus::Accepted,
             is_favorite: false,
             can_edit: false,
@@ -466,7 +380,7 @@ mod serde_tests {
             },
             "recurrence_pattern": RecurrencePattern::example_data(),
             "is_adhoc": false,
-            "type": "single",
+            "type": "recurring",
             "invite_status": "accepted",
             "is_favorite": false,
             "can_edit": false,
