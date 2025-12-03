@@ -220,3 +220,262 @@ impl ExampleData for EventResource {
         }
     }
 }
+
+#[cfg(all(test, feature = "serde"))]
+mod serde_tests {
+    use pretty_assertions::assert_eq;
+    use serde_json::json;
+
+    use super::*;
+
+    #[test]
+    fn serialize_without_options() {
+        let expected = json!({
+            "id": EventId::example_data(),
+            "created_by": PublicUserProfile::example_data(),
+            "created_at": Timestamp::example_data(),
+            "updated_by": PublicUserProfile::example_data(),
+            "updated_at": Timestamp::example_data(),
+            "title": EventTitle::example_data(),
+            "description": EventDescription::example_data(),
+            "room": EventRoomInfo::example_data(),
+            "invitees_truncated": false,
+            "invitees": [],
+            "is_time_independent": true,
+            "is_adhoc": false,
+            "type": "single",
+            "invite_status": "accepted",
+            "is_favorite": false,
+            "can_edit": false,
+            "show_meeting_details": true,
+        });
+
+        let produced = json!(EventResource {
+            id: EventId::example_data(),
+            created_by: PublicUserProfile::example_data(),
+            created_at: Timestamp::example_data(),
+            updated_by: PublicUserProfile::example_data(),
+            updated_at: Timestamp::example_data(),
+            title: EventTitle::example_data(),
+            description: EventDescription::example_data(),
+            room: EventRoomInfo::example_data(),
+            invitees_truncated: false,
+            invitees: vec![],
+            is_time_independent: true,
+            is_all_day: None,
+            starts_at: None,
+            ends_at: None,
+            recurrence_pattern: RecurrencePattern::try_from(vec![]).unwrap(),
+            is_adhoc: false,
+            type_: EventType::Single,
+            invite_status: EventInviteStatus::Accepted,
+            is_favorite: false,
+            can_edit: false,
+            shared_folder: None,
+            streaming_targets: vec![],
+            show_meeting_details: true,
+            training_participation_report: None,
+        });
+
+        assert_eq!(expected, produced);
+    }
+
+    #[test]
+    fn deserialize_without_options() {
+        let expected = EventResource {
+            id: EventId::example_data(),
+            created_by: PublicUserProfile::example_data(),
+            created_at: Timestamp::example_data(),
+            updated_by: PublicUserProfile::example_data(),
+            updated_at: Timestamp::example_data(),
+            title: EventTitle::example_data(),
+            description: EventDescription::example_data(),
+            room: EventRoomInfo::example_data(),
+            invitees_truncated: false,
+            invitees: vec![],
+            is_time_independent: true,
+            is_all_day: None,
+            starts_at: None,
+            ends_at: None,
+            recurrence_pattern: RecurrencePattern::try_from(vec![]).unwrap(),
+            is_adhoc: false,
+            type_: EventType::Single,
+            invite_status: EventInviteStatus::Accepted,
+            is_favorite: false,
+            can_edit: false,
+            shared_folder: None,
+            streaming_targets: vec![],
+            show_meeting_details: true,
+            training_participation_report: None,
+        };
+
+        let produced = serde_json::from_value(json!({
+            "id": EventId::example_data(),
+            "created_by": PublicUserProfile::example_data(),
+            "created_at": Timestamp::example_data(),
+            "updated_by": PublicUserProfile::example_data(),
+            "updated_at": Timestamp::example_data(),
+            "title": EventTitle::example_data(),
+            "description": EventDescription::example_data(),
+            "room": EventRoomInfo::example_data(),
+            "invitees_truncated": false,
+            "invitees": [],
+            "is_time_independent": true,
+            "is_adhoc": false,
+            "type": "single",
+            "invite_status": "accepted",
+            "is_favorite": false,
+            "can_edit": false,
+            "show_meeting_details": true,
+        }))
+        .unwrap();
+
+        assert_eq!(expected, produced);
+    }
+
+    #[test]
+    fn serialize_with_options() {
+        let expected = json!({
+            "id": EventId::example_data(),
+            "created_by": PublicUserProfile::example_data(),
+            "created_at": Timestamp::example_data(),
+            "updated_by": PublicUserProfile::example_data(),
+            "updated_at": Timestamp::example_data(),
+            "title": EventTitle::example_data(),
+            "description": EventDescription::example_data(),
+            "room": EventRoomInfo::example_data(),
+            "invitees_truncated": false,
+            "invitees": [EventInvitee::example_data()],
+            "is_time_independent": false,
+            "is_all_day": false,
+            "starts_at": {
+                "datetime": "2002-04-01T10:41:35Z",
+                "timezone": "Europe/Berlin",
+            },
+            "ends_at": {
+                "datetime": "2002-04-01T11:41:35Z",
+                "timezone": "Europe/Berlin",
+            },
+            "recurrence_pattern": RecurrencePattern::example_data(),
+            "is_adhoc": false,
+            "type": "single",
+            "invite_status": "accepted",
+            "is_favorite": false,
+            "can_edit": false,
+            "shared_folder": SharedFolder::example_data(),
+            "streaming_targets": [RoomStreamingTarget::example_data()],
+            "show_meeting_details": true,
+            "training_participation_report": TrainingParticipationReportParameterSet::example_data(),
+        });
+
+        let produced = json!(EventResource {
+            id: EventId::example_data(),
+            created_by: PublicUserProfile::example_data(),
+            created_at: Timestamp::example_data(),
+            updated_by: PublicUserProfile::example_data(),
+            updated_at: Timestamp::example_data(),
+            title: EventTitle::example_data(),
+            description: EventDescription::example_data(),
+            room: EventRoomInfo::example_data(),
+            invitees_truncated: false,
+            invitees: vec![EventInvitee::example_data()],
+            is_time_independent: false,
+            is_all_day: Some(false),
+            starts_at: Some(DateTimeTz {
+                datetime: Utc.with_ymd_and_hms(2002, 4, 1, 10, 41, 35).unwrap(),
+                timezone: chrono_tz::Europe::Berlin.into(),
+            }),
+            ends_at: Some(DateTimeTz {
+                datetime: Utc.with_ymd_and_hms(2002, 4, 1, 11, 41, 35).unwrap(),
+                timezone: chrono_tz::Europe::Berlin.into(),
+            }),
+            recurrence_pattern: RecurrencePattern::example_data(),
+            is_adhoc: false,
+            type_: EventType::Single,
+            invite_status: EventInviteStatus::Accepted,
+            is_favorite: false,
+            can_edit: false,
+            shared_folder: Some(SharedFolder::example_data()),
+            streaming_targets: vec![RoomStreamingTarget::example_data()],
+            show_meeting_details: true,
+            training_participation_report: Some(
+                TrainingParticipationReportParameterSet::example_data()
+            ),
+        });
+
+        assert_eq!(expected, produced);
+    }
+
+    #[test]
+    fn deserialize_with_options() {
+        let expected = EventResource {
+            id: EventId::example_data(),
+            created_by: PublicUserProfile::example_data(),
+            created_at: Timestamp::example_data(),
+            updated_by: PublicUserProfile::example_data(),
+            updated_at: Timestamp::example_data(),
+            title: EventTitle::example_data(),
+            description: EventDescription::example_data(),
+            room: EventRoomInfo::example_data(),
+            invitees_truncated: false,
+            invitees: vec![EventInvitee::example_data()],
+            is_time_independent: false,
+            is_all_day: Some(false),
+            starts_at: Some(DateTimeTz {
+                datetime: Utc.with_ymd_and_hms(2002, 4, 1, 10, 41, 35).unwrap(),
+                timezone: chrono_tz::Europe::Berlin.into(),
+            }),
+            ends_at: Some(DateTimeTz {
+                datetime: Utc.with_ymd_and_hms(2002, 4, 1, 11, 41, 35).unwrap(),
+                timezone: chrono_tz::Europe::Berlin.into(),
+            }),
+            recurrence_pattern: RecurrencePattern::example_data(),
+            is_adhoc: false,
+            type_: EventType::Single,
+            invite_status: EventInviteStatus::Accepted,
+            is_favorite: false,
+            can_edit: false,
+            shared_folder: Some(SharedFolder::example_data()),
+            streaming_targets: vec![RoomStreamingTarget::example_data()],
+            show_meeting_details: true,
+            training_participation_report: Some(
+                TrainingParticipationReportParameterSet::example_data(),
+            ),
+        };
+
+        let produced = serde_json::from_value(json!({
+            "id": EventId::example_data(),
+            "created_by": PublicUserProfile::example_data(),
+            "created_at": Timestamp::example_data(),
+            "updated_by": PublicUserProfile::example_data(),
+            "updated_at": Timestamp::example_data(),
+            "title": EventTitle::example_data(),
+            "description": EventDescription::example_data(),
+            "room": EventRoomInfo::example_data(),
+            "invitees_truncated": false,
+            "invitees": [EventInvitee::example_data()],
+            "is_time_independent": false,
+            "is_all_day": false,
+            "starts_at": {
+                "datetime": "2002-04-01T10:41:35Z",
+                "timezone": "Europe/Berlin",
+            },
+            "ends_at": {
+                "datetime": "2002-04-01T11:41:35Z",
+                "timezone": "Europe/Berlin",
+            },
+            "recurrence_pattern": RecurrencePattern::example_data(),
+            "is_adhoc": false,
+            "type": "single",
+            "invite_status": "accepted",
+            "is_favorite": false,
+            "can_edit": false,
+            "shared_folder": SharedFolder::example_data(),
+            "streaming_targets": [RoomStreamingTarget::example_data()],
+            "show_meeting_details": true,
+            "training_participation_report": TrainingParticipationReportParameterSet::example_data(),
+        })).unwrap();
+
+        assert_eq!(expected, produced);
+    }
+}
