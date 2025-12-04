@@ -1526,7 +1526,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-common"
-version = "0.40.0"
+version = "0.40.1"
 dependencies = [
  "actix-http",
  "actix-web-httpauth",
