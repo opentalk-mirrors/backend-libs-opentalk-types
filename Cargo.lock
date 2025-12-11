@@ -1566,7 +1566,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-common"
-version = "0.41.0"
+version = "0.41.1"
 dependencies = [
  "actix-http",
  "actix-web-httpauth",
@@ -2072,9 +2072,9 @@ dependencies = [
 
 [[package]]
 name = "redis-args"
-version = "0.22.0"
+version = "0.22.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "28e2f7762180604aaf85f46a3e1e38f8637c0775821ad7372d3a97d384be27de"
+checksum = "610444da62b67f6bd59e290fe9cc86a2199574d2d077777bae33d7a8f5ac999c"
 dependencies = [
  "redis",
  "redis-args-impl",
@@ -2083,9 +2083,9 @@ dependencies = [
 
 [[package]]
 name = "redis-args-impl"
-version = "0.22.0"
+version = "0.22.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "399aa2799a70124c5013992decb34ae8be0b357974b19ff7ed4c626479c93388"
+checksum = "2a8cf0a1ed6c1906dcd201306a323e769333b2af8c25c97b23ccc47fe84a301f"
 dependencies = [
  "darling 0.23.0",
  "proc-macro2",
