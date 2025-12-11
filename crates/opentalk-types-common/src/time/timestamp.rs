@@ -107,6 +107,9 @@ impl redis::ToRedisArgs for Timestamp {
 }
 
 #[cfg(feature = "redis")]
+impl redis::ToSingleRedisArg for Timestamp {}
+
+#[cfg(feature = "redis")]
 impl redis::FromRedisValue for Timestamp {
     fn from_redis_value(v: redis::Value) -> Result<Timestamp, redis::ParsingError> {
         use chrono::TimeZone as _;
