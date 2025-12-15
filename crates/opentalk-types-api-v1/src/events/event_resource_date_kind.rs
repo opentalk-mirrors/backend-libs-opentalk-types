@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-use opentalk_types_common::utils::ExampleData;
+use opentalk_types_common::{time::DateTimeTz, utils::ExampleData};
 
 use crate::events::{EventResourceDate, SingleMarker, TimeDependentMarker, TimeIndependentMarker};
 
@@ -48,6 +48,30 @@ impl EventResourceDateKind {
         type_: SingleMarker::Single,
         is_time_independent: TimeIndependentMarker,
     };
+
+    /// Get the `is_all_day` field for a time-dependent event, [`None`] for a time-independent event.
+    pub fn is_all_day(&self) -> Option<bool> {
+        let EventResourceDateKind::TimeDependent { date, .. } = self else {
+            return None;
+        };
+        Some(date.is_all_day())
+    }
+
+    /// Get the `starts_at` field for a time-dependent event, [`None`] for a time-independent event.
+    pub fn starts_at(&self) -> Option<&DateTimeTz> {
+        let EventResourceDateKind::TimeDependent { date, .. } = self else {
+            return None;
+        };
+        Some(date.starts_at())
+    }
+
+    /// Get the `ends_at` field for a time-dependent event, [`None`] for a time-independent event.
+    pub fn ends_at(&self) -> Option<&DateTimeTz> {
+        let EventResourceDateKind::TimeDependent { date, .. } = self else {
+            return None;
+        };
+        Some(date.starts_at())
+    }
 }
 
 impl Default for EventResourceDateKind {
