@@ -20,8 +20,16 @@ use opentalk_types_common::utils::ExampleData;
 )]
 pub enum EventType {
     /// Single event
+    #[deprecated(
+        since = "0.50.0",
+        note = "This variant has been encoded in EventResourceDateKind and EventResourceDate."
+    )]
     Single,
     /// Recurring event
+    #[deprecated(
+        since = "0.50.0",
+        note = "This variant has been encoded in EventResourceDate."
+    )]
     Recurring,
     /// Event instance
     Instance,
@@ -31,7 +39,7 @@ pub enum EventType {
 
 impl ExampleData for EventType {
     fn example_data() -> Self {
-        Self::Single
+        Self::Instance
     }
 }
 
@@ -43,6 +51,7 @@ mod serde_tests {
     use super::EventType;
 
     #[test]
+    #[allow(deprecated)]
     fn serialize() {
         assert_eq!(
             serde_json::to_value(EventType::Single).unwrap(),
@@ -63,6 +72,7 @@ mod serde_tests {
     }
 
     #[test]
+    #[allow(deprecated)]
     fn deserialize() {
         assert_eq!(
             serde_json::from_value::<EventType>(json!("single")).unwrap(),

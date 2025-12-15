@@ -4,7 +4,7 @@
 
 use opentalk_types_common::utils::ExampleData;
 
-use crate::events::{EventDate, TimeDependentMarker, TimeIndependentMarker};
+use crate::events::{EventResourceDate, SingleMarker, TimeDependentMarker, TimeIndependentMarker};
 
 /// Contains date related parameters for the respective event.
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -15,13 +15,16 @@ use crate::events::{EventDate, TimeDependentMarker, TimeIndependentMarker};
 )]
 #[cfg_attr(feature = "utoipa", derive(utoipa::ToSchema), schema(
     example = json!(
-        EventDateKind::example_data()
+        EventResourceDateKind::example_data()
     )
 ))]
-pub enum EventDateKind {
+pub enum EventResourceDateKind {
     /// Event is not bound to specific times.
     #[cfg_attr(feature = "serde", serde(rename_all = "snake_case"))]
     TimeIndependent {
+        /// Indicates that the event has no recurrence_pattern.
+        #[cfg_attr(feature = "serde", serde(rename = "type"))]
+        type_: SingleMarker,
         /// Should the created event be time independent?
         ///
         /// If true, all following fields must be null.
@@ -35,25 +38,26 @@ pub enum EventDateKind {
         is_time_independent: TimeDependentMarker,
         /// Represents all date related information of the respective event.
         #[cfg_attr(feature = "serde", serde(flatten))]
-        date: EventDate,
+        date: EventResourceDate,
     },
 }
 
-impl EventDateKind {
+impl EventResourceDateKind {
     /// Default time independent event kind.
-    pub const TIME_INDEPENDENT: EventDateKind = EventDateKind::TimeIndependent {
+    pub const TIME_INDEPENDENT: EventResourceDateKind = EventResourceDateKind::TimeIndependent {
+        type_: SingleMarker::Single,
         is_time_independent: TimeIndependentMarker,
     };
 }
 
-impl Default for EventDateKind {
+impl Default for EventResourceDateKind {
     fn default() -> Self {
         Self::TIME_INDEPENDENT
     }
 }
 
-impl From<EventDate> for EventDateKind {
-    fn from(date: EventDate) -> Self {
+impl From<EventResourceDate> for EventResourceDateKind {
+    fn from(date: EventResourceDate) -> Self {
         Self::TimeDependent {
             is_time_independent: TimeDependentMarker,
             date,
@@ -61,11 +65,11 @@ impl From<EventDate> for EventDateKind {
     }
 }
 
-impl ExampleData for EventDateKind {
+impl ExampleData for EventResourceDateKind {
     fn example_data() -> Self {
         Self::TimeDependent {
             is_time_independent: TimeDependentMarker,
-            date: EventDate::example_data(),
+            date: EventResourceDate::example_data(),
         }
     }
 }
@@ -78,24 +82,25 @@ mod serde_tests {
     use serde_json::json;
 
     use super::*;
-    use crate::events::EventDateKind;
 
     #[test]
     fn serialize_time_independent() {
         let expected = json!({
+            "type": "single",
             "is_time_independent": true,
         });
 
-        let produced = json!(EventDateKind::TIME_INDEPENDENT);
+        let produced = json!(EventResourceDateKind::TIME_INDEPENDENT);
 
         assert_eq!(expected, produced);
     }
 
     #[test]
     fn deserialize_time_independent() {
-        let expected = EventDateKind::TIME_INDEPENDENT;
+        let expected = EventResourceDateKind::TIME_INDEPENDENT;
 
         let produced = serde_json::from_value(json!({
+            "type": "single",
             "is_time_independent": true,
         }))
         .unwrap();
@@ -106,6 +111,7 @@ mod serde_tests {
     #[test]
     fn serialize_time_dependent() {
         let expected = json!({
+            "type": "recurring",
             "is_time_independent": false,
             "is_all_day": true,
             "starts_at": {
@@ -119,9 +125,9 @@ mod serde_tests {
             "recurrence_pattern": RecurrencePattern::example_data(),
         });
 
-        let produced = json!(EventDateKind::TimeDependent {
+        let produced = json!(EventResourceDateKind::TimeDependent {
             is_time_independent: TimeDependentMarker,
-            date: EventDate {
+            date: EventResourceDate::Recurring {
                 is_all_day: true,
                 starts_at: DateTimeTz {
                     datetime: Utc.with_ymd_and_hms(2002, 4, 1, 10, 41, 35).unwrap(),
@@ -140,9 +146,9 @@ mod serde_tests {
 
     #[test]
     fn deserialize_time_dependent() {
-        let expected = EventDateKind::TimeDependent {
+        let expected = EventResourceDateKind::TimeDependent {
             is_time_independent: TimeDependentMarker,
-            date: EventDate {
+            date: EventResourceDate::Recurring {
                 is_all_day: true,
                 starts_at: DateTimeTz {
                     datetime: Utc.with_ymd_and_hms(2002, 4, 1, 10, 41, 35).unwrap(),
@@ -157,6 +163,7 @@ mod serde_tests {
         };
 
         let produced = serde_json::from_value(json!({
+            "type": "recurring",
             "is_time_independent": false,
             "is_all_day": true,
             "starts_at": {

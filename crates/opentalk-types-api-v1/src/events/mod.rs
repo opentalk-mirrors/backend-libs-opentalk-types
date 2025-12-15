@@ -26,6 +26,8 @@ mod event_options_query;
 mod event_or_exception;
 mod event_or_instance;
 mod event_resource;
+mod event_resource_date;
+mod event_resource_date_kind;
 mod event_room_info;
 mod event_status;
 mod event_type;
@@ -51,7 +53,10 @@ mod public_invite_user_profile;
 mod put_shared_folder_query;
 #[cfg(feature = "serde")]
 mod serde_utils;
+mod single_marker;
 mod streaming_target_options_query;
+mod time_dependent_marker;
+mod time_independent_marker;
 mod user_invite;
 
 pub use call_in_info::CallInInfo;
@@ -74,6 +79,8 @@ pub use event_options_query::EventOptionsQuery;
 pub use event_or_exception::EventOrException;
 pub use event_or_instance::EventOrInstance;
 pub use event_resource::EventResource;
+pub use event_resource_date::EventResourceDate;
+pub use event_resource_date_kind::EventResourceDateKind;
 pub use event_room_info::EventRoomInfo;
 pub use event_status::EventStatus;
 pub use event_type::EventType;
@@ -97,7 +104,10 @@ pub use post_event_invite_query::PostEventInviteQuery;
 pub use post_events_body::PostEventsBody;
 pub use public_invite_user_profile::PublicInviteUserProfile;
 pub use put_shared_folder_query::PutSharedFolderQuery;
+pub use single_marker::SingleMarker;
 pub use streaming_target_options_query::StreamingTargetOptionsQuery;
+pub use time_dependent_marker::TimeDependentMarker;
+pub use time_independent_marker::TimeIndependentMarker;
 pub use user_invite::UserInvite;
 
 /// The format string used for formatting UTC datetimes
