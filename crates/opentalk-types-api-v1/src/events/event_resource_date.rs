@@ -77,6 +77,32 @@ pub enum EventResourceDate {
     },
 }
 
+impl EventResourceDate {
+    /// Get the `is_all_day` field
+    pub fn is_all_day(&self) -> bool {
+        match self {
+            EventResourceDate::Single { is_all_day, .. } => *is_all_day,
+            EventResourceDate::Recurring { is_all_day, .. } => *is_all_day,
+        }
+    }
+
+    /// Get the `starts_at` field
+    pub fn starts_at(&self) -> &DateTimeTz {
+        match self {
+            EventResourceDate::Single { starts_at, .. } => starts_at,
+            EventResourceDate::Recurring { starts_at, .. } => starts_at,
+        }
+    }
+
+    /// Get the `ends_at` field
+    pub fn ends_at(&self) -> &DateTimeTz {
+        match self {
+            EventResourceDate::Single { ends_at, .. } => ends_at,
+            EventResourceDate::Recurring { ends_at, .. } => ends_at,
+        }
+    }
+}
+
 impl ExampleData for EventResourceDate {
     fn example_data() -> Self {
         Self::Recurring {

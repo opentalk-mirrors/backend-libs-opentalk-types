@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-use opentalk_types_common::utils::ExampleData;
+use opentalk_types_common::{time::DateTimeTz, utils::ExampleData};
 
 use crate::events::{EventDate, TimeDependentMarker, TimeIndependentMarker};
 
@@ -44,6 +44,29 @@ impl EventDateKind {
     pub const TIME_INDEPENDENT: EventDateKind = EventDateKind::TimeIndependent {
         is_time_independent: TimeIndependentMarker,
     };
+
+    /// Get the event date for a time-dependent event, [`None`] for a time-independent event.
+    pub const fn event_date(&self) -> Option<&EventDate> {
+        let EventDateKind::TimeDependent { date, .. } = self else {
+            return None;
+        };
+        Some(date)
+    }
+
+    /// Get the `is_all_day` field for a time-dependent event, [`None`] for a time-independent event.
+    pub fn is_all_day(&self) -> Option<bool> {
+        self.event_date().map(|d| d.is_all_day)
+    }
+
+    /// Get the `starts_at` field for a time-dependent event, [`None`] for a time-independent event.
+    pub fn starts_at(&self) -> Option<&DateTimeTz> {
+        self.event_date().map(|d| &d.starts_at)
+    }
+
+    /// Get the `ends_at` field for a time-dependent event, [`None`] for a time-independent event.
+    pub fn ends_at(&self) -> Option<&DateTimeTz> {
+        self.event_date().map(|d| &d.ends_at)
+    }
 }
 
 impl Default for EventDateKind {
