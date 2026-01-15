@@ -308,10 +308,13 @@ impl ExampleData for PatchEventBody {
 
 #[cfg(all(test, feature = "serde"))]
 mod serde_tests {
-    use std::time::Duration;
+    use std::{str::FromStr, time::Duration};
 
+    use chrono::{TimeZone, Utc};
     use opentalk_types_common::{
-        time::RecurrencePattern,
+        events::{EventDescription, EventTitle},
+        rooms::RoomPassword,
+        time::{DateTimeTz, RecurrencePattern},
         training_participation_report::{TimeRange, TrainingParticipationReportParameterSet},
     };
     use pretty_assertions::assert_eq;
@@ -415,6 +418,147 @@ mod serde_tests {
                 ))
             }
         );
+    }
+
+    #[test]
+    fn serialize_non_empty() {
+        let expected = json!({
+            "description": "Test",
+            "e2e_encryption": true,
+            "has_shared_folder": true,
+            "is_adhoc": false,
+            "is_all_day": false,
+            "is_time_independent": false,
+            "show_meeting_details": true,
+            "waiting_room": true,
+            "password": "v3rys3cr3t",
+            "starts_at": {
+                "datetime": "2024-07-05T17:23:42Z",
+                "timezone": "Europe/Berlin",
+            },
+            "ends_at":  {
+                "datetime": "2024-07-05T18:33:52Z",
+                "timezone": "Europe/Berlin",
+            },
+            "streaming_targets": [],
+            "title": "Test",
+            "training_participation_report": {
+                "initial_checkpoint_delay": {
+                    "after": 100,
+                    "within": 200,
+                },
+                "checkpoint_interval": {
+                    "after": 300,
+                    "within": 400,
+                },
+            }
+        });
+
+        let produced = json!(PatchEventBody {
+            title: Some(EventTitle::from_str_lossy("Test")),
+            description: Some(EventDescription::from_str_lossy("Test")),
+            password: Some(Some(RoomPassword::from_str("v3rys3cr3t").unwrap())),
+            waiting_room: Some(true),
+            e2e_encryption: Some(true),
+            is_adhoc: Some(false),
+            is_time_independent: Some(false),
+            is_all_day: Some(false),
+            starts_at: Some(DateTimeTz {
+                datetime: Utc.with_ymd_and_hms(2024, 7, 5, 17, 23, 42).unwrap(),
+                timezone: chrono_tz::Europe::Berlin.into(),
+            }),
+            ends_at: Some(DateTimeTz {
+                datetime: Utc.with_ymd_and_hms(2024, 7, 5, 18, 33, 52).unwrap(),
+                timezone: chrono_tz::Europe::Berlin.into(),
+            }),
+            recurrence_pattern: RecurrencePattern::default(),
+            streaming_targets: Some(Vec::new()),
+            show_meeting_details: Some(true),
+            has_shared_folder: Some(true),
+            training_participation_report: Some(Some(TrainingParticipationReportParameterSet {
+                initial_checkpoint_delay: TimeRange::new_with_clamped_durations(
+                    Duration::from_secs(100),
+                    Duration::from_secs(200)
+                ),
+                checkpoint_interval: TimeRange::new_with_clamped_durations(
+                    Duration::from_secs(300),
+                    Duration::from_secs(400)
+                ),
+            }))
+        });
+
+        assert_eq!(produced, expected);
+    }
+
+    #[test]
+    fn deserialize_non_empty() {
+        let expected = PatchEventBody {
+            title: Some(EventTitle::from_str_lossy("Test")),
+            description: Some(EventDescription::from_str_lossy("Test")),
+            password: Some(Some(RoomPassword::from_str("v3rys3cr3t").unwrap())),
+            waiting_room: Some(true),
+            e2e_encryption: Some(true),
+            is_adhoc: Some(false),
+            is_time_independent: Some(false),
+            is_all_day: Some(false),
+            starts_at: Some(DateTimeTz {
+                datetime: Utc.with_ymd_and_hms(2024, 7, 5, 17, 23, 42).unwrap(),
+                timezone: chrono_tz::Europe::Berlin.into(),
+            }),
+            ends_at: Some(DateTimeTz {
+                datetime: Utc.with_ymd_and_hms(2024, 7, 5, 18, 33, 52).unwrap(),
+                timezone: chrono_tz::Europe::Berlin.into(),
+            }),
+            recurrence_pattern: RecurrencePattern::default(),
+            streaming_targets: Some(Vec::new()),
+            show_meeting_details: Some(true),
+            has_shared_folder: Some(true),
+            training_participation_report: Some(Some(TrainingParticipationReportParameterSet {
+                initial_checkpoint_delay: TimeRange::new_with_clamped_durations(
+                    Duration::from_secs(100),
+                    Duration::from_secs(200),
+                ),
+                checkpoint_interval: TimeRange::new_with_clamped_durations(
+                    Duration::from_secs(300),
+                    Duration::from_secs(400),
+                ),
+            })),
+        };
+
+        let produced = serde_json::from_value::<PatchEventBody>(json!({
+            "description": "Test",
+            "e2e_encryption": true,
+            "has_shared_folder": true,
+            "is_adhoc": false,
+            "is_all_day": false,
+            "is_time_independent": false,
+            "show_meeting_details": true,
+            "waiting_room": true,
+            "password": "v3rys3cr3t",
+            "starts_at": {
+                "datetime": "2024-07-05T17:23:42Z",
+                "timezone": "Europe/Berlin",
+            },
+            "ends_at":  {
+                "datetime": "2024-07-05T18:33:52Z",
+                "timezone": "Europe/Berlin",
+            },
+            "streaming_targets": [],
+            "title": "Test",
+            "training_participation_report": {
+                "initial_checkpoint_delay": {
+                    "after": 100,
+                    "within": 200,
+                },
+                "checkpoint_interval": {
+                    "after": 300,
+                    "within": 400,
+                },
+            }
+        }))
+        .unwrap();
+
+        assert_eq!(produced, expected);
     }
 
     #[test]
