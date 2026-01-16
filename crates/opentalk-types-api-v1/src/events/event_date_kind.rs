@@ -11,7 +11,7 @@ use crate::events::{EventDate, TimeDependentMarker, TimeIndependentMarker};
 #[cfg_attr(
     feature = "serde",
     derive(serde::Serialize, serde::Deserialize),
-    serde(untagged)
+    serde(untagged, deny_unknown_fields)
 )]
 #[cfg_attr(feature = "utoipa", derive(utoipa::ToSchema), schema(
     example = json!(
@@ -195,5 +195,33 @@ mod serde_tests {
         .unwrap();
 
         assert_eq!(expected, produced);
+    }
+
+    #[test]
+    #[should_panic]
+    fn deserialize_time_independent_with_date() {
+        let _ = serde_json::from_value::<EventDateKind>(json!({
+            "is_time_independent": true,
+            "is_all_day": true,
+            "starts_at": {
+                "datetime": "2002-04-01T10:41:35Z",
+                "timezone": "Europe/Berlin",
+            },
+            "ends_at": {
+                "datetime": "2002-04-01T11:41:35Z",
+                "timezone": "Europe/Berlin",
+            },
+           "recurrence_pattern": RecurrencePattern::example_data(),
+        }))
+        .unwrap();
+    }
+
+    #[test]
+    #[should_panic]
+    fn deserialize_time_dependent_without_date() {
+        let _ = serde_json::from_value::<EventDateKind>(json!({
+            "is_time_independent": false,
+        }))
+        .unwrap();
     }
 }

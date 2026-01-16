@@ -80,7 +80,7 @@ pub struct PostEventsBody {
     pub training_participation_report: Option<TrainingParticipationReportParameterSet>,
 
     /// The field containing optional parameter related to the date of the event.
-    #[cfg_attr(feature = "serde", serde(flatten,))]
+    #[cfg_attr(feature = "serde", serde(flatten))]
     pub date: EventDateKind,
 }
 
@@ -298,5 +298,34 @@ mod serde_tests {
         .unwrap();
 
         assert_eq!(expected, produced);
+    }
+
+    #[test]
+    #[should_panic]
+    fn serialize_time_independent_event_with_date() {
+        let _ = serde_json::from_value::<PostEventsBody>(json!({
+            "title": "Teammeeting",
+            "description": "The weekly teammeeting",
+            "password": "password",
+            "waiting_room": false,
+            "e2e_encryption": false,
+            "is_time_independent": true,
+            "is_all_day": true,
+            "starts_at": {
+                "datetime": "2002-04-01T10:41:35Z",
+                "timezone": "Europe/Berlin",
+            },
+            "ends_at": {
+                "datetime": "2002-04-01T11:41:35Z",
+                "timezone": "Europe/Berlin",
+            },
+            "recurrence_pattern": RecurrencePattern::example_data(),
+            "is_adhoc": false,
+            "streaming_targets": [StreamingTarget::example_data()],
+            "has_shared_folder": false,
+            "show_meeting_details": true,
+            "training_participation_report": TrainingParticipationReportParameterSet::example_data()
+        }))
+        .unwrap();
     }
 }
