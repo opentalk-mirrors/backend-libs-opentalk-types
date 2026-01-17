@@ -30,7 +30,6 @@ backend = [
   "serde",
   "utoipa",
 ]
-bincode = ["opentalk-types-api-common/bincode"]
 diesel = ["opentalk-types-common/diesel"]
 frontend = [
   "opentalk-types-api-common/frontend",
@@ -39,7 +38,6 @@ frontend = [
 ]
 http = ["opentalk-types-api-common/http"]
 serde = [
-  "bincode",
   "chrono-tz/serde",
   "chrono/serde",
   "dep:serde",

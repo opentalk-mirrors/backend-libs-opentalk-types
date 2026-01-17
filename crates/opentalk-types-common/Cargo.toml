@@ -23,7 +23,6 @@ workspace = true
 [features]
 actix = ["dep:actix-http", "dep:actix-web-httpauth", "dep:bytes", "serde"]
 backend = ["diesel", "rand", "redis", "serde", "utoipa"]
-bincode = ["dep:bincode"]
 clap = ["dep:clap"]
 diesel = [
   "dep:diesel",
@@ -55,7 +54,6 @@ utoipa = [
 [dependencies]
 actix-http = { workspace = true, optional = true }
 actix-web-httpauth = { workspace = true, optional = true }
-bincode = { workspace = true, optional = true }
 bytes = { workspace = true, optional = true }
 chrono.workspace = true
 chrono-tz.workspace = true

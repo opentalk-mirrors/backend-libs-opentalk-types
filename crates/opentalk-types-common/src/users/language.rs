@@ -27,46 +27,6 @@ use crate::utils::ExampleData;
 )]
 pub struct Language(pub LanguageIdentifier);
 
-#[cfg(feature = "bincode")]
-mod bincode_impls {
-    use bincode::{
-        BorrowDecode, Decode, Encode,
-        de::{BorrowDecoder, Decoder},
-        enc::Encoder,
-        error::{DecodeError, EncodeError},
-    };
-
-    use super::Language;
-
-    impl Encode for Language {
-        fn encode<E: Encoder>(&self, encoder: &mut E) -> Result<(), EncodeError> {
-            Encode::encode(&self.0.to_string(), encoder)
-        }
-    }
-
-    impl<Context> Decode<Context> for Language {
-        fn decode<D: Decoder<Context = Context>>(decoder: &mut D) -> Result<Self, DecodeError> {
-            let decoded: String = Decode::<Context>::decode(decoder)?;
-            let language_identifier = decoded.parse().map_err(|e| {
-                DecodeError::OtherString(format!("Invalid language identifier: {e}"))
-            })?;
-            Ok(Self(language_identifier))
-        }
-    }
-
-    impl<'de, Context> BorrowDecode<'de, Context> for Language {
-        fn borrow_decode<D: BorrowDecoder<'de, Context = Context>>(
-            decoder: &mut D,
-        ) -> Result<Self, DecodeError> {
-            let decoded: String = Decode::<Context>::decode(decoder)?;
-            let language_identifier = decoded.parse().map_err(|e| {
-                DecodeError::OtherString(format!("Invalid language identifier: {e}"))
-            })?;
-            Ok(Self(language_identifier))
-        }
-    }
-}
-
 impl Language {
     /// Create a new empty [`Language`]
     pub fn new() -> Self {

@@ -31,7 +31,6 @@ pub const USER_TITLE_MAX_LENGTH: usize = 255;
     feature = "serde",
     derive(serde::Serialize, serde_with::DeserializeFromStr)
 )]
-#[cfg_attr(feature = "bincode", derive(bincode::Encode, bincode::Decode))]
 pub struct UserTitle(String);
 
 impl UserTitle {

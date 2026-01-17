@@ -33,16 +33,9 @@ actix = [
 ]
 axum = ["dep:axum", "dep:serde_json", "serde"]
 backend = ["http", "opentalk-types-common/backend", "serde", "utoipa"]
-bincode = ["dep:bincode", "opentalk-types-common/bincode"]
 frontend = ["opentalk-types-common/frontend", "serde"]
 http = ["dep:http"]
-serde = [
-  "bincode",
-  "bincode/serde",
-  "dep:base64",
-  "dep:serde",
-  "opentalk-types-common/serde",
-]
+serde = ["dep:base64", "dep:serde", "opentalk-types-common/serde"]
 utoipa = [
   "dep:serde_json",
   "dep:utoipa",
@@ -54,12 +47,12 @@ utoipa = [
 actix-web = { workspace = true, optional = true }
 axum = { workspace = true, optional = true }
 base64 = { workspace = true, optional = true }
-bincode = { workspace = true, optional = true }
 derive_more = { workspace = true, features = ["as_ref", "deref", "deref_mut"] }
 http = { workspace = true, optional = true }
 http0 = { workspace = true, optional = true }
 log = { workspace = true, optional = true }
 opentalk-types-common.workspace = true
+postcard = { workspace = true, features = ["use-std"] }
 serde = { workspace = true, optional = true }
 serde_json = { workspace = true, optional = true }
 snafu.workspace = true

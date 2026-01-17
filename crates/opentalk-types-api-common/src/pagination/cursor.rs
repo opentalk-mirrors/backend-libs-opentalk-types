@@ -4,7 +4,7 @@
 
 use derive_more::{AsRef, Deref, DerefMut};
 
-/// Opaque token which represents T as a base64 string (where T is encoded using bincode)
+/// Opaque token which represents T as a base64 string (where T is encoded using postcard)
 ///
 /// Used for cursor based pagination
 #[derive(Deref, DerefMut, AsRef, Debug, Copy, Clone, Eq, PartialEq)]
@@ -16,16 +16,14 @@ mod serde_impls {
     use std::marker::PhantomData;
 
     use base64::{Engine, engine::general_purpose::URL_SAFE_NO_PAD};
-    use bincode::serde::Compat;
     use serde::{Deserialize, Deserializer, Serialize, Serializer, de::DeserializeOwned};
 
     use super::*;
 
     impl<T: Serialize> Cursor<T> {
-        /// Encode T using bincode and return it as base64 string
+        /// Encode T using postcard and return it as base64 string
         pub fn to_base64(&self) -> String {
-            URL_SAFE_NO_PAD
-                .encode(bincode::encode_to_vec(Compat(&self.0), bincode::config::legacy()).unwrap())
+            URL_SAFE_NO_PAD.encode(postcard::to_stdvec(&self.0).unwrap())
         }
     }
 
@@ -53,7 +51,7 @@ mod serde_impls {
         type Value = Cursor<T>;
 
         fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
-            write!(formatter, "base64 + bincode encoded cursor data")
+            write!(formatter, "base64 + postcard encoded cursor data")
         }
 
         fn visit_str<E>(self, v: &str) -> Result<Self::Value, E>
@@ -63,10 +61,9 @@ mod serde_impls {
             let bytes = URL_SAFE_NO_PAD.decode(v).map_err(|_| {
                 serde::de::Error::invalid_value(serde::de::Unexpected::Str(v), &self)
             })?;
-            let (Compat(data), _size) =
-                bincode::decode_from_slice(&bytes, bincode::config::legacy()).map_err(|_| {
-                    serde::de::Error::invalid_value(serde::de::Unexpected::Bytes(&bytes), &self)
-                })?;
+            let data = postcard::from_bytes(&bytes).map_err(|_| {
+                serde::de::Error::invalid_value(serde::de::Unexpected::Bytes(&bytes), &self)
+            })?;
 
             Ok(Cursor(data))
         }
@@ -99,16 +96,13 @@ mod serde_tests {
     fn serialize_simple_string() {
         let cursor = Cursor("abc".to_string());
 
-        assert_eq!(
-            serde_json::to_value(cursor).unwrap(),
-            json!("AwAAAAAAAABhYmM")
-        );
+        assert_eq!(serde_json::to_value(cursor).unwrap(), json!("A2FiYw"));
     }
 
     #[test]
     fn deserialize_simple_string() {
         assert_eq!(
-            serde_json::from_value::<Cursor::<String>>(json!("AwAAAAAAAABhYmM")).unwrap(),
+            serde_json::from_value::<Cursor::<String>>(json!("A2FiYw")).unwrap(),
             Cursor("abc".to_string())
         );
     }
@@ -126,10 +120,7 @@ mod serde_tests {
             count: 5,
         });
 
-        assert_eq!(
-            serde_json::to_value(cursor).unwrap(),
-            json!("CgAAAAAAAAAFAAAAAAAAAA")
-        );
+        assert_eq!(serde_json::to_value(cursor).unwrap(), json!("CgU"));
     }
 
     #[test]
@@ -140,7 +131,7 @@ mod serde_tests {
         });
 
         assert_eq!(
-            serde_json::from_value::<Cursor::<Paging>>(json!("CgAAAAAAAAAFAAAAAAAAAA")).unwrap(),
+            serde_json::from_value::<Cursor::<Paging>>(json!("CgU")).unwrap(),
             cursor
         );
     }
@@ -152,6 +143,6 @@ mod serde_tests {
 
     #[test]
     fn deserialize_incompatible_type() {
-        assert!(serde_json::from_value::<Cursor::<Paging>>(json!("AwAAAAAAAABhYmM")).is_err(),);
+        assert!(serde_json::from_value::<Cursor::<String>>(json!("CgU")).is_err(),);
     }
 }
