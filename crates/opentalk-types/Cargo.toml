@@ -12,7 +12,7 @@ license = "EUPL-1.2"
 name = "opentalk-types"
 publish = true
 repository.workspace = true
-version = "0.59.1"
+version = "0.59.2"
 
 [package.metadata.docs.rs]
 all-features = true
