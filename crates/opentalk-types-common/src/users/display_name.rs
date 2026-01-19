@@ -32,7 +32,6 @@ pub const DISPLAY_NAME_MAX_LENGTH: usize = 255;
     feature = "serde",
     derive(serde::Serialize, serde_with::DeserializeFromStr)
 )]
-#[cfg_attr(feature = "bincode", derive(bincode::Encode, bincode::Decode))]
 pub struct DisplayName(String);
 
 impl DisplayName {
