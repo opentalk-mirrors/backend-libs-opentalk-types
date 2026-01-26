@@ -9,14 +9,14 @@ use opentalk_types_common::utils::ExampleData;
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature="utoipa",derive(utoipa::ToSchema), schema(example = json!(AssetDownloadResponseBody::example_data())))]
 pub struct AssetDownloadResponseBody {
-    /// The download path of the asset
-    pub path: String,
+    /// The download url of the asset
+    pub url: String,
 }
 
 impl ExampleData for AssetDownloadResponseBody {
     fn example_data() -> Self {
         Self {
-            path: "proxy?token=abcdef123456".to_owned(),
+            url: "proxy?token=abcdef123456".to_owned(),
         }
     }
 }
