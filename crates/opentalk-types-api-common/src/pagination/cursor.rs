@@ -36,6 +36,28 @@ mod serde_impls {
         }
     }
 
+    impl<T: DeserializeOwned> Cursor<T> {
+        /// Decode T using postcard from a base64 string
+        pub fn from_base64(input: &str) -> Result<Self, serde::de::value::Error> {
+            Self::from_base64_inner(input)
+        }
+
+        fn from_base64_inner<E>(input: &str) -> Result<Self, E>
+        where
+            E: serde::de::Error,
+        {
+            let expected = &CursorVisitor::<T>(PhantomData::<T>);
+            let bytes = URL_SAFE_NO_PAD.decode(input).map_err(|_| {
+                serde::de::Error::invalid_value(serde::de::Unexpected::Str(input), expected)
+            })?;
+            let data = postcard::from_bytes(&bytes).map_err(|_| {
+                serde::de::Error::invalid_value(serde::de::Unexpected::Bytes(&bytes), expected)
+            })?;
+
+            Ok(Self(data))
+        }
+    }
+
     impl<'de, T: DeserializeOwned> Deserialize<'de> for Cursor<T> {
         fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
         where
@@ -58,14 +80,7 @@ mod serde_impls {
         where
             E: serde::de::Error,
         {
-            let bytes = URL_SAFE_NO_PAD.decode(v).map_err(|_| {
-                serde::de::Error::invalid_value(serde::de::Unexpected::Str(v), &self)
-            })?;
-            let data = postcard::from_bytes(&bytes).map_err(|_| {
-                serde::de::Error::invalid_value(serde::de::Unexpected::Bytes(&bytes), &self)
-            })?;
-
-            Ok(Cursor(data))
+            Cursor::from_base64_inner(v)
         }
     }
 }
