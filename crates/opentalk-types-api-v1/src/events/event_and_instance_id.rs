@@ -12,7 +12,6 @@ pub struct EventAndInstanceId(pub EventId, pub InstanceId);
 
 #[cfg(feature = "serde")]
 mod serde_impls {
-    use chrono::{DateTime, Utc};
     use serde::{Deserialize, Deserializer, Serialize, Serializer, de::Error};
 
     use super::*;
@@ -43,13 +42,11 @@ mod serde_impls {
                 return Err(D::Error::custom("too many parts"));
             }
 
-            let instance_id: DateTime<Utc> = DateTime::parse_from_rfc3339(instance_id_str)
-                .map_err(D::Error::custom)?
-                .into();
+            let instance_id = instance_id_str.parse().map_err(D::Error::custom)?;
 
             let event_id = event_id.parse().map_err(D::Error::custom)?;
 
-            Ok(EventAndInstanceId(event_id, instance_id.into()))
+            Ok(EventAndInstanceId(event_id, instance_id))
         }
     }
 }
@@ -84,5 +81,29 @@ mod impl_utoipa {
         fn schemas(schemas: &mut Vec<(String, RefOr<Schema>)>) {
             schemas.push((Self::name().into(), Self::schema()));
         }
+    }
+}
+
+#[cfg(all(test, feature = "serde"))]
+mod serde_tests {
+    use opentalk_types_common::{events::EventId, utils::ExampleData as _};
+    use pretty_assertions::assert_eq;
+    use serde_json::json;
+
+    use crate::events::{EventAndInstanceId, InstanceId};
+
+    #[test]
+    fn roundtrip() {
+        let value = EventAndInstanceId(EventId::from_u128(0x1234), InstanceId::example_data());
+
+        let serialized = serde_json::to_value(&value).unwrap();
+        assert_eq!(
+            serialized,
+            json!("00000000-0000-0000-0000-000000001234_20240705T170242Z")
+        );
+
+        let deserialized: EventAndInstanceId = serde_json::from_value(serialized).unwrap();
+
+        assert_eq!(value, deserialized);
     }
 }
