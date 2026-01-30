@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-use std::{fmt::Display, ops::Add};
+use std::{fmt::Display, ops::Add, str::FromStr};
 
-use chrono::{DateTime, TimeZone as _, Utc};
+use chrono::{DateTime, NaiveDateTime, TimeZone as _, Utc};
 use opentalk_types_common::{time::Timestamp, utils::ExampleData};
 
 use crate::events::UTC_DT_FORMAT;
@@ -45,6 +45,15 @@ impl Display for InstanceId {
     }
 }
 
+impl FromStr for InstanceId {
+    type Err = chrono::ParseError;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        let dt: DateTime<Utc> = NaiveDateTime::parse_from_str(s, UTC_DT_FORMAT)?.and_utc();
+        Ok(Self(dt.into()))
+    }
+}
+
 impl Add<chrono::Duration> for InstanceId {
     type Output = Self;
 
@@ -74,7 +83,7 @@ mod impl_utoipa {
             ObjectBuilder::new()
                 .schema_type(Type::String)
                 .description(Some("An event instance id"))
-                .examples([json!("2024-07-20T15:23:42+00:00")])
+                .examples([json!("20240720T152342Z")])
                 .into()
         }
     }
@@ -149,24 +158,40 @@ mod serde_impls {
 mod serde_tests {
     use std::time::UNIX_EPOCH;
 
-    use serde_json::Value;
+    use serde_json::json;
 
     use super::InstanceId;
 
     #[test]
     fn serialize_utc() {
-        let input = "19700101T000000Z";
+        let json = json!("19700101T000000Z");
 
-        let instance_id: InstanceId = serde_json::from_value(Value::String(input.into())).unwrap();
+        let instance_id: InstanceId = serde_json::from_value(json).unwrap();
 
         assert_eq!(instance_id.0, UNIX_EPOCH.into())
     }
 
     #[test]
     fn serialize_utc_plus_one() {
-        let input = "19700101T010000+0100";
+        let json = json!("19700101T010000+0100");
 
-        let instance_id: InstanceId = serde_json::from_value(Value::String(input.into())).unwrap();
+        let instance_id: InstanceId = serde_json::from_value(json).unwrap();
+
+        assert_eq!(instance_id.0, UNIX_EPOCH.into())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use std::time::UNIX_EPOCH;
+
+    use crate::events::InstanceId;
+
+    #[test]
+    fn from_str() {
+        let s = "19700101T000000Z";
+
+        let instance_id: InstanceId = s.parse().unwrap();
 
         assert_eq!(instance_id.0, UNIX_EPOCH.into())
     }
