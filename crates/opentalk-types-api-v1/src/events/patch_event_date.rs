@@ -77,7 +77,7 @@ pub struct PatchEventDate {
 
 impl PatchEventDate {
     /// Returns `true` if no date related fields are set.
-    pub fn is_empty(&self) -> bool {
+    pub const fn is_empty(&self) -> bool {
         self.is_all_day.is_none()
             && self.starts_at.is_none()
             && self.ends_at.is_none()

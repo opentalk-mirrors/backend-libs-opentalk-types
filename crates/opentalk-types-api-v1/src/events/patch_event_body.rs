@@ -154,7 +154,7 @@ pub struct PatchEventBody {
 
 impl PatchEventBody {
     /// Check if the body is empty
-    pub fn is_empty(&self) -> bool {
+    pub const fn is_empty(&self) -> bool {
         let PatchEventBody {
             title,
             description,

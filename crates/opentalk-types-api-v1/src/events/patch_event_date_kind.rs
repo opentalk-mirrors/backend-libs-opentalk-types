@@ -64,7 +64,7 @@ impl PatchEventDateKind {
     };
 
     /// Returns `true` if no date related fields are set.
-    pub fn is_empty(&self) -> bool {
+    pub const fn is_empty(&self) -> bool {
         match self {
             PatchEventDateKind::SetTimeIndependent { .. } => false,
             PatchEventDateKind::SetTimeDependent { .. } => false,

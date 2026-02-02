@@ -26,7 +26,7 @@ pub struct RecurrencePattern(Vec<RecurrenceRule>);
 
 impl RecurrencePattern {
     /// Returns `true` if the recurrence pattern contains no recurrence rules
-    pub fn is_empty(&self) -> bool {
+    pub const fn is_empty(&self) -> bool {
         self.0.is_empty()
     }
 
