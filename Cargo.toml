@@ -16,10 +16,10 @@ kustos-shared = { path = "crates/kustos-shared", version = "0.32.0" }
 opentalk-kustos-prefix = { path = "crates/opentalk-kustos-prefix", version = "0.32.0" }
 opentalk-kustos-prefix-impl = { path = "crates/opentalk-kustos-prefix-impl", version = "0.32.0" }
 opentalk-mail-worker-protocol = { path = "crates/opentalk-mail-worker-protocol", version = "0.43.0" }
-opentalk-types = { path = "crates/opentalk-types", version = "0.60.2" }
+opentalk-types = { path = "crates/opentalk-types", version = "0.61.1" }
 opentalk-types-api-common = { path = "crates/opentalk-types-api-common", version = "0.6.1" }
-opentalk-types-api-v1 = { path = "crates/opentalk-types-api-v1", version = "0.51.3" }
-opentalk-types-common = { path = "crates/opentalk-types-common", version = "0.42.0" }
+opentalk-types-api-v1 = { path = "crates/opentalk-types-api-v1", version = "0.52.1" }
+opentalk-types-common = { path = "crates/opentalk-types-common", version = "0.42.1" }
 opentalk-types-common-identifiers = { path = "crates/opentalk-types-common-identifiers", version = "0.33.0" }
 opentalk-types-common-macros = { path = "crates/opentalk-types-common-macros", version = "0.32.0" }
 opentalk-types-signaling = { path = "crates/opentalk-types-signaling", version = "0.44.0" }
