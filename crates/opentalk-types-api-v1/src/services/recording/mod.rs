@@ -6,6 +6,8 @@
 
 mod get_recording_upload_query;
 mod post_recording_start_request_body;
+mod post_recording_start_roomserver_request_body;
 
 pub use get_recording_upload_query::GetRecordingUploadQuery;
 pub use post_recording_start_request_body::PostRecordingStartRequestBody;
+pub use post_recording_start_roomserver_request_body::PostRecordingStartRoomserverRequestBody;

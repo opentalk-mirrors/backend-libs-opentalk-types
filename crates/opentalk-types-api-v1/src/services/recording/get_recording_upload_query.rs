@@ -4,7 +4,7 @@
 
 use opentalk_types_common::{assets::FileExtension, rooms::RoomId, time::Timestamp};
 
-/// Response for the `GET /services/recording/upload` endpoint
+/// Query for the `GET /services/recording/upload` endpoint
 #[derive(Debug, Clone, Eq, PartialEq)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "utoipa", derive(utoipa::IntoParams))]
