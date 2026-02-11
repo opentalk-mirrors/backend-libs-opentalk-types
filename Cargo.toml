@@ -69,7 +69,7 @@ pretty_assertions = "1"
 proc-macro-crate = "3"
 proc-macro2 = "1"
 quote = "1"
-rand = "0.9"
+rand = "0.10"
 redis = "1.0"
 redis-args = "0.22.1"
 serde = { version = "1", features = ["derive"] }
