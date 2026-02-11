@@ -9,7 +9,9 @@ pub mod login;
 mod get_login_response_body;
 mod oidc_provider;
 mod post_login_response_body;
+mod logout_token;
 
 pub use get_login_response_body::GetLoginResponseBody;
+pub use logout_token::LogoutToken;
 pub use oidc_provider::OidcProvider;
 pub use post_login_response_body::PostLoginResponseBody;
