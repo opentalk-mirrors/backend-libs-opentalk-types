@@ -2,14 +2,16 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+//! Types used by the `call_in` service
+
 use opentalk_types_common::{
     call_in::{CallInId, CallInPassword},
     users::DisplayName,
 };
+use serde::{Deserialize, Serialize};
 
 /// Body for the `POST /services/call_in/start` endpoint
-#[derive(Debug, Clone, Eq, PartialEq)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, Eq, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "utoipa", derive(utoipa::ToSchema))]
 pub struct PostCallInStartRoomServerRequestBody {
     /// The call-in ID
