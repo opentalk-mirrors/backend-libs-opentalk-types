@@ -21,6 +21,7 @@ use uuid::Uuid;
 #[cfg_attr(feature = "kustos", derive(opentalk_kustos_prefix::KustosPrefix))]
 #[cfg_attr(feature = "kustos", kustos_prefix("/module_resources/"))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "utoipa", derive(utoipa::ToSchema))]
 pub struct ModuleResourceId(Uuid);
 
 impl ModuleResourceId {

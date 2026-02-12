@@ -22,6 +22,7 @@ use uuid::Uuid;
     diesel(sql_type = diesel::sql_types::Uuid),
 )]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "utoipa", derive(utoipa::ToSchema))]
 pub struct TenantId(Uuid);
 
 impl TenantId {

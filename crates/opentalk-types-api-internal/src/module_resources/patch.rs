@@ -7,6 +7,7 @@ use crate::module_resources::ModuleResourceFilter;
 /// The json body for a patch request
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "snake_case")]
+#[cfg_attr(feature = "utoipa", derive(utoipa::ToSchema))]
 pub struct PatchModuleResourceBody {
     /// Filter affected resources
     pub filter: ModuleResourceFilter,
@@ -17,6 +18,7 @@ pub struct PatchModuleResourceBody {
 /// json patch operations based on [RFC6902](https://www.rfc-editor.org/rfc/rfc6902#section-4)
 #[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 #[serde(tag = "op", rename_all = "snake_case")]
+#[cfg_attr(feature = "utoipa", derive(utoipa::ToSchema))]
 pub enum ModuleResourceOperation {
     /// Json patch *add* operation.
     Add {
