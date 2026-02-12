@@ -1595,6 +1595,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "opentalk-types-api-internal"
+version = "0.1.0"
+dependencies = [
+ "opentalk-types-common",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "opentalk-types-api-v1"
 version = "0.52.3"
 dependencies = [
@@ -1671,15 +1680,6 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn",
-]
-
-[[package]]
-name = "opentalk-types-internal-api"
-version = "0.0.1"
-dependencies = [
- "opentalk-types-common",
- "serde",
- "serde_json",
 ]
 
 [[package]]
