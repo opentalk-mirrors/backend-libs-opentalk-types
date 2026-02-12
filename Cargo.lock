@@ -1674,6 +1674,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "opentalk-types-internal-api"
+version = "0.0.1"
+dependencies = [
+ "opentalk-types-common",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "opentalk-types-signaling"
 version = "0.44.0"
 dependencies = [
