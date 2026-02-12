@@ -13,6 +13,7 @@ use crate::module_resources::ModuleResource;
 ///
 /// A blank filter will be declined by the module resource API
 #[derive(Default, Debug, Clone, Serialize, Deserialize)]
+#[cfg_attr(feature = "utoipa", derive(utoipa::ToSchema))]
 pub struct ModuleResourceFilter {
     /// Filter by the associated room id
     pub room_id: Option<RoomId>,

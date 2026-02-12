@@ -10,6 +10,7 @@ use serde::{Deserialize, Serialize};
 
 /// The representation of a module resource
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[cfg_attr(feature = "utoipa", derive(utoipa::ToSchema))]
 pub struct ModuleResource {
     /// The id of the module resource.
     pub id: ModuleResourceId,

@@ -7,6 +7,7 @@ use serde::{Deserialize, Serialize};
 
 /// Type to create a new module resource
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[cfg_attr(feature = "utoipa", derive(utoipa::ToSchema))]
 pub struct NewModuleResource {
     /// The id of the user who creates the module resource.
     pub created_by: UserId,

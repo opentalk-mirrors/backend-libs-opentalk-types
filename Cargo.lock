@@ -1601,6 +1601,7 @@ dependencies = [
  "opentalk-types-common",
  "serde",
  "serde_json",
+ "utoipa",
 ]
 
 [[package]]
