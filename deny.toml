@@ -81,6 +81,9 @@ exceptions = [
   ], name = "opentalk-types-api-common" },
   { allow = [
     "EUPL-1.2",
+  ], name = "opentalk-types-api-internal" },
+  { allow = [
+    "EUPL-1.2",
   ], name = "opentalk-types-api-v1" },
   { allow = [
     "EUPL-1.2",
@@ -91,9 +94,6 @@ exceptions = [
   { allow = [
     "EUPL-1.2",
   ], name = "opentalk-types-common-macros" },
-  { allow = [
-    "EUPL-1.2",
-  ], name = "opentalk-types-internal-api" },
   { allow = [
     "EUPL-1.2",
   ], name = "opentalk-types-signaling" },
