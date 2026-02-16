@@ -5,7 +5,5 @@
 //! Types related to the API endpoints under `/services/call_in`.
 
 mod post_call_in_start_request_body;
-mod post_call_in_start_roomserver_request_body;
 
 pub use post_call_in_start_request_body::PostCallInStartRequestBody;
-pub use post_call_in_start_roomserver_request_body::PostCallInStartRoomServerRequestBody;
