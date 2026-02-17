@@ -28,7 +28,7 @@ impl Token {
     /// Generates a random `Token` (requires `rand` feature).
     #[cfg(feature = "rand")]
     pub fn generate() -> Self {
-        use rand::RngCore;
+        use rand::Rng;
         Self::new(rand::rng().next_u64())
     }
 }

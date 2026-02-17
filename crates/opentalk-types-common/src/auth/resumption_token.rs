@@ -16,7 +16,7 @@ impl ResumptionToken {
     /// Generate a new random resumption token
     #[cfg(feature = "rand")]
     pub fn generate() -> Self {
-        use rand::Rng;
+        use rand::RngExt;
 
         let token = rand::rng()
             .sample_iter(rand::distr::Alphanumeric)

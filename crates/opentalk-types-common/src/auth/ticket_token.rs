@@ -19,7 +19,7 @@ impl TicketToken {
         // Make 64 byte long string
         // {uuid}#{random_chars}
 
-        use rand::Rng as _;
+        use rand::RngExt as _;
         Self(
             room.to_string()
                 .chars()
