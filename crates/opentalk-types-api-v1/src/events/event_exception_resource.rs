@@ -9,8 +9,10 @@ use opentalk_types_common::{
     utils::ExampleData,
 };
 
-use super::{EventAndInstanceId, EventStatus, EventType, InstanceId};
-use crate::users::PublicUserProfile;
+use crate::{
+    events::{EventAndInstanceId, EventStatus, ExceptionMarker, InstanceId},
+    users::PublicUserProfile,
+};
 
 /// Event exception resource
 ///
@@ -104,7 +106,7 @@ pub struct EventExceptionResource {
 
     /// Must always be `exception`
     #[cfg_attr(feature = "serde", serde(rename = "type"))]
-    pub type_: EventType,
+    pub type_: ExceptionMarker,
 
     /// Override the status of the event instance
     ///
@@ -140,7 +142,7 @@ impl ExampleData for EventExceptionResource {
                 datetime: Utc.with_ymd_and_hms(2024, 7, 5, 16, 0, 0).unwrap(),
                 timezone: chrono_tz::Europe::Berlin.into(),
             },
-            type_: EventType::Instance,
+            type_: ExceptionMarker::Exception,
             status: EventStatus::Ok,
             can_edit: false,
         }
@@ -179,7 +181,7 @@ mod serde_tests {
                 datetime: Utc.with_ymd_and_hms(2024, 7, 5, 16, 0, 0).unwrap(),
                 timezone: chrono_tz::Europe::Berlin.into(),
             },
-            type_: EventType::Exception,
+            type_: ExceptionMarker::Exception,
             status: EventStatus::Ok,
             can_edit: false,
         };
