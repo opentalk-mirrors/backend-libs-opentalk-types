@@ -1605,7 +1605,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types"
-version = "0.61.2"
+version = "0.62.0"
 dependencies = [
  "opentalk-types-api-v1",
  "opentalk-types-common",
@@ -1666,7 +1666,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-api-v1"
-version = "0.52.4"
+version = "0.53.0"
 dependencies = [
  "chrono",
  "chrono-tz",

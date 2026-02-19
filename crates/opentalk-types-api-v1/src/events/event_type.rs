@@ -32,17 +32,27 @@ pub enum EventType {
     )]
     Recurring,
     /// Event instance
+    #[deprecated(
+        since = "0.53.0",
+        note = "This variant has been encoded in EventInstance."
+    )]
     Instance,
     /// Event exception
+    #[deprecated(
+        since = "0.53.0",
+        note = "This variant has been encoded in EventExceptionResource."
+    )]
     Exception,
 }
 
+#[allow(deprecated)]
 impl ExampleData for EventType {
     fn example_data() -> Self {
         Self::Instance
     }
 }
 
+#[allow(deprecated)]
 #[cfg(all(test, feature = "serde"))]
 mod serde_tests {
     use pretty_assertions::assert_eq;
@@ -51,7 +61,6 @@ mod serde_tests {
     use super::EventType;
 
     #[test]
-    #[allow(deprecated)]
     fn serialize() {
         assert_eq!(
             serde_json::to_value(EventType::Single).unwrap(),
@@ -72,7 +81,6 @@ mod serde_tests {
     }
 
     #[test]
-    #[allow(deprecated)]
     fn deserialize() {
         assert_eq!(
             serde_json::from_value::<EventType>(json!("single")).unwrap(),
