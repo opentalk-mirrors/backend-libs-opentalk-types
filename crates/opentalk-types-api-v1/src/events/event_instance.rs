@@ -10,8 +10,12 @@ use opentalk_types_common::{
     utils::ExampleData,
 };
 
-use super::{EventAndInstanceId, EventInvitee, EventRoomInfo, EventStatus, EventType, InstanceId};
-use crate::users::PublicUserProfile;
+use crate::{
+    events::{
+        EventAndInstanceId, EventInvitee, EventRoomInfo, EventStatus, InstanceId, InstanceMarker,
+    },
+    users::PublicUserProfile,
+};
 
 /// Event instance resource
 ///
@@ -71,7 +75,7 @@ pub struct EventInstance {
 
     /// Must always be `instance`
     #[cfg_attr(feature = "serde", serde(rename = "type"))]
-    pub type_: EventType,
+    pub type_: InstanceMarker,
     /// The invite status of the current user for this event
     pub status: EventStatus,
     /// Is this event in the current user's favorite list?
@@ -130,7 +134,7 @@ impl ExampleData for EventInstance {
                 datetime: Utc.with_ymd_and_hms(2024, 7, 22, 11, 0, 0).unwrap(),
                 timezone: chrono_tz::Europe::Berlin.into(),
             },
-            type_: EventType::Instance,
+            type_: InstanceMarker::Instance,
             status: EventStatus::Ok,
             invite_status: EventInviteStatus::Pending,
             is_favorite: false,
@@ -175,7 +179,7 @@ mod serde_tests {
                 datetime: Utc.with_ymd_and_hms(2024, 7, 22, 11, 0, 0).unwrap(),
                 timezone: chrono_tz::Europe::Berlin.into(),
             },
-            type_: EventType::Instance,
+            type_: InstanceMarker::Instance,
             status: EventStatus::Ok,
             invite_status: EventInviteStatus::Pending,
             is_favorite: false,
