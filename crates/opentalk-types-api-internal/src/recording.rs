@@ -11,7 +11,7 @@ use serde::{Deserialize, Serialize};
 ///
 /// - controller for the `POST /internal/services/recording/start`
 /// - recorder for the `POST /v1/init`
-#[derive(Debug, Clone, Eq, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
 #[cfg_attr(feature = "utoipa", derive(utoipa::ToSchema))]
 pub struct RecordingTarget {
     /// The room id which shall be recorded
