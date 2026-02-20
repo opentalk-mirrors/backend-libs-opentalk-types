@@ -10,8 +10,12 @@ use opentalk_types_common::{
     utils::ExampleData,
 };
 
-use super::{EventAndInstanceId, EventInvitee, EventRoomInfo, EventStatus, EventType, InstanceId};
-use crate::users::PublicUserProfile;
+use crate::{
+    events::{
+        EventAndInstanceId, EventInvitee, EventRoomInfo, EventStatus, InstanceId, InstanceMarker,
+    },
+    users::PublicUserProfile,
+};
 
 /// Event instance resource
 ///
@@ -71,7 +75,7 @@ pub struct EventInstance {
 
     /// Must always be `instance`
     #[cfg_attr(feature = "serde", serde(rename = "type"))]
-    pub type_: EventType,
+    pub type_: InstanceMarker,
     /// The invite status of the current user for this event
     pub status: EventStatus,
     /// Is this event in the current user's favorite list?
@@ -130,7 +134,7 @@ impl ExampleData for EventInstance {
                 datetime: Utc.with_ymd_and_hms(2024, 7, 22, 11, 0, 0).unwrap(),
                 timezone: chrono_tz::Europe::Berlin.into(),
             },
-            type_: EventType::Instance,
+            type_: InstanceMarker::Instance,
             status: EventStatus::Ok,
             invite_status: EventInviteStatus::Pending,
             is_favorite: false,
@@ -140,5 +144,142 @@ impl ExampleData for EventInstance {
                 TrainingParticipationReportParameterSet::example_data(),
             ),
         }
+    }
+}
+
+#[cfg(all(test, feature = "serde"))]
+mod serde_tests {
+    use chrono::{TimeZone, Utc};
+    use pretty_assertions::assert_eq;
+    use serde_json::json;
+
+    use super::*;
+
+    #[test]
+    fn roundtrip() {
+        let deserialized = EventInstance {
+            id: EventAndInstanceId::example_data(),
+            recurring_event_id: EventId::example_data(),
+            instance_id: InstanceId::example_data(),
+            created_by: PublicUserProfile::example_data(),
+            created_at: Timestamp::example_data(),
+            updated_by: PublicUserProfile::example_data(),
+            updated_at: Timestamp::example_data(),
+            title: EventTitle::example_data(),
+            description: EventDescription::example_data(),
+            room: EventRoomInfo::example_data(),
+            invitees_truncated: true,
+            invitees: vec![EventInvitee::example_data()],
+            is_all_day: false,
+            starts_at: DateTimeTz {
+                datetime: Utc.with_ymd_and_hms(2024, 7, 22, 10, 0, 0).unwrap(),
+                timezone: chrono_tz::Europe::Berlin.into(),
+            },
+            ends_at: DateTimeTz {
+                datetime: Utc.with_ymd_and_hms(2024, 7, 22, 11, 0, 0).unwrap(),
+                timezone: chrono_tz::Europe::Berlin.into(),
+            },
+            type_: InstanceMarker::Instance,
+            status: EventStatus::Ok,
+            invite_status: EventInviteStatus::Pending,
+            is_favorite: false,
+            can_edit: false,
+            shared_folder: Some(SharedFolder::example_data()),
+            training_participation_report: Some(
+                TrainingParticipationReportParameterSet::example_data(),
+            ),
+        };
+
+        let serialized = json!({
+            "can_edit": false,
+            "created_at": "2024-07-20T14:16:19Z",
+            "created_by": {
+                "avatar_url": "https://gravatar.com/avatar/c160f8cc69a4f0bf2b0362752353d060",
+                "display_name": "Alice Adams",
+                "email": "alice@example.com",
+                "firstname": "Alice",
+                "id": "00000000-0000-0000-0000-0000000a11c3",
+                "lastname": "Adams",
+                "title": "",
+            },
+            "description": "The Weekly Team Event",
+            "ends_at": {
+                "datetime": "2024-07-22T11:00:00Z",
+                "timezone": "Europe/Berlin",
+            },
+            "id": "00000000-0000-0000-0000-004433221100_20240705T170242Z",
+            "instance_id": "20240705T170242Z",
+            "invite_status": "pending",
+            "invitees": [
+                {
+                    "profile": {
+                        "avatar_url": "https://gravatar.com/avatar/c160f8cc69a4f0bf2b0362752353d060",
+                        "display_name": "Alice Adams",
+                        "email": "alice@example.com",
+                        "firstname": "Alice",
+                        "id": "00000000-0000-0000-0000-0000000a11c3",
+                        "kind": "registered",
+                        "lastname": "Adams",
+                        "role": "user",
+                        "title": "",
+                    },
+                    "status": "accepted",
+                },
+            ],
+            "invitees_truncated": true,
+            "is_all_day": false,
+            "is_favorite": false,
+            "recurring_event_id": "00000000-0000-0000-0000-004433221100",
+            "room": {
+                "call_in": {
+                    "id": "1234567890",
+                    "password": "9876543210",
+                    "tel": "+555-12345-67890",
+                },
+                "e2e_encryption": false,
+                "id": "00000000-0000-0000-0000-0000abadcafe",
+                "password": "v3rys3cr3t",
+                "waiting_room": false,
+            },
+            "shared_folder":  {
+                "read":  {
+                    "password": "v3rys3cr3t",
+                    "url": "https://cloud.example.com/shares/abc123",
+                },
+            },
+            "starts_at":  {
+                "datetime": "2024-07-22T10:00:00Z",
+                "timezone": "Europe/Berlin",
+            },
+            "status": "ok",
+            "title": "Team Event",
+            "training_participation_report":  {
+                "checkpoint_interval":  {
+                    "after": 300,
+                    "within": 400,
+                },
+                "initial_checkpoint_delay":  {
+                    "after": 100,
+                    "within": 200,
+                },
+            },
+            "type": "instance",
+            "updated_at": "2024-07-20T14:16:19Z",
+            "updated_by":  {
+                "avatar_url": "https://gravatar.com/avatar/c160f8cc69a4f0bf2b0362752353d060",
+                "display_name": "Alice Adams",
+                "email": "alice@example.com",
+                "firstname": "Alice",
+                "id": "00000000-0000-0000-0000-0000000a11c3",
+                "lastname": "Adams",
+                "title": "",
+            },
+        });
+
+        assert_eq!(serde_json::to_value(&deserialized).unwrap(), serialized);
+        assert_eq!(
+            serde_json::from_value::<EventInstance>(serialized).unwrap(),
+            deserialized
+        );
     }
 }

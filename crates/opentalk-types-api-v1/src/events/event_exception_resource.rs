@@ -9,8 +9,10 @@ use opentalk_types_common::{
     utils::ExampleData,
 };
 
-use super::{EventAndInstanceId, EventStatus, EventType, InstanceId};
-use crate::users::PublicUserProfile;
+use crate::{
+    events::{EventAndInstanceId, EventStatus, ExceptionMarker, InstanceId},
+    users::PublicUserProfile,
+};
 
 /// Event exception resource
 ///
@@ -104,7 +106,7 @@ pub struct EventExceptionResource {
 
     /// Must always be `exception`
     #[cfg_attr(feature = "serde", serde(rename = "type"))]
-    pub type_: EventType,
+    pub type_: ExceptionMarker,
 
     /// Override the status of the event instance
     ///
@@ -140,9 +142,98 @@ impl ExampleData for EventExceptionResource {
                 datetime: Utc.with_ymd_and_hms(2024, 7, 5, 16, 0, 0).unwrap(),
                 timezone: chrono_tz::Europe::Berlin.into(),
             },
-            type_: EventType::Instance,
+            type_: ExceptionMarker::Exception,
             status: EventStatus::Ok,
             can_edit: false,
         }
+    }
+}
+
+#[cfg(all(test, feature = "serde"))]
+mod serde_tests {
+    use pretty_assertions::assert_eq;
+    use serde_json::json;
+
+    use super::*;
+
+    #[test]
+    fn roundtrip() {
+        let deserialized = EventExceptionResource {
+            id: EventAndInstanceId::example_data(),
+            recurring_event_id: EventId::example_data(),
+            instance_id: InstanceId::example_data(),
+            created_by: PublicUserProfile::example_data(),
+            created_at: Timestamp::example_data(),
+            updated_by: PublicUserProfile::example_data(),
+            updated_at: Timestamp::example_data(),
+            title: Some(EventTitle::example_data()),
+            description: Some(EventDescription::example_data()),
+            is_all_day: Some(false),
+            starts_at: Some(DateTimeTz {
+                datetime: Utc.with_ymd_and_hms(2024, 7, 5, 15, 0, 0).unwrap(),
+                timezone: chrono_tz::Europe::Berlin.into(),
+            }),
+            ends_at: Some(DateTimeTz {
+                datetime: Utc.with_ymd_and_hms(2024, 7, 5, 17, 0, 0).unwrap(),
+                timezone: chrono_tz::Europe::Berlin.into(),
+            }),
+            original_starts_at: DateTimeTz {
+                datetime: Utc.with_ymd_and_hms(2024, 7, 5, 16, 0, 0).unwrap(),
+                timezone: chrono_tz::Europe::Berlin.into(),
+            },
+            type_: ExceptionMarker::Exception,
+            status: EventStatus::Ok,
+            can_edit: false,
+        };
+
+        let serialized = json!({
+            "can_edit": false,
+            "created_at": "2024-07-20T14:16:19Z",
+            "created_by":  {
+                "avatar_url": "https://gravatar.com/avatar/c160f8cc69a4f0bf2b0362752353d060",
+                "display_name": "Alice Adams",
+                "email": "alice@example.com",
+                "firstname": "Alice",
+                "id": "00000000-0000-0000-0000-0000000a11c3",
+                "lastname": "Adams",
+                "title": "",
+            },
+            "description": "The Weekly Team Event",
+            "ends_at":  {
+                "datetime": "2024-07-05T17:00:00Z",
+                "timezone": "Europe/Berlin",
+            },
+            "id": "00000000-0000-0000-0000-004433221100_20240705T170242Z",
+            "instance_id": "20240705T170242Z",
+            "is_all_day": false,
+            "original_starts_at":  {
+                "datetime": "2024-07-05T16:00:00Z",
+                "timezone": "Europe/Berlin",
+            },
+            "recurring_event_id": "00000000-0000-0000-0000-004433221100",
+            "starts_at":  {
+                "datetime": "2024-07-05T15:00:00Z",
+                "timezone": "Europe/Berlin",
+            },
+            "status": "ok",
+            "title": "Team Event",
+            "type": "exception",
+            "updated_at": "2024-07-20T14:16:19Z",
+            "updated_by":  {
+                "avatar_url": "https://gravatar.com/avatar/c160f8cc69a4f0bf2b0362752353d060",
+                "display_name": "Alice Adams",
+                "email": "alice@example.com",
+                "firstname": "Alice",
+                "id": "00000000-0000-0000-0000-0000000a11c3",
+                "lastname": "Adams",
+                "title": "",
+            },
+        });
+
+        assert_eq!(serde_json::to_value(&deserialized).unwrap(), serialized);
+        assert_eq!(
+            serde_json::from_value::<EventExceptionResource>(serialized).unwrap(),
+            deserialized
+        );
     }
 }
