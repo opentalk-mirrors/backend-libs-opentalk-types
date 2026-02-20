@@ -21,6 +21,7 @@ use crate::events::UTC_DT_FORMAT;
     Eq,
     PartialOrd,
     Ord,
+    Hash,
     derive_more::From,
     derive_more::Into,
     derive_more::AsRef,
