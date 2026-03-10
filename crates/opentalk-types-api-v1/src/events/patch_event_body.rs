@@ -282,7 +282,7 @@ mod serde_tests {
     use serde_json::json;
 
     use super::*;
-    use crate::events::{EventDate, PatchEventBody, TimeDependentMarker};
+    use crate::events::{EventDate, PatchEventBody, PatchEventDate, TimeDependentMarker};
 
     #[test]
     fn deserialize_empty() {
@@ -605,6 +605,83 @@ mod serde_tests {
                 "training_participation_report": null,
             })
         );
+    }
+
+    #[test]
+    fn serialzie_with_some_date() {
+        let expected = json!({
+            "is_all_day": true,
+            "ends_at": {
+                "datetime": "2002-04-01T11:41:35Z",
+                "timezone": "Europe/Berlin",
+            },
+        });
+
+        let produced = json!(PatchEventBody {
+            title: None,
+            description: None,
+            password: None,
+            waiting_room: None,
+            e2e_encryption: None,
+            is_adhoc: None,
+            streaming_targets: None,
+            show_meeting_details: None,
+            has_shared_folder: None,
+            training_participation_report: None,
+            date: Some(PatchEventDateKind::PatchTimeDependent {
+                is_time_independent: None,
+                date: PatchEventDate {
+                    is_all_day: Some(true),
+                    starts_at: None,
+                    ends_at: Some(DateTimeTz {
+                        datetime: Utc.with_ymd_and_hms(2002, 4, 1, 11, 41, 35).unwrap(),
+                        timezone: chrono_tz::Europe::Berlin.into(),
+                    }),
+                    recurrence_pattern: RecurrencePattern::default(),
+                },
+            })
+        });
+
+        assert_eq!(expected, produced);
+    }
+
+    #[test]
+    fn deserialzie_with_some_date() {
+        let expected = PatchEventBody {
+            title: None,
+            description: None,
+            password: None,
+            waiting_room: None,
+            e2e_encryption: None,
+            is_adhoc: None,
+            streaming_targets: None,
+            show_meeting_details: None,
+            has_shared_folder: None,
+            training_participation_report: None,
+            date: Some(PatchEventDateKind::PatchTimeDependent {
+                is_time_independent: None,
+                date: PatchEventDate {
+                    is_all_day: Some(true),
+                    starts_at: None,
+                    ends_at: Some(DateTimeTz {
+                        datetime: Utc.with_ymd_and_hms(2002, 4, 1, 11, 41, 35).unwrap(),
+                        timezone: chrono_tz::Europe::Berlin.into(),
+                    }),
+                    recurrence_pattern: RecurrencePattern::default(),
+                },
+            }),
+        };
+
+        let produced = serde_json::from_value(json!({
+            "is_all_day": true,
+            "ends_at": {
+                "datetime": "2002-04-01T11:41:35Z",
+                "timezone": "Europe/Berlin",
+            },
+        }))
+        .unwrap();
+
+        assert_eq!(expected, produced);
     }
 
     #[test]
