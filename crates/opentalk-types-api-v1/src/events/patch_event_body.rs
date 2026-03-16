@@ -148,8 +148,20 @@ pub struct PatchEventBody {
     ///   `is_all_day`, `starts_at` and `ends_at`
     /// - If `is_time_independent` is `true` the body **can** have
     ///   `is_all_day, `starts_at` and `ends_at`
-    #[cfg_attr(feature = "serde", serde(default, flatten))]
-    pub date: PatchEventDateKind,
+    #[cfg_attr(
+        feature = "serde",
+        serde(
+            default,
+            flatten,
+            skip_serializing_if = "Option::is_none",
+            deserialize_with = "deserialize_some_patch_event_date_kind"
+        )
+    )]
+    // Field is non-required already, utoipa adds a `nullable: true` entry
+    // by default which creates a false positive in the spectral linter when
+    // combined with example data.
+    #[cfg_attr(feature = "utoipa", schema(nullable = false))]
+    pub date: Option<PatchEventDateKind>,
 }
 
 impl PatchEventBody {
@@ -179,7 +191,10 @@ impl PatchEventBody {
             && has_shared_folder.is_none()
             && streaming_targets.is_none()
             && training_participation_report.is_none()
-            && date.is_empty()
+            && match date {
+                Some(date) => date.is_empty(),
+                None => true,
+            }
     }
 
     // special case to only patch the events room
@@ -207,8 +222,27 @@ impl PatchEventBody {
             && streaming_targets.is_none()
             && (password.is_some() || waiting_room.is_some() || e2e_encryption.is_some())
             && training_participation_report.is_none()
-            && date.is_empty()
+            && date.as_ref().is_none_or(|date| date.is_empty())
     }
+}
+
+#[cfg(feature = "serde")]
+fn deserialize_some_patch_event_date_kind<'de, D>(
+    deserializer: D,
+) -> Result<Option<PatchEventDateKind>, D::Error>
+where
+    D: serde::Deserializer<'de>,
+{
+    use serde::Deserialize;
+
+    let value = PatchEventDateKind::deserialize(deserializer)?;
+
+    // If every field is None, treat the whole thing as absent.
+    if value.is_empty() {
+        return Ok(None);
+    }
+
+    Ok(Some(value))
 }
 
 impl ExampleData for PatchEventBody {
@@ -228,7 +262,7 @@ impl ExampleData for PatchEventBody {
             show_meeting_details: Some(false),
             has_shared_folder: Some(true),
             training_participation_report: None,
-            date: PatchEventDateKind::SET_TIME_INDEPENDENT,
+            date: Some(PatchEventDateKind::SET_TIME_INDEPENDENT),
         }
     }
 }
@@ -267,15 +301,7 @@ mod serde_tests {
                 show_meeting_details: None,
                 has_shared_folder: None,
                 training_participation_report: None,
-                date: PatchEventDateKind::PatchTimeDependent {
-                    is_time_independent: None,
-                    date: PatchEventDate {
-                        is_all_day: None,
-                        starts_at: None,
-                        ends_at: None,
-                        recurrence_pattern: RecurrencePattern::default(),
-                    }
-                },
+                date: None,
             }
         );
     }
@@ -294,15 +320,7 @@ mod serde_tests {
                 show_meeting_details: None,
                 has_shared_folder: None,
                 training_participation_report: None,
-                date: PatchEventDateKind::PatchTimeDependent {
-                    is_time_independent: None,
-                    date: PatchEventDate {
-                        is_all_day: None,
-                        starts_at: None,
-                        ends_at: None,
-                        recurrence_pattern: RecurrencePattern::default(),
-                    }
-                },
+                date: None,
             }),
             json!({})
         );
@@ -347,15 +365,7 @@ mod serde_tests {
                         ),
                     }
                 )),
-                date: PatchEventDateKind::PatchTimeDependent {
-                    is_time_independent: None,
-                    date: PatchEventDate {
-                        is_all_day: None,
-                        starts_at: None,
-                        ends_at: None,
-                        recurrence_pattern: RecurrencePattern::default(),
-                    }
-                },
+                date: None,
             }
         );
     }
@@ -414,7 +424,7 @@ mod serde_tests {
                     Duration::from_secs(400)
                 ),
             })),
-            date: PatchEventDateKind::SetTimeDependent {
+            date: Some(PatchEventDateKind::SetTimeDependent {
                 is_time_independent: TimeDependentMarker,
                 date: EventDate {
                     is_all_day: false,
@@ -428,7 +438,7 @@ mod serde_tests {
                     },
                     recurrence_pattern: RecurrencePattern::default(),
                 },
-            },
+            }),
         });
 
         assert_eq!(produced, expected);
@@ -456,7 +466,7 @@ mod serde_tests {
                     Duration::from_secs(400),
                 ),
             })),
-            date: PatchEventDateKind::SetTimeDependent {
+            date: Some(PatchEventDateKind::SetTimeDependent {
                 is_time_independent: TimeDependentMarker,
                 date: EventDate {
                     is_all_day: false,
@@ -470,7 +480,7 @@ mod serde_tests {
                     },
                     recurrence_pattern: RecurrencePattern::default(),
                 },
-            },
+            }),
         };
 
         let produced = serde_json::from_value::<PatchEventBody>(json!({
@@ -534,15 +544,7 @@ mod serde_tests {
                         ),
                     }
                 )),
-                date: PatchEventDateKind::PatchTimeDependent {
-                    is_time_independent: None,
-                    date: PatchEventDate {
-                        is_all_day: None,
-                        starts_at: None,
-                        ends_at: None,
-                        recurrence_pattern: RecurrencePattern::default(),
-                    }
-                },
+                date: None,
             }),
             json!({
                 "training_participation_report": {
@@ -578,15 +580,7 @@ mod serde_tests {
                 show_meeting_details: None,
                 has_shared_folder: None,
                 training_participation_report: Some(None),
-                date: PatchEventDateKind::PatchTimeDependent {
-                    is_time_independent: None,
-                    date: PatchEventDate {
-                        is_all_day: None,
-                        starts_at: None,
-                        ends_at: None,
-                        recurrence_pattern: RecurrencePattern::default(),
-                    }
-                },
+                date: None,
             }
         );
     }
@@ -605,20 +599,89 @@ mod serde_tests {
                 show_meeting_details: None,
                 has_shared_folder: None,
                 training_participation_report: Some(None),
-                date: PatchEventDateKind::PatchTimeDependent {
-                    is_time_independent: None,
-                    date: PatchEventDate {
-                        is_all_day: None,
-                        starts_at: None,
-                        ends_at: None,
-                        recurrence_pattern: RecurrencePattern::default(),
-                    }
-                },
+                date: None,
             }),
             json!({
                 "training_participation_report": null,
             })
         );
+    }
+
+    #[test]
+    fn serialzie_with_some_date() {
+        let expected = json!({
+            "is_all_day": true,
+            "ends_at": {
+                "datetime": "2002-04-01T11:41:35Z",
+                "timezone": "Europe/Berlin",
+            },
+        });
+
+        let produced = json!(PatchEventBody {
+            title: None,
+            description: None,
+            password: None,
+            waiting_room: None,
+            e2e_encryption: None,
+            is_adhoc: None,
+            streaming_targets: None,
+            show_meeting_details: None,
+            has_shared_folder: None,
+            training_participation_report: None,
+            date: Some(PatchEventDateKind::PatchTimeDependent {
+                is_time_independent: None,
+                date: PatchEventDate {
+                    is_all_day: Some(true),
+                    starts_at: None,
+                    ends_at: Some(DateTimeTz {
+                        datetime: Utc.with_ymd_and_hms(2002, 4, 1, 11, 41, 35).unwrap(),
+                        timezone: chrono_tz::Europe::Berlin.into(),
+                    }),
+                    recurrence_pattern: RecurrencePattern::default(),
+                },
+            })
+        });
+
+        assert_eq!(expected, produced);
+    }
+
+    #[test]
+    fn deserialzie_with_some_date() {
+        let expected = PatchEventBody {
+            title: None,
+            description: None,
+            password: None,
+            waiting_room: None,
+            e2e_encryption: None,
+            is_adhoc: None,
+            streaming_targets: None,
+            show_meeting_details: None,
+            has_shared_folder: None,
+            training_participation_report: None,
+            date: Some(PatchEventDateKind::PatchTimeDependent {
+                is_time_independent: None,
+                date: PatchEventDate {
+                    is_all_day: Some(true),
+                    starts_at: None,
+                    ends_at: Some(DateTimeTz {
+                        datetime: Utc.with_ymd_and_hms(2002, 4, 1, 11, 41, 35).unwrap(),
+                        timezone: chrono_tz::Europe::Berlin.into(),
+                    }),
+                    recurrence_pattern: RecurrencePattern::default(),
+                },
+            }),
+        };
+
+        let produced = serde_json::from_value(json!({
+            "is_all_day": true,
+            "ends_at": {
+                "datetime": "2002-04-01T11:41:35Z",
+                "timezone": "Europe/Berlin",
+            },
+        }))
+        .unwrap();
+
+        assert_eq!(expected, produced);
     }
 
     #[test]
