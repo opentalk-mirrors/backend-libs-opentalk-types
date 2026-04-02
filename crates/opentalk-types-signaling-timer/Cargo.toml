@@ -12,7 +12,7 @@ license = "EUPL-1.2"
 name = "opentalk-types-signaling-timer"
 publish = true
 repository.workspace = true
-version = "0.43.0"
+version = "0.44.0"
 
 [package.metadata.docs.rs]
 all-features = true
