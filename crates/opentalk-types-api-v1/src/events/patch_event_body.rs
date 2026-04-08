@@ -4,7 +4,7 @@
 
 use opentalk_types_common::{
     events::{EventDescription, EventTitle},
-    rooms::RoomPassword,
+    rooms::{GuestAccess, RoomPassword},
     streaming::StreamingTarget,
     training_participation_report::TrainingParticipationReportParameterSet,
     utils::ExampleData,
@@ -68,6 +68,14 @@ pub struct PatchEventBody {
     // combined with example data.
     #[cfg_attr(feature = "utoipa", schema(nullable = false))]
     pub waiting_room: Option<bool>,
+
+    /// Guest access mode
+    #[cfg_attr(
+        feature = "serde",
+        serde(default, skip_serializing_if = "Option::is_none")
+    )]
+    #[cfg_attr(feature = "utoipa", schema(nullable = false))]
+    pub guest_access: Option<GuestAccess>,
 
     /// Patch whether the event is encrypted
     #[cfg_attr(
@@ -172,6 +180,7 @@ impl PatchEventBody {
             description,
             password,
             waiting_room,
+            guest_access,
             e2e_encryption,
             is_adhoc,
             show_meeting_details,
@@ -185,6 +194,7 @@ impl PatchEventBody {
             && description.is_none()
             && password.is_none()
             && waiting_room.is_none()
+            && guest_access.is_none()
             && e2e_encryption.is_none()
             && is_adhoc.is_none()
             && show_meeting_details.is_none()
@@ -205,6 +215,7 @@ impl PatchEventBody {
             description,
             password,
             waiting_room,
+            guest_access,
             e2e_encryption,
             is_adhoc,
             show_meeting_details,
@@ -220,7 +231,10 @@ impl PatchEventBody {
             && show_meeting_details.is_none()
             && has_shared_folder.is_none()
             && streaming_targets.is_none()
-            && (password.is_some() || waiting_room.is_some() || e2e_encryption.is_some())
+            && (password.is_some()
+                || waiting_room.is_some()
+                || guest_access.is_some()
+                || e2e_encryption.is_some())
             && training_participation_report.is_none()
             && date.as_ref().is_none_or(|date| date.is_empty())
     }
@@ -256,6 +270,7 @@ impl ExampleData for PatchEventBody {
             ),
             password: None,
             waiting_room: None,
+            guest_access: None,
             e2e_encryption: None,
             is_adhoc: None,
             streaming_targets: None,
@@ -295,6 +310,7 @@ mod serde_tests {
                 description: None,
                 password: None,
                 waiting_room: None,
+                guest_access: None,
                 e2e_encryption: None,
                 is_adhoc: None,
                 streaming_targets: None,
@@ -314,6 +330,7 @@ mod serde_tests {
                 description: None,
                 password: None,
                 waiting_room: None,
+                guest_access: None,
                 e2e_encryption: None,
                 is_adhoc: None,
                 streaming_targets: None,
@@ -323,50 +340,6 @@ mod serde_tests {
                 date: None,
             }),
             json!({})
-        );
-    }
-
-    #[test]
-    fn deserialize_training_participation_report_set_value() {
-        let json = json!({
-            "training_participation_report": {
-                "initial_checkpoint_delay": {
-                    "after": 100,
-                    "within": 200,
-                },
-                "checkpoint_interval": {
-                    "after": 300,
-                    "within": 400,
-                },
-            }
-        });
-
-        assert_eq!(
-            serde_json::from_value::<PatchEventBody>(json).unwrap(),
-            PatchEventBody {
-                title: None,
-                description: None,
-                password: None,
-                waiting_room: None,
-                e2e_encryption: None,
-                is_adhoc: None,
-                streaming_targets: None,
-                show_meeting_details: None,
-                has_shared_folder: None,
-                training_participation_report: Some(Some(
-                    TrainingParticipationReportParameterSet {
-                        initial_checkpoint_delay: TimeRange::new_with_clamped_durations(
-                            Duration::from_secs(100),
-                            Duration::from_secs(200)
-                        ),
-                        checkpoint_interval: TimeRange::new_with_clamped_durations(
-                            Duration::from_secs(300),
-                            Duration::from_secs(400)
-                        ),
-                    }
-                )),
-                date: None,
-            }
         );
     }
 
@@ -381,6 +354,7 @@ mod serde_tests {
             "is_time_independent": false,
             "show_meeting_details": true,
             "waiting_room": true,
+            "guest_access" : "direct_access",
             "password": "v3rys3cr3t",
             "starts_at": {
                 "datetime": "2024-07-05T17:23:42Z",
@@ -409,6 +383,7 @@ mod serde_tests {
             description: Some(EventDescription::from_str_lossy("Test")),
             password: Some(Some(RoomPassword::from_str("v3rys3cr3t").unwrap())),
             waiting_room: Some(true),
+            guest_access: Some(GuestAccess::DirectAccess),
             e2e_encryption: Some(true),
             is_adhoc: Some(false),
             streaming_targets: Some(Vec::new()),
@@ -451,6 +426,7 @@ mod serde_tests {
             description: Some(EventDescription::from_str_lossy("Test")),
             password: Some(Some(RoomPassword::from_str("v3rys3cr3t").unwrap())),
             waiting_room: Some(true),
+            guest_access: Some(GuestAccess::DirectAccess),
             e2e_encryption: Some(true),
             is_adhoc: Some(false),
             streaming_targets: Some(Vec::new()),
@@ -492,6 +468,7 @@ mod serde_tests {
             "is_time_independent": false,
             "show_meeting_details": true,
             "waiting_room": true,
+            "guest_access": "direct_access",
             "password": "v3rys3cr3t",
             "starts_at": {
                 "datetime": "2024-07-05T17:23:42Z",
@@ -527,6 +504,7 @@ mod serde_tests {
                 description: None,
                 password: None,
                 waiting_room: None,
+                guest_access: None,
                 e2e_encryption: None,
                 is_adhoc: None,
                 streaming_targets: None,
@@ -562,9 +540,18 @@ mod serde_tests {
     }
 
     #[test]
-    fn deserialize_training_participation_report_reset() {
+    fn deserialize_training_participation_report_set_value() {
         let json = json!({
-            "training_participation_report": null
+            "training_participation_report": {
+                "initial_checkpoint_delay": {
+                    "after": 100,
+                    "within": 200,
+                },
+                "checkpoint_interval": {
+                    "after": 300,
+                    "within": 400,
+                },
+            }
         });
 
         assert_eq!(
@@ -574,12 +561,24 @@ mod serde_tests {
                 description: None,
                 password: None,
                 waiting_room: None,
+                guest_access: None,
                 e2e_encryption: None,
                 is_adhoc: None,
                 streaming_targets: None,
                 show_meeting_details: None,
                 has_shared_folder: None,
-                training_participation_report: Some(None),
+                training_participation_report: Some(Some(
+                    TrainingParticipationReportParameterSet {
+                        initial_checkpoint_delay: TimeRange::new_with_clamped_durations(
+                            Duration::from_secs(100),
+                            Duration::from_secs(200)
+                        ),
+                        checkpoint_interval: TimeRange::new_with_clamped_durations(
+                            Duration::from_secs(300),
+                            Duration::from_secs(400)
+                        ),
+                    }
+                )),
                 date: None,
             }
         );
@@ -593,6 +592,7 @@ mod serde_tests {
                 description: None,
                 password: None,
                 waiting_room: None,
+                guest_access: None,
                 e2e_encryption: None,
                 is_adhoc: None,
                 streaming_targets: None,
@@ -608,7 +608,32 @@ mod serde_tests {
     }
 
     #[test]
-    fn serialzie_with_some_date() {
+    fn deserialize_training_participation_report_reset() {
+        let json = json!({
+            "training_participation_report": null
+        });
+
+        assert_eq!(
+            serde_json::from_value::<PatchEventBody>(json).unwrap(),
+            PatchEventBody {
+                title: None,
+                description: None,
+                password: None,
+                waiting_room: None,
+                guest_access: None,
+                e2e_encryption: None,
+                is_adhoc: None,
+                streaming_targets: None,
+                show_meeting_details: None,
+                has_shared_folder: None,
+                training_participation_report: Some(None),
+                date: None,
+            }
+        );
+    }
+
+    #[test]
+    fn serialize_with_all_day_date() {
         let expected = json!({
             "is_all_day": true,
             "ends_at": {
@@ -622,6 +647,7 @@ mod serde_tests {
             description: None,
             password: None,
             waiting_room: None,
+            guest_access: None,
             e2e_encryption: None,
             is_adhoc: None,
             streaming_targets: None,
@@ -646,12 +672,13 @@ mod serde_tests {
     }
 
     #[test]
-    fn deserialzie_with_some_date() {
+    fn deserialize_with_all_day_date() {
         let expected = PatchEventBody {
             title: None,
             description: None,
             password: None,
             waiting_room: None,
+            guest_access: None,
             e2e_encryption: None,
             is_adhoc: None,
             streaming_targets: None,

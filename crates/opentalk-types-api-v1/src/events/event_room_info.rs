@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 use opentalk_types_common::{
-    rooms::{RoomId, RoomPassword},
+    rooms::{GuestAccess, RoomId, RoomPassword},
     utils::ExampleData,
 };
 
@@ -35,6 +35,10 @@ pub struct EventRoomInfo {
     /// Flag to check if the room has a waiting room enabled
     pub waiting_room: bool,
 
+    /// Guest access mode
+    #[cfg_attr(feature = "serde", serde(default))]
+    pub guest_access: GuestAccess,
+
     /// Flag to check if the room has e2e encryption enabled
     #[cfg_attr(feature = "serde", serde(default))]
     pub e2e_encryption: bool,
@@ -59,6 +63,7 @@ impl ExampleData for EventRoomInfo {
             waiting_room: false,
             e2e_encryption: false,
             call_in: Some(CallInInfo::example_data()),
+            guest_access: GuestAccess::example_data(),
         }
     }
 }
