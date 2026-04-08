@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-use opentalk_types_common::rooms::RoomPassword;
+use opentalk_types_common::rooms::{GuestAccess, RoomPassword};
 
 /// API request parameters to patch a room
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -27,6 +27,14 @@ pub struct PatchRoomsRequestBody {
     )]
     pub waiting_room: Option<bool>,
 
+    /// Guest access mode
+    #[cfg_attr(
+        feature = "serde",
+        serde(default, skip_serializing_if = "Option::is_none")
+    )]
+    #[cfg_attr(feature = "utoipa", schema(nullable = false))]
+    pub guest_access: Option<GuestAccess>,
+
     /// If e2e encryption is enabled
     #[cfg_attr(
         feature = "serde",
@@ -48,6 +56,7 @@ mod serde_tests {
             password: None,
             waiting_room: None,
             e2e_encryption: None,
+            guest_access: None,
         };
         let json = json!({});
 
@@ -66,11 +75,13 @@ mod serde_tests {
             password: Some(Some("hello".parse()?)),
             waiting_room: Some(false),
             e2e_encryption: Some(true),
+            guest_access: Some(GuestAccess::WaitingRoom),
         };
         let json = json!({
             "password": "hello",
             "waiting_room": false,
             "e2e_encryption": true,
+            "guest_access": "waiting_room"
         });
 
         let serialized = serde_json::to_value(&body)?;
@@ -88,6 +99,7 @@ mod serde_tests {
             password: Some(None),
             waiting_room: None,
             e2e_encryption: None,
+            guest_access: None,
         };
         let json = json!({
             "password": null

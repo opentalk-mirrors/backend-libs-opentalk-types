@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-use opentalk_types_common::rooms::RoomPassword;
+use opentalk_types_common::rooms::{GuestAccess, RoomPassword};
 
 /// API request parameters to create a new room
 #[derive(Clone, Debug)]
@@ -20,6 +20,14 @@ pub struct PostRoomsRequestBody {
     /// When not present, the waiting room will be disabled.
     #[cfg_attr(feature = "serde", serde(default))]
     pub waiting_room: bool,
+
+    /// Guest access mode
+    #[cfg_attr(
+        feature = "serde",
+        serde(default, skip_serializing_if = "Option::is_none")
+    )]
+    #[cfg_attr(feature = "utoipa", schema(nullable = false))]
+    pub guest_access: Option<GuestAccess>,
 
     /// Enable/Disable e2e encryption for this room; defaults to false when not set
     #[cfg_attr(feature = "serde", serde(default))]
