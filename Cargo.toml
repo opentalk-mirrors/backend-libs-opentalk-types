@@ -18,8 +18,8 @@ opentalk-kustos-prefix-impl = { path = "crates/opentalk-kustos-prefix-impl", ver
 opentalk-mail-worker-protocol = { path = "crates/opentalk-mail-worker-protocol", version = "0.43.0" }
 opentalk-types = { path = "crates/opentalk-types", version = "0.65.0" }
 opentalk-types-api-common = { path = "crates/opentalk-types-api-common", version = "0.7.0" }
-opentalk-types-api-v1 = { path = "crates/opentalk-types-api-v1", version = "0.56.0" }
-opentalk-types-common = { path = "crates/opentalk-types-common", version = "0.43.0" }
+opentalk-types-api-v1 = { path = "crates/opentalk-types-api-v1", version = "0.57.0" }
+opentalk-types-common = { path = "crates/opentalk-types-common", version = "0.43.1" }
 opentalk-types-common-identifiers = { path = "crates/opentalk-types-common-identifiers", version = "0.34.0" }
 opentalk-types-common-macros = { path = "crates/opentalk-types-common-macros", version = "0.33.0" }
 opentalk-types-internal-api = { path = "crates/opentalk-types-internal-api", version = "0.0.1" }

@@ -240,6 +240,7 @@ mod serde_tests {
                 "id": "00000000-0000-0000-0000-0000abadcafe",
                 "password": "v3rys3cr3t",
                 "waiting_room": false,
+                "guest_access": "direct_access",
             },
             "shared_folder":  {
                 "read":  {

@@ -4,7 +4,7 @@
 
 use opentalk_types_common::{
     events::{EventDescription, EventTitle},
-    rooms::RoomPassword,
+    rooms::{GuestAccess, RoomPassword},
     streaming::StreamingTarget,
     training_participation_report::TrainingParticipationReportParameterSet,
     utils::ExampleData,
@@ -41,6 +41,14 @@ pub struct PostEventsBody {
     /// Should the created event have a waiting room?
     #[cfg_attr(feature = "serde", serde(default))]
     pub waiting_room: bool,
+
+    /// Guest access mode
+    #[cfg_attr(
+        feature = "serde",
+        serde(default, skip_serializing_if = "Option::is_none")
+    )]
+    #[cfg_attr(feature = "utoipa", schema(nullable = false))]
+    pub guest_access: Option<GuestAccess>,
 
     /// Should the created event be encrypted?
     #[cfg_attr(feature = "serde", serde(default))]
@@ -93,6 +101,7 @@ impl ExampleData for PostEventsBody {
                 .expect("valid event description"),
             password: Some(RoomPassword::example_data()),
             waiting_room: false,
+            guest_access: Some(GuestAccess::example_data()),
             is_adhoc: false,
             streaming_targets: vec![StreamingTarget::example_data()],
             has_shared_folder: false,
@@ -136,6 +145,7 @@ mod serde_tests {
                 .expect("valid event description"),
             password: None,
             waiting_room: false,
+            guest_access: None,
             is_adhoc: false,
             streaming_targets: vec![],
             has_shared_folder: false,
@@ -157,6 +167,7 @@ mod serde_tests {
                 .expect("valid event description"),
             password: None,
             waiting_room: false,
+            guest_access: None,
             is_adhoc: false,
             streaming_targets: vec![],
             has_shared_folder: false,
@@ -188,6 +199,7 @@ mod serde_tests {
             "description": "The weekly teammeeting",
             "password": "password",
             "waiting_room": false,
+            "guest_access": GuestAccess::example_data(),
             "e2e_encryption": false,
             "is_time_independent": false,
             "is_all_day": true,
@@ -214,6 +226,7 @@ mod serde_tests {
                 .expect("valid event description"),
             password: Some("password".parse().unwrap()),
             waiting_room: false,
+            guest_access: Some(GuestAccess::example_data()),
             is_adhoc: false,
             streaming_targets: vec![StreamingTarget::example_data()],
             has_shared_folder: false,
@@ -249,6 +262,7 @@ mod serde_tests {
                 .expect("valid event description"),
             password: Some("password".parse().unwrap()),
             waiting_room: false,
+            guest_access: Some(GuestAccess::example_data()),
             is_adhoc: false,
             streaming_targets: vec![StreamingTarget::example_data()],
             has_shared_folder: false,
@@ -277,6 +291,7 @@ mod serde_tests {
             "description": "The weekly teammeeting",
             "password": "password",
             "waiting_room": false,
+            "guest_access": GuestAccess::example_data(),
             "e2e_encryption": false,
             "is_time_independent": false,
             "is_all_day": true,

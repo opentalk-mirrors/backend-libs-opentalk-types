@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 use opentalk_types_common::{
-    rooms::{RoomId, RoomPassword},
+    rooms::{GuestAccess, RoomId, RoomPassword},
     time::Timestamp,
     utils::ExampleData,
 };
@@ -44,6 +44,10 @@ pub struct RoomResource {
     #[cfg_attr(feature = "utoipa", schema(nullable = false))]
     pub password: Option<RoomPassword>,
 
+    /// Guest access mode
+    #[cfg_attr(feature = "serde", serde(default))]
+    pub guest_access: GuestAccess,
+
     /// If waiting room is enabled
     pub waiting_room: bool,
 }
@@ -56,6 +60,59 @@ impl ExampleData for RoomResource {
             created_at: Timestamp::unix_epoch(),
             password: Some(RoomPassword::example_data()),
             waiting_room: false,
+            guest_access: GuestAccess::example_data(),
         }
+    }
+}
+
+#[cfg(all(test, feature = "serde"))]
+mod serde_tests {
+    use pretty_assertions::assert_eq;
+    use serde_json::json;
+
+    use super::*;
+
+    #[test]
+    fn without_optional_fields() {
+        let room = RoomResource {
+            id: RoomId::nil(),
+            created_by: PublicUserProfile::example_data(),
+            created_at: Timestamp::unix_epoch(),
+            password: None,
+            waiting_room: false,
+            guest_access: GuestAccess::example_data(),
+        };
+        let json = json!({
+            "id": RoomId::nil(),
+            "created_by": serde_json::to_value(PublicUserProfile::example_data()).unwrap(),
+            "created_at": serde_json::to_value(Timestamp::unix_epoch()).unwrap(),
+            "waiting_room": false,
+            "guest_access": "direct_access",
+        });
+
+        let serialized = serde_json::to_value(&room).unwrap();
+        assert_eq!(serialized, json);
+
+        let deserialized: RoomResource = serde_json::from_value(json).unwrap();
+        assert_eq!(deserialized, room);
+    }
+
+    #[test]
+    fn with_optional_fields() {
+        let room = RoomResource::example_data();
+        let json = json!({
+            "id": RoomId::nil(),
+            "created_by": serde_json::to_value(PublicUserProfile::example_data()).unwrap(),
+            "created_at": serde_json::to_value(Timestamp::unix_epoch()).unwrap(),
+            "password": RoomPassword::example_data(),
+            "waiting_room": false,
+            "guest_access": "direct_access",
+        });
+
+        let serialized = serde_json::to_value(&room).unwrap();
+        assert_eq!(serialized, json);
+
+        let deserialized: RoomResource = serde_json::from_value(json).unwrap();
+        assert_eq!(deserialized, room);
     }
 }
