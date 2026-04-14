@@ -7,6 +7,11 @@ use opentalk_types_common::utils::ExampleData;
 #[derive(Debug, Clone, Eq, PartialEq)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "utoipa", derive(utoipa::ToSchema, utoipa::IntoParams))]
+#[cfg_attr(
+    feature = "typescript",
+    derive(ts_rs::TS),
+    ts(export, export_to = "api-v1/")
+)]
 pub struct Quota {
     /// The total quota available, if applicable
     #[cfg_attr(

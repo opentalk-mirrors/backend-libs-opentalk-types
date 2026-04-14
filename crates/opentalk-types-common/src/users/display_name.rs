@@ -32,6 +32,7 @@ pub const DISPLAY_NAME_MAX_LENGTH: usize = 255;
     feature = "serde",
     derive(serde::Serialize, serde_with::DeserializeFromStr)
 )]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS), ts(export_to = "common/"))]
 pub struct DisplayName(String);
 
 impl DisplayName {

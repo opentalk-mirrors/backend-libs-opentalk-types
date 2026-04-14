@@ -18,6 +18,11 @@ use uuid::Uuid;
 )]
 #[cfg_attr(feature = "redis", from_redis_value(FromStr), to_redis_args(fmt))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(
+    feature = "typescript",
+    derive(ts_rs::TS),
+    ts(export_to = "signaling/")
+)]
 pub struct ParticipantId(Uuid);
 
 impl ParticipantId {

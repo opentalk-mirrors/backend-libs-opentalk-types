@@ -24,6 +24,7 @@ use crate::utils::ExampleData;
 #[cfg_attr(feature = "kustos", kustos_prefix("/invites/"))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "utoipa", derive(utoipa::ToSchema), schema(example = json!(InviteCode::example_data().to_string())))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS), ts(export_to = "common/"))]
 pub struct InviteCode(Uuid);
 
 impl InviteCode {

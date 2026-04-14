@@ -18,6 +18,11 @@ use crate::{streaming::StreamingKey, utils::ExampleData};
     derive(utoipa::ToSchema),
     schema(example = json!(StreamingTargetKind::example_data()))
 )]
+#[cfg_attr(
+    feature = "typescript",
+    derive(ts_rs::TS),
+    ts(export, export_to = "common/")
+)]
 pub enum StreamingTargetKind {
     /// The "custom" kind
     Custom {

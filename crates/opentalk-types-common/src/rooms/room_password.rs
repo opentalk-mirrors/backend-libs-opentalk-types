@@ -36,6 +36,7 @@ pub const ROOM_PASSWORD_MAX_LENGTH: usize = 255;
     feature = "serde",
     derive(serde::Serialize, serde_with::DeserializeFromStr)
 )]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS), ts(export_to = "common/"))]
 pub struct RoomPassword(String);
 
 #[cfg(feature = "utoipa")]

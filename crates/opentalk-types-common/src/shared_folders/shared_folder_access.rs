@@ -12,6 +12,11 @@ use crate::utils::ExampleData;
     derive(utoipa::ToSchema),
     schema(example = json!(SharedFolderAccess::example_data())),
 )]
+#[cfg_attr(
+    feature = "typescript",
+    derive(ts_rs::TS),
+    ts(export_to = "shared-folder/")
+)]
 pub struct SharedFolderAccess {
     /// Shared folder URL
     pub url: String,

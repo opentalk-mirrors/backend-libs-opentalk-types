@@ -20,6 +20,7 @@ use crate::{
     derive(redis_args::ToRedisArgs, redis_args::FromRedisValue)
 )]
 #[cfg_attr(feature = "redis", to_redis_args(serde), from_redis_value(serde))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS), ts(export_to = "common/"))]
 pub struct UserInfo {
     /// Optional title of the creator
     pub title: UserTitle,

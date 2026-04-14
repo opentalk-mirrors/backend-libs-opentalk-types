@@ -60,6 +60,62 @@ impl chrono::TimeZone for TimeZone {
     }
 }
 
+#[cfg(feature = "typescript")]
+impl ts_rs::TS for TimeZone {
+    type WithoutGenerics = Self;
+    type OptionInnerType = Self;
+
+    fn docs() -> Option<String> {
+        Some("/**\n* Representation of a timezone\n*/\n".to_string())
+    }
+
+    fn decl(cfg: &ts_rs::Config) -> String {
+        use itertools::Itertools;
+        use regex::Regex;
+
+        let inner = chrono_tz::TZ_VARIANTS
+            .iter()
+            .map(|variant| {
+                let value = variant.to_string();
+                // There is no way to obtain the original variant name, so we have to use the display representation
+                // and convert them using the same rules chrono uses to get valid, readable TypeScript enum member
+                // names.
+                let key = value
+                    .replace("+", "Plus")
+                    .replace("GMT-", "GMTMinus")
+                    .replace("-", "");
+                let key = Regex::new(r"[^a-zA-Z0-9_]")
+                    .unwrap_or_else(|_| panic!("Invalid regex pattern in {}", Self::name(cfg)))
+                    .replace_all(&key, "__");
+
+                format!("\"{key}\" = \"{value}\"")
+            })
+            .join(", ");
+
+        format!("enum {} {{ {} }}", Self::name(cfg), inner)
+    }
+
+    fn decl_concrete(cfg: &ts_rs::Config) -> String {
+        Self::decl(cfg)
+    }
+
+    fn name(_cfg: &ts_rs::Config) -> String {
+        "TimeZone".to_string()
+    }
+
+    fn inline(cfg: &ts_rs::Config) -> String {
+        panic!("{} cannot be inlined", Self::name(cfg))
+    }
+
+    fn inline_flattened(cfg: &ts_rs::Config) -> String {
+        panic!("{} cannot be flattened", Self::name(cfg))
+    }
+
+    fn output_path() -> Option<std::path::PathBuf> {
+        Some(format!("common/{}.ts", Self::name(&ts_rs::Config::default())).into())
+    }
+}
+
 #[cfg(feature = "diesel")]
 mod diesel_traits {
     use std::{

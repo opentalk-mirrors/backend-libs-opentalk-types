@@ -37,6 +37,7 @@ use crate::utils::ExampleData;
         UserId::example_data()
     )
 ))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS), ts(export_to = "common/"))]
 pub struct UserId(Uuid);
 
 impl UserId {

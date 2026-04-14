@@ -29,6 +29,11 @@ pub const DEVICE_SECRET_MAX_LENGTH: usize = 255;
     feature = "serde",
     derive(serde::Serialize, serde_with::DeserializeFromStr)
 )]
+#[cfg_attr(
+    feature = "typescript",
+    derive(ts_rs::TS),
+    ts(export, export_to = "roomserver/")
+)]
 pub struct DeviceSecret(String);
 
 #[cfg(feature = "utoipa")]

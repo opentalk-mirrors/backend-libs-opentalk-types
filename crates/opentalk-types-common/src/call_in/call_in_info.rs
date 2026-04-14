@@ -13,6 +13,7 @@ use crate::utils::ExampleData;
     derive(utoipa::ToSchema),
     schema(example = json!(CallInInfo::example_data()))
 )]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS), ts(export_to = "common/"))]
 pub struct CallInInfo {
     /// SIP Call-In phone number which must be used to reach the room
     pub tel: String,

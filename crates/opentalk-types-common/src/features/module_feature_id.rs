@@ -22,6 +22,7 @@ use crate::{
     feature = "diesel",
     diesel(sql_type = diesel::sql_types::Text),
 )]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS), ts(export_to = "common/"))]
 pub struct ModuleFeatureId {
     /// The id of the module
     pub module: ModuleId,

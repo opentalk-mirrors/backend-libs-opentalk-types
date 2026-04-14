@@ -43,6 +43,11 @@ pub const DEFAULT_MODULE_ID: ModuleId = CORE_MODULE_ID;
     feature = "serde",
     derive(serde::Serialize, serde_with::DeserializeFromStr)
 )]
+#[cfg_attr(
+    feature = "typescript",
+    derive(ts_rs::TS),
+    ts(export_to = "common-identifiers/")
+)]
 pub struct ModuleId(Identifier);
 
 impl Default for ModuleId {
