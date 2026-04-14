@@ -2,10 +2,10 @@
 // SPDX-FileCopyrightText: OpenTalk Team <mail@opentalk.eu>
 
 use opentalk_types_common::utils::ExampleData;
+use serde::{Deserialize, Serialize};
 
 /// Quota information
-#[derive(Debug, Clone, Eq, PartialEq)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, Eq, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "utoipa", derive(utoipa::ToSchema, utoipa::IntoParams))]
 #[cfg_attr(
     feature = "typescript",
@@ -14,10 +14,7 @@ use opentalk_types_common::utils::ExampleData;
 )]
 pub struct Quota {
     /// The total quota available, if applicable
-    #[cfg_attr(
-        feature = "serde",
-        serde(default, skip_serializing_if = "Option::is_none")
-    )]
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub total: Option<u64>,
     /// The used quota
     pub used: u64,
@@ -42,7 +39,7 @@ impl ExampleData for Quota {
     }
 }
 
-#[cfg(all(test, feature = "serde"))]
+#[cfg(test)]
 mod tests {
     use opentalk_types_common::utils::ExampleData as _;
     use pretty_assertions::assert_eq;

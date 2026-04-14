@@ -1639,6 +1639,7 @@ dependencies = [
  "actix-web",
  "axum",
  "base64",
+ "chrono",
  "derive_more",
  "http 0.2.12",
  "http 1.4.0",
@@ -1658,9 +1659,13 @@ dependencies = [
 name = "opentalk-types-api-internal"
 version = "0.2.0"
 dependencies = [
+ "chrono",
+ "opentalk-types-api-common",
  "opentalk-types-common",
+ "pretty_assertions",
  "serde",
  "serde_json",
+ "ts-rs",
  "utoipa",
 ]
 
@@ -1678,7 +1683,6 @@ dependencies = [
  "serde_json",
  "serde_urlencoded",
  "serde_with",
- "ts-rs",
  "url",
  "utoipa",
 ]

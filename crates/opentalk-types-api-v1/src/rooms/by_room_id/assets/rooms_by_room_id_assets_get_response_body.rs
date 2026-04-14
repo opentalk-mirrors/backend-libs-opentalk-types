@@ -2,9 +2,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+use opentalk_types_api_common::module_assets::AssetResource;
 use opentalk_types_common::utils::ExampleData;
-
-use crate::assets::AssetResource;
 
 /// Response for *GET /rooms/{room_id}/assets*
 #[derive(Clone, Debug, PartialEq, Eq)]
