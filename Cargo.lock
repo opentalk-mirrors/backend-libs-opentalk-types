@@ -1722,7 +1722,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-common-identifiers"
-version = "0.34.0"
+version = "0.34.1"
 dependencies = [
  "derive_more",
  "diesel",
