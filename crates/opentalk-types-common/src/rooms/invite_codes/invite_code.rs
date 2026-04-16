@@ -3,8 +3,6 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 use derive_more::{AsRef, Display, From, FromStr, Into};
-#[cfg(feature = "kustos")]
-use kustos_shared::subject::PolicyInvite;
 use uuid::Uuid;
 #[cfg(feature = "diesel")]
 use {
@@ -20,8 +18,6 @@ use crate::utils::ExampleData;
 )]
 #[cfg_attr(feature = "diesel", derive(DieselNewtype, AsExpression, FromSqlRow))]
 #[cfg_attr(feature = "diesel", diesel(sql_type = diesel::sql_types::Uuid))]
-#[cfg_attr(feature = "kustos", derive(opentalk_kustos_prefix::KustosPrefix))]
-#[cfg_attr(feature = "kustos", kustos_prefix("/invites/"))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "utoipa", derive(utoipa::ToSchema), schema(example = json!(InviteCode::example_data().to_string())))]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS), ts(export_to = "common/"))]
@@ -48,13 +44,6 @@ impl InviteCode {
 impl ExampleData for InviteCode {
     fn example_data() -> Self {
         InviteCode::from_u128(0xdeadbeef)
-    }
-}
-
-#[cfg(feature = "kustos")]
-impl From<InviteCode> for PolicyInvite {
-    fn from(id: InviteCode) -> Self {
-        Self::from(Uuid::from(id))
     }
 }
 

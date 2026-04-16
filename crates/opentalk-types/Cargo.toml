@@ -26,7 +26,6 @@ default = ["types-all"]
 actix = ["opentalk-types-common?/actix"]
 backend = [
   "diesel",
-  "kustos",
   "rand",
   "redis",
   "serde",
@@ -79,7 +78,6 @@ frontend = [
   "opentalk-types-signaling-whiteboard?/frontend",
   "opentalk-types-signaling?/frontend",
 ]
-kustos = ["opentalk-types-common?/kustos"]
 rand = [
   "opentalk-types-common?/rand",
   "opentalk-types-signaling-chat?/rand",

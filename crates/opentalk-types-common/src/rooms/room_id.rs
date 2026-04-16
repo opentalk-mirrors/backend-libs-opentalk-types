@@ -22,8 +22,6 @@ use crate::utils::ExampleData;
 #[cfg_attr(feature="diesel",
     diesel(sql_type = diesel::sql_types::Uuid),
 )]
-#[cfg_attr(feature = "kustos", derive(opentalk_kustos_prefix::KustosPrefix))]
-#[cfg_attr(feature = "kustos", kustos_prefix("/rooms/"))]
 #[cfg_attr(
     feature = "redis",
     derive(redis_args::ToRedisArgs, redis_args::FromRedisValue)

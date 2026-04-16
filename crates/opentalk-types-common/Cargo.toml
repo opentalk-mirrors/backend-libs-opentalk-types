@@ -31,7 +31,6 @@ diesel = [
   "serde",
 ]
 frontend = ["serde"]
-kustos = ["dep:kustos-shared", "dep:opentalk-kustos-prefix"]
 rand = ["dep:rand", "uuid/v4"]
 redis = ["dep:redis", "dep:redis-args", "serde"]
 serde = [
@@ -75,9 +74,7 @@ diesel = { workspace = true, features = ["uuid"], optional = true }
 email_address.workspace = true
 icu_locid.workspace = true
 itertools.workspace = true
-kustos-shared = { workspace = true, optional = true }
 opentalk-diesel-newtype = { workspace = true, optional = true }
-opentalk-kustos-prefix = { workspace = true, optional = true }
 opentalk-types-common-identifiers.workspace = true
 opentalk-types-common-macros.workspace = true
 rand = { workspace = true, optional = true }
