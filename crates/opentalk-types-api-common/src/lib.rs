@@ -21,5 +21,7 @@
 )]
 
 pub mod error;
+pub mod module_assets;
 pub mod pagination;
 pub mod result;
+pub mod users;

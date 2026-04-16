@@ -47,6 +47,7 @@ utoipa = [
 actix-web = { workspace = true, optional = true }
 axum = { workspace = true, optional = true }
 base64 = { workspace = true, optional = true }
+chrono.workspace = true
 derive_more = { workspace = true, features = ["as_ref", "deref", "deref_mut"] }
 http = { workspace = true, optional = true }
 http0 = { workspace = true, optional = true }

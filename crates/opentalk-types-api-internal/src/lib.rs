@@ -21,5 +21,8 @@
 )]
 
 pub mod call_in;
+pub mod error;
+pub mod module_assets;
 pub mod module_resources;
 pub mod recording;
+pub mod users;

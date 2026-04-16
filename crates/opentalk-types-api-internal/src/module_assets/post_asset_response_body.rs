@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: EUPL-1.2
 // SPDX-FileCopyrightText: OpenTalk Team <mail@opentalk.eu>
 
-use crate::assets::{AssetResource, Quota};
+use serde::{Deserialize, Serialize};
+
+use crate::module_assets::{AssetResource, Quota};
 
 /// Response for the `POST /services/roomserver/room/{room_id}/asset` endpoint
-#[derive(Debug, Clone, Eq, PartialEq)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, Eq, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "utoipa", derive(utoipa::ToSchema))]
 pub struct PostAssetResponseBody {
     /// The asset that was uploaded
@@ -15,7 +16,7 @@ pub struct PostAssetResponseBody {
     pub quota: Quota,
 }
 
-#[cfg(all(test, feature = "serde"))]
+#[cfg(test)]
 mod tests {
     use chrono::DateTime;
     use opentalk_types_common::{modules::module_id, utils::ExampleData as _};
@@ -23,7 +24,7 @@ mod tests {
     use serde_json::json;
 
     use super::PostAssetResponseBody;
-    use crate::assets::{AssetResource, Quota};
+    use crate::module_assets::{AssetResource, Quota};
 
     #[test]
     fn serialize_post_asset_response_body() {
