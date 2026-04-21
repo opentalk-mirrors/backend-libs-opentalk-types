@@ -1391,17 +1391,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "kustos-shared"
-version = "0.33.0"
-dependencies = [
- "http 1.4.0",
- "itertools",
- "pretty_assertions",
- "snafu",
- "uuid",
-]
-
-[[package]]
 name = "language-tags"
 version = "0.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1573,24 +1562,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "opentalk-kustos-prefix"
-version = "0.33.0"
-dependencies = [
- "kustos-shared",
- "opentalk-kustos-prefix-impl",
-]
-
-[[package]]
-name = "opentalk-kustos-prefix-impl"
-version = "0.32.0"
-dependencies = [
- "proc-macro-crate",
- "proc-macro2",
- "quote",
- "syn",
-]
-
-[[package]]
 name = "opentalk-mail-worker-protocol"
 version = "0.44.0"
 dependencies = [
@@ -1702,9 +1673,7 @@ dependencies = [
  "email_address",
  "icu_locid",
  "itertools",
- "kustos-shared",
  "opentalk-diesel-newtype",
- "opentalk-kustos-prefix",
  "opentalk-types-common-identifiers",
  "opentalk-types-common-macros",
  "pretty_assertions",

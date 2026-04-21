@@ -18,8 +18,6 @@ use uuid::Uuid;
     )
 )]
 #[cfg_attr(feature="diesel", diesel(sql_type = diesel::sql_types::Uuid))]
-#[cfg_attr(feature = "kustos", derive(opentalk_kustos_prefix::KustosPrefix))]
-#[cfg_attr(feature = "kustos", kustos_prefix("/module_resources/"))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "utoipa", derive(utoipa::ToSchema))]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS), ts(export_to = "common/"))]

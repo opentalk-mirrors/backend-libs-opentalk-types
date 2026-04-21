@@ -36,7 +36,6 @@ available that pull in a set of dependencies.
   or an the API. Enables:
   * the **backend** feature of each types crate
   * **diesel**
-  * **kustos**
   * **rand**
   * **redis**
   * **serde**
@@ -93,10 +92,6 @@ available that pull in a set of dependencies.
   Enabling this feature makes some newtypes storable in a database through the
   [`diesel`](https://docs.rs/diesel) crate. Used for implementing the server
   side with a `diesel` database backend.
-* **kustos** -
-  Adds some metadata to types that represent API resources, so that the `kustos`
-  permission enforcement system can determine which permissions it needs to
-  apply to certain endpoints when implementing the server side of the API.
 * **rand** -
   Adds random generation of some datatypes such as `uuid`, so that they can
   be generated on the server side in the API endpoint implementation or inside

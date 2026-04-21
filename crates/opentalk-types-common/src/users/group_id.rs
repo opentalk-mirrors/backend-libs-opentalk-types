@@ -21,8 +21,6 @@ use uuid::Uuid;
     feature = "diesel",
     diesel(sql_type = diesel::sql_types::Uuid),
 )]
-#[cfg_attr(feature = "kustos", derive(opentalk_kustos_prefix::KustosPrefix))]
-#[cfg_attr(feature = "kustos", kustos_prefix("/events/"))]
 #[cfg_attr(
     feature = "redis",
     derive(redis_args::ToRedisArgs, redis_args::FromRedisValue)
@@ -46,12 +44,5 @@ impl GroupId {
     #[cfg(feature = "rand")]
     pub fn generate() -> Self {
         Self(Uuid::new_v4())
-    }
-}
-
-#[cfg(feature = "kustos")]
-impl From<GroupId> for kustos_shared::subject::PolicyGroup {
-    fn from(group_id: GroupId) -> Self {
-        Self::from(group_id.to_string())
     }
 }

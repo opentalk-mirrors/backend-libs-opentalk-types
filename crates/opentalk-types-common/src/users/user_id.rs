@@ -3,8 +3,6 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 use derive_more::{AsRef, Display, From, FromStr, Into};
-#[cfg(feature = "kustos")]
-use kustos_shared::subject::PolicyUser;
 use uuid::Uuid;
 
 use crate::utils::ExampleData;
@@ -24,8 +22,6 @@ use crate::utils::ExampleData;
 #[cfg_attr(feature="diesel",
     diesel(sql_type = diesel::sql_types::Uuid),
 )]
-#[cfg_attr(feature = "kustos", derive(opentalk_kustos_prefix::KustosPrefix))]
-#[cfg_attr(feature = "kustos", kustos_prefix("/users/"))]
 #[cfg_attr(
     feature = "redis",
     derive(redis_args::ToRedisArgs, redis_args::FromRedisValue)
@@ -55,13 +51,6 @@ impl UserId {
     #[cfg(feature = "rand")]
     pub fn generate() -> Self {
         Self(Uuid::new_v4())
-    }
-}
-
-#[cfg(feature = "kustos")]
-impl From<UserId> for PolicyUser {
-    fn from(id: UserId) -> Self {
-        Self::from(Uuid::from(id))
     }
 }
 
