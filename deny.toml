@@ -205,15 +205,11 @@ allow = []
 deny = []
 # Certain crates/versions that will be skipped when doing duplicate detection.
 skip = [
-  { name = "cpufeatures", version = "0.2" },
   { name = "darling", version = "0.21" },
   { name = "darling_core", version = "0.21" },
   { name = "darling_macro", version = "0.21" },
-  { name = "getrandom", version = "0.3" },
   { name = "http", version = "0.2" },
   { name = "litemap", version = "0.7" },
-  { name = "rand", version = "0.9" },
-  { name = "rand_core", version = "0.9" },
   { name = "socket2", version = "0.5" },
   { name = "tinystr", version = "0.7" },
   { name = "writeable", version = "0.5" },
