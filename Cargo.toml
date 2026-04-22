@@ -21,26 +21,26 @@ opentalk-types-common = { path = "crates/opentalk-types-common", version = "0.43
 opentalk-types-common-identifiers = { path = "crates/opentalk-types-common-identifiers", version = "0.34.0" }
 opentalk-types-common-macros = { path = "crates/opentalk-types-common-macros", version = "0.33.0" }
 opentalk-types-signaling = { path = "crates/opentalk-types-signaling", version = "0.45.1" }
-opentalk-types-signaling-asset-storage = { path = "crates/opentalk-types-signaling-asset-storage", version = "0.5.0" }
-opentalk-types-signaling-automod = { path = "crates/opentalk-types-signaling-automod", version = "0.14.0" }
-opentalk-types-signaling-breakout = { path = "crates/opentalk-types-signaling-breakout", version = "0.44.0" }
-opentalk-types-signaling-chat = { path = "crates/opentalk-types-signaling-chat", version = "0.45.0" }
-opentalk-types-signaling-control = { path = "crates/opentalk-types-signaling-control", version = "0.45.0" }
-opentalk-types-signaling-e2ee = { path = "crates/opentalk-types-signaling-e2ee", version = "0.13.0" }
-opentalk-types-signaling-legal-vote = { path = "crates/opentalk-types-signaling-legal-vote", version = "0.16.0" }
-opentalk-types-signaling-livekit = { path = "crates/opentalk-types-signaling-livekit", version = "0.46.0" }
-opentalk-types-signaling-meeting-notes = { path = "crates/opentalk-types-signaling-meeting-notes", version = "0.44.0" }
-opentalk-types-signaling-meeting-report = { path = "crates/opentalk-types-signaling-meeting-report", version = "0.44.0" }
-opentalk-types-signaling-moderation = { path = "crates/opentalk-types-signaling-moderation", version = "0.44.0" }
-opentalk-types-signaling-polls = { path = "crates/opentalk-types-signaling-polls", version = "0.44.0" }
-opentalk-types-signaling-recording = { path = "crates/opentalk-types-signaling-recording", version = "0.44.0" }
-opentalk-types-signaling-recording-service = { path = "crates/opentalk-types-signaling-recording-service", version = "0.44.0" }
-opentalk-types-signaling-shared-folder = { path = "crates/opentalk-types-signaling-shared-folder", version = "0.44.0" }
-opentalk-types-signaling-subroom-audio = { path = "crates/opentalk-types-signaling-subroom-audio", version = "0.44.0" }
-opentalk-types-signaling-timer = { path = "crates/opentalk-types-signaling-timer", version = "0.44.0" }
-opentalk-types-signaling-training-participation-report = { path = "crates/opentalk-types-signaling-training-participation-report", version = "0.15.0" }
-opentalk-types-signaling-transcription = { path = "crates/opentalk-types-signaling-transcription", version = "0.10.0" }
-opentalk-types-signaling-whiteboard = { path = "crates/opentalk-types-signaling-whiteboard", version = "0.44.0" }
+opentalk-types-signaling-asset-storage = { path = "crates/opentalk-types-signaling-asset-storage", version = "0.5.1" }
+opentalk-types-signaling-automod = { path = "crates/opentalk-types-signaling-automod", version = "0.14.1" }
+opentalk-types-signaling-breakout = { path = "crates/opentalk-types-signaling-breakout", version = "0.44.1" }
+opentalk-types-signaling-chat = { path = "crates/opentalk-types-signaling-chat", version = "0.45.1" }
+opentalk-types-signaling-control = { path = "crates/opentalk-types-signaling-control", version = "0.45.1" }
+opentalk-types-signaling-e2ee = { path = "crates/opentalk-types-signaling-e2ee", version = "0.13.1" }
+opentalk-types-signaling-legal-vote = { path = "crates/opentalk-types-signaling-legal-vote", version = "0.16.1" }
+opentalk-types-signaling-livekit = { path = "crates/opentalk-types-signaling-livekit", version = "0.46.1" }
+opentalk-types-signaling-meeting-notes = { path = "crates/opentalk-types-signaling-meeting-notes", version = "0.44.1" }
+opentalk-types-signaling-meeting-report = { path = "crates/opentalk-types-signaling-meeting-report", version = "0.44.1" }
+opentalk-types-signaling-moderation = { path = "crates/opentalk-types-signaling-moderation", version = "0.44.1" }
+opentalk-types-signaling-polls = { path = "crates/opentalk-types-signaling-polls", version = "0.44.1" }
+opentalk-types-signaling-recording = { path = "crates/opentalk-types-signaling-recording", version = "0.44.1" }
+opentalk-types-signaling-recording-service = { path = "crates/opentalk-types-signaling-recording-service", version = "0.44.1" }
+opentalk-types-signaling-shared-folder = { path = "crates/opentalk-types-signaling-shared-folder", version = "0.44.1" }
+opentalk-types-signaling-subroom-audio = { path = "crates/opentalk-types-signaling-subroom-audio", version = "0.44.1" }
+opentalk-types-signaling-timer = { path = "crates/opentalk-types-signaling-timer", version = "0.44.1" }
+opentalk-types-signaling-training-participation-report = { path = "crates/opentalk-types-signaling-training-participation-report", version = "0.15.1" }
+opentalk-types-signaling-transcription = { path = "crates/opentalk-types-signaling-transcription", version = "0.10.1" }
+opentalk-types-signaling-whiteboard = { path = "crates/opentalk-types-signaling-whiteboard", version = "0.44.1" }
 
 actix-http = "3"
 actix-web = "4"
