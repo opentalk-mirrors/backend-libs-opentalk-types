@@ -50,13 +50,12 @@ serde = [
 ]
 utoipa = ["opentalk-types-api-v1?/utoipa", "opentalk-types-common?/utoipa"]
 
-types-all = ["api", "signaling-all"]
+types-all = ["api", "signaling"]
 
 api = ["api-v1"]
 api-v1 = ["common", "dep:opentalk-types-api-v1"]
 common = ["dep:opentalk-types-common"]
 signaling = ["common", "dep:opentalk-types-signaling"]
-signaling-all = ["signaling"]
 
 [dependencies]
 opentalk-types-api-v1 = { workspace = true, optional = true }
