@@ -51,36 +51,6 @@ available that pull in a set of dependencies.
   Re-exports [`opentalk-types-api-v1`](https://docs.rs/opentalk-types-api-v1) crate as [`api::v1`].
 * **signaling** -
   Re-exports all content of the [`opentalk-types-signaling`](https://docs.rs/opentalk-types-signaling) crate in the [`signaling`] module.
-* **signaling-breakout** -
-  Re-exports [`opentalk-types-signaling-breakout`](https://docs.rs/opentalk-types-signaling-breakout) crate as [`signaling::breakout`].
-* **signaling-chat** -
-  Re-exports [`opentalk-types-signaling-chat`](https://docs.rs/opentalk-types-signaling-chat) crate as [`signaling::chat`].
-* **signaling-control** -
-  Re-exports [`opentalk-types-signaling-control`](https://docs.rs/opentalk-types-signaling-control) crate as [`signaling::control`].
-* **signaling-livekit** -
-  Re-exports [`opentalk-types-signaling-livekit`](https://docs.rs/opentalk-types-signaling-livekit) crate as [`signaling::livekit`].
-* **signaling-meeting-notes** -
-  Re-exports [`opentalk-types-signaling-meeting-notes`](https://docs.rs/opentalk-types-signaling-meeting-notes) crate as [`signaling::meeting_notes`].
-* **signaling-meeting-report** -
-  Re-exports [`opentalk-types-signaling-meeting-report`](https://docs.rs/opentalk-types-signaling-meeting-report) crate as [`signaling::meeting_report`].
-* **signaling-moderation** -
-  Re-exports [`opentalk-types-signaling-moderation`](https://docs.rs/opentalk-types-signaling-moderation) crate as [`signaling::moderation`].
-* **signaling-polls** -
-  Re-exports [`opentalk-types-signaling-polls`](https://docs.rs/opentalk-types-signaling-polls) crate as [`signaling::polls`].
-* **signaling-recording** -
-  Re-exports [`opentalk-types-signaling-recording`](https://docs.rs/opentalk-types-signaling-recording) crate as [`signaling::recording`].
-* **signaling-recording-service** -
-  Re-exports [`opentalk-types-signaling-recording-service`](https://docs.rs/opentalk-types-signaling-recording-service) crate as [`signaling::recording_service`].
-* **signaling-shared-folder** -
-  Re-exports [`opentalk-types-signaling-shared-folder`](https://docs.rs/opentalk-types-signaling-shared-folder) crate as [`signaling::shared_folder`].
-* **signaling-subroom-audio** -
-  Re-exports [`opentalk-types-signaling-subroom-audio`](https://docs.rs/opentalk-types-signaling-subroom-audio) crate as [`signaling::subroom_audio`].
-* **signaling-timer** -
-  Re-exports [`opentalk-types-signaling-timer`](https://docs.rs/opentalk-types-signaling-timer) crate as [`signaling::timer`].
-* **signaling-training-participation-report** -
-  Re-exports [`opentalk-types-signaling-training-participation-report`](https://docs.rs/opentalk-types-signaling-training-participation-report) crate as [`signaling::training_participation_report`].
-* **signaling-whiteboard** -
-  Re-exports [`opentalk-types-signaling-whiteboard`](https://docs.rs/opentalk-types-signaling-whiteboard) crate as [`signaling::whiteboard`].
 
 ## Functionality features
 
@@ -143,44 +113,4 @@ pub mod signaling {
     `signaling-subroom-audio`.
     */
     pub use opentalk_types_signaling::*;
-    #[cfg(feature = "signaling-asset-storage")]
-    pub use opentalk_types_signaling_asset_storage as asset_storage;
-    #[cfg(feature = "signaling-automod")]
-    pub use opentalk_types_signaling_automod as automod;
-    #[cfg(feature = "signaling-breakout")]
-    pub use opentalk_types_signaling_breakout as breakout;
-    #[cfg(feature = "signaling-chat")]
-    pub use opentalk_types_signaling_chat as chat;
-    #[cfg(feature = "signaling-control")]
-    pub use opentalk_types_signaling_control as control;
-    #[cfg(feature = "signaling-e2ee")]
-    pub use opentalk_types_signaling_e2ee as e2ee;
-    #[cfg(feature = "signaling-legal-vote")]
-    pub use opentalk_types_signaling_legal_vote as legal_vote;
-    #[cfg(feature = "signaling-livekit")]
-    pub use opentalk_types_signaling_livekit as livekit;
-    #[cfg(feature = "signaling-meeting-notes")]
-    pub use opentalk_types_signaling_meeting_notes as meeting_notes;
-    #[cfg(feature = "signaling-meeting-report")]
-    pub use opentalk_types_signaling_meeting_report as meeting_report;
-    #[cfg(feature = "signaling-moderation")]
-    pub use opentalk_types_signaling_moderation as moderation;
-    #[cfg(feature = "signaling-polls")]
-    pub use opentalk_types_signaling_polls as polls;
-    #[cfg(feature = "signaling-recording")]
-    pub use opentalk_types_signaling_recording as recording;
-    #[cfg(feature = "signaling-recording-service")]
-    pub use opentalk_types_signaling_recording_service as recording_service;
-    #[cfg(feature = "signaling-shared-folder")]
-    pub use opentalk_types_signaling_shared_folder as shared_folder;
-    #[cfg(feature = "signaling-subroom-audio")]
-    pub use opentalk_types_signaling_subroom_audio as subroom_audio;
-    #[cfg(feature = "signaling-timer")]
-    pub use opentalk_types_signaling_timer as timer;
-    #[cfg(feature = "signaling-training-participation-report")]
-    pub use opentalk_types_signaling_training_participation_report as training_participation_report;
-    #[cfg(feature = "signaling-transcription")]
-    pub use opentalk_types_signaling_transcription as transcription;
-    #[cfg(feature = "signaling-whiteboard")]
-    pub use opentalk_types_signaling_whiteboard as whiteboard;
 }
