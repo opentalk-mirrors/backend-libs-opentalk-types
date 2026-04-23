@@ -1734,7 +1734,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling-asset-storage"
-version = "0.5.0"
+version = "0.5.1"
 dependencies = [
  "opentalk-types-common",
  "opentalk-types-signaling",
@@ -1745,7 +1745,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling-automod"
-version = "0.14.0"
+version = "0.14.1"
 dependencies = [
  "opentalk-types-common",
  "opentalk-types-signaling",
@@ -1756,7 +1756,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling-breakout"
-version = "0.44.0"
+version = "0.44.1"
 dependencies = [
  "opentalk-types-common",
  "opentalk-types-signaling",
@@ -1767,7 +1767,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling-chat"
-version = "0.45.0"
+version = "0.45.1"
 dependencies = [
  "chrono",
  "derive_more",
@@ -1782,7 +1782,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling-control"
-version = "0.45.0"
+version = "0.45.1"
 dependencies = [
  "chrono",
  "opentalk-types-common",
@@ -1794,7 +1794,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling-e2ee"
-version = "0.13.0"
+version = "0.13.1"
 dependencies = [
  "bytes",
  "opentalk-types-common",
@@ -1804,7 +1804,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling-legal-vote"
-version = "0.16.0"
+version = "0.16.1"
 dependencies = [
  "basen",
  "chrono",
@@ -1823,7 +1823,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling-livekit"
-version = "0.46.0"
+version = "0.46.1"
 dependencies = [
  "opentalk-types-common",
  "opentalk-types-signaling",
@@ -1832,7 +1832,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling-meeting-notes"
-version = "0.44.0"
+version = "0.44.1"
 dependencies = [
  "opentalk-types-common",
  "opentalk-types-signaling",
@@ -1843,7 +1843,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling-meeting-report"
-version = "0.44.0"
+version = "0.44.1"
 dependencies = [
  "opentalk-types-common",
  "pretty_assertions",
@@ -1853,7 +1853,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling-moderation"
-version = "0.44.0"
+version = "0.44.1"
 dependencies = [
  "opentalk-types-common",
  "opentalk-types-signaling",
@@ -1864,7 +1864,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling-polls"
-version = "0.44.0"
+version = "0.44.1"
 dependencies = [
  "chrono",
  "derive_more",
@@ -1879,7 +1879,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling-recording"
-version = "0.44.0"
+version = "0.44.1"
 dependencies = [
  "derive_more",
  "opentalk-types-common",
@@ -1893,7 +1893,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling-recording-service"
-version = "0.44.0"
+version = "0.44.1"
 dependencies = [
  "opentalk-types-common",
  "opentalk-types-signaling",
@@ -1905,7 +1905,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling-shared-folder"
-version = "0.44.0"
+version = "0.44.1"
 dependencies = [
  "opentalk-types-common",
  "opentalk-types-signaling",
@@ -1914,7 +1914,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling-subroom-audio"
-version = "0.44.0"
+version = "0.44.1"
 dependencies = [
  "derive_more",
  "opentalk-types-common",
@@ -1928,7 +1928,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling-timer"
-version = "0.44.0"
+version = "0.44.1"
 dependencies = [
  "chrono",
  "derive_more",
@@ -1943,7 +1943,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling-training-participation-report"
-version = "0.15.0"
+version = "0.15.1"
 dependencies = [
  "opentalk-types-common",
  "opentalk-types-signaling",
@@ -1954,7 +1954,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling-transcription"
-version = "0.10.0"
+version = "0.10.1"
 dependencies = [
  "opentalk-types-common",
  "opentalk-types-signaling",
@@ -1963,7 +1963,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling-whiteboard"
-version = "0.44.0"
+version = "0.44.1"
 dependencies = [
  "opentalk-types-common",
  "opentalk-types-signaling",
