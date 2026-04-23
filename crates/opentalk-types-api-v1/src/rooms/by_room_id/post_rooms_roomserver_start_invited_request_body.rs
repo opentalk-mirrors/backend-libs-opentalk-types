@@ -9,7 +9,7 @@ use opentalk_types_common::{
     utils::ExampleData,
 };
 
-/// The JSON body expected when making a *POST /rooms/{room_id}/roomserver/start_invited* request
+/// The JSON body expected when making a *POST /rooms/{room_id}/start_invited* request
 #[derive(Clone, Debug, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(
