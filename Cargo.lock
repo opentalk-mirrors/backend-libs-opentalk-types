@@ -1550,7 +1550,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-mail-worker-protocol"
-version = "0.44.0"
+version = "0.44.1"
 dependencies = [
  "chrono",
  "opentalk-types-common",
@@ -1572,7 +1572,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-api-common"
-version = "0.7.1"
+version = "0.7.2"
 dependencies = [
  "actix-web",
  "axum",
@@ -1595,7 +1595,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-api-internal"
-version = "0.2.1"
+version = "0.2.2"
 dependencies = [
  "chrono",
  "opentalk-types-api-common",
@@ -1627,7 +1627,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-common"
-version = "0.43.2"
+version = "0.44.0"
 dependencies = [
  "actix-http",
  "actix-web-httpauth",
@@ -1689,7 +1689,7 @@ dependencies = [
 
 [[package]]
 name = "opentalk-types-signaling"
-version = "0.45.1"
+version = "0.45.2"
 dependencies = [
  "derive_more",
  "opentalk-types-common",
