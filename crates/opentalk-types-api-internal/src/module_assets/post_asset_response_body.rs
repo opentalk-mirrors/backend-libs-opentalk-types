@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::module_assets::{AssetResource, Quota};
 
-/// Response for the `POST /services/roomserver/room/{room_id}/asset` endpoint
+/// Response for the `POST /services/rooms/{room_id}/asset` endpoint
 #[derive(Debug, Clone, Eq, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "utoipa", derive(utoipa::ToSchema))]
 pub struct PostAssetResponseBody {

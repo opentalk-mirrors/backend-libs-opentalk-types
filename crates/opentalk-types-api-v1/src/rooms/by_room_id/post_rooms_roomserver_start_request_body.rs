@@ -4,7 +4,7 @@
 
 use opentalk_types_common::{roomserver::DeviceSecret, users::DisplayName, utils::ExampleData};
 
-/// The JSON body expected when making a *POST /rooms/{room_id}/roomserver/start* request
+/// The JSON body expected when making a *POST /rooms/{room_id}/start* request
 #[derive(Clone, Debug, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(
