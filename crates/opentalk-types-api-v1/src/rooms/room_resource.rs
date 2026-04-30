@@ -87,7 +87,7 @@ mod serde_tests {
             "created_by": serde_json::to_value(PublicUserProfile::example_data()).unwrap(),
             "created_at": serde_json::to_value(Timestamp::unix_epoch()).unwrap(),
             "waiting_room": false,
-            "guest_access": "direct_access",
+            "guest_access": "waiting_room",
         });
 
         let serialized = serde_json::to_value(&room).unwrap();
@@ -106,7 +106,7 @@ mod serde_tests {
             "created_at": serde_json::to_value(Timestamp::unix_epoch()).unwrap(),
             "password": RoomPassword::example_data(),
             "waiting_room": false,
-            "guest_access": "direct_access",
+            "guest_access": "waiting_room",
         });
 
         let serialized = serde_json::to_value(&room).unwrap();
