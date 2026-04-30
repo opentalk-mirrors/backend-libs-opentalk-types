@@ -31,13 +31,13 @@ sql_enum!(
 #[allow(clippy::derivable_impls)]
 impl Default for GuestAccess {
     fn default() -> Self {
-        Self::DirectAccess
+        Self::WaitingRoom
     }
 }
 
 impl ExampleData for GuestAccess {
     fn example_data() -> Self {
-        Self::DirectAccess
+        Self::WaitingRoom
     }
 }
 
