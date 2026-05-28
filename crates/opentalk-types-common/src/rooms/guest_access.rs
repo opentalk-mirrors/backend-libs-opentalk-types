@@ -28,6 +28,23 @@ sql_enum!(
     }
 );
 
+impl GuestAccess {
+    /// Check whether the value is [`GuestAccess::Disabled`].
+    pub const fn is_disabled(&self) -> bool {
+        matches!(self, Self::Disabled)
+    }
+
+    /// Check whether the value is [`GuestAccess::WaitingRoom`].
+    pub const fn is_waiting_room(&self) -> bool {
+        matches!(self, Self::WaitingRoom)
+    }
+
+    /// Check whether the value is [`GuestAccess::DirectAccess`].
+    pub const fn is_direct_access(&self) -> bool {
+        matches!(self, Self::DirectAccess)
+    }
+}
+
 #[allow(clippy::derivable_impls)]
 impl Default for GuestAccess {
     fn default() -> Self {
@@ -41,8 +58,34 @@ impl ExampleData for GuestAccess {
     }
 }
 
-#[cfg(all(test, feature = "serde"))]
+#[cfg(test)]
 mod tests {
+    use super::GuestAccess;
+
+    #[test]
+    fn is_disabled() {
+        assert!(GuestAccess::Disabled.is_disabled());
+        assert!(!GuestAccess::WaitingRoom.is_disabled());
+        assert!(!GuestAccess::DirectAccess.is_disabled());
+    }
+
+    #[test]
+    fn is_waiting_room() {
+        assert!(!GuestAccess::Disabled.is_waiting_room());
+        assert!(GuestAccess::WaitingRoom.is_waiting_room());
+        assert!(!GuestAccess::DirectAccess.is_waiting_room());
+    }
+
+    #[test]
+    fn is_direct_access() {
+        assert!(!GuestAccess::Disabled.is_direct_access());
+        assert!(!GuestAccess::WaitingRoom.is_direct_access());
+        assert!(GuestAccess::DirectAccess.is_direct_access());
+    }
+}
+
+#[cfg(all(test, feature = "serde"))]
+mod serde_tests {
     use pretty_assertions::assert_eq;
     use serde_json::json;
 
