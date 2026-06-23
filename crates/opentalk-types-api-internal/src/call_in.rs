@@ -4,10 +4,7 @@
 
 //! Types used by the `call_in` service
 
-use opentalk_types_common::{
-    call_in::{CallInId, CallInPassword},
-    users::DisplayName,
-};
+use opentalk_types_common::call_in::{CallInId, CallInPassword};
 use serde::{Deserialize, Serialize};
 
 /// Body for the `POST /services/call_in/start` endpoint
@@ -18,6 +15,4 @@ pub struct PostCallInStartRoomServerRequestBody {
     pub id: CallInId,
     /// The call-in password
     pub pin: CallInPassword,
-    /// The caller's display name, as defined by the call-in service.
-    pub display_name: DisplayName,
 }
