@@ -3,10 +3,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 use chrono::{DateTime, TimeZone, Utc};
-use opentalk_types_common::{
-    rooms::{RoomId, invite_codes::InviteCode},
-    utils::ExampleData,
-};
+use opentalk_types_common::{rooms::RoomId, utils::ExampleData};
 
 use crate::users::PublicUserProfile;
 
@@ -19,9 +16,6 @@ use crate::users::PublicUserProfile;
     schema(example = json!(InviteResource::example_data())),
 )]
 pub struct InviteResource {
-    /// The invite code id
-    pub invite_code: InviteCode,
-
     /// The timestamp this invite was created at
     pub created: DateTime<Utc>,
 
@@ -47,7 +41,6 @@ pub struct InviteResource {
 impl ExampleData for InviteResource {
     fn example_data() -> Self {
         Self {
-            invite_code: InviteCode::example_data(),
             created: Utc.with_ymd_and_hms(2024, 6, 18, 11, 22, 33).unwrap(),
             created_by: PublicUserProfile::example_data(),
             updated: Utc.with_ymd_and_hms(2024, 6, 20, 14, 16, 19).unwrap(),

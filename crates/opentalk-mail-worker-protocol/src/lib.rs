@@ -52,12 +52,7 @@ impl MailTask {
     }
 
     /// Creates an invite MailTask for an external invitee
-    pub fn external_event_invite<E, I, U>(
-        inviter: I,
-        event: E,
-        invitee: U,
-        invite_code: String,
-    ) -> MailTask
+    pub fn external_event_invite<E, I, U>(inviter: I, event: E, invitee: U) -> MailTask
     where
         I: Into<v1::RegisteredUser>,
         E: Into<v1::Event>,
@@ -67,7 +62,6 @@ impl MailTask {
             invitee: invitee.into(),
             event: event.into(),
             inviter: inviter.into(),
-            invite_code,
         }))
     }
 
@@ -123,7 +117,6 @@ impl MailTask {
         event: E,
         event_exception: Option<EE>,
         invitee: U,
-        invite_code: String,
     ) -> MailTask
     where
         I: Into<v1::RegisteredUser>,
@@ -136,7 +129,6 @@ impl MailTask {
             event: event.into(),
             event_exception: event_exception.map(Into::into),
             inviter: inviter.into(),
-            invite_code,
         }))
     }
 
