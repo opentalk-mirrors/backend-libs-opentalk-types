@@ -5,7 +5,6 @@
 use opentalk_types_common::{
     rooms::{RoomPassword, invite_codes::InviteCode},
     roomserver::DeviceSecret,
-    users::DisplayName,
     utils::ExampleData,
 };
 
@@ -20,17 +19,6 @@ use opentalk_types_common::{
 pub struct PostRoomsRoomserverStartRequestBody {
     /// The clients device secret. Used to identify the client across sessions
     pub device_secret: DeviceSecret,
-
-    /// The clients display name. Optional because registered users already have a configured display name
-    #[cfg_attr(
-        feature = "serde",
-        serde(default, skip_serializing_if = "Option::is_none")
-    )]
-    // Field is non-required already, utoipa adds a `nullable: true` entry
-    // by default which creates a false positive in the spectral linter when
-    // combined with example data.
-    #[cfg_attr(feature = "utoipa", schema(nullable = false))]
-    pub display_name: Option<DisplayName>,
 
     /// The invited user's password to the room
     #[cfg_attr(
@@ -59,7 +47,6 @@ impl ExampleData for PostRoomsRoomserverStartRequestBody {
     fn example_data() -> Self {
         Self {
             device_secret: DeviceSecret::example_data(),
-            display_name: Some(DisplayName::example_data()),
             password: None,
             invite_code: None,
         }

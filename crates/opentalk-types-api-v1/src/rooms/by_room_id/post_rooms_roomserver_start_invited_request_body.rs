@@ -5,7 +5,6 @@
 use opentalk_types_common::{
     rooms::{RoomPassword, invite_codes::InviteCode},
     roomserver::DeviceSecret,
-    users::DisplayName,
     utils::ExampleData,
 };
 
@@ -34,9 +33,6 @@ pub struct PostRoomsRoomserverStartInvitedRequestBody {
 
     /// The invite code
     pub invite_code: String,
-
-    /// The clients display name
-    pub display_name: DisplayName,
 }
 
 impl ExampleData for PostRoomsRoomserverStartInvitedRequestBody {
@@ -45,7 +41,6 @@ impl ExampleData for PostRoomsRoomserverStartInvitedRequestBody {
             device_secret: DeviceSecret::example_data(),
             password: Some(RoomPassword::example_data()),
             invite_code: InviteCode::example_data().to_string(),
-            display_name: DisplayName::example_data(),
         }
     }
 }
