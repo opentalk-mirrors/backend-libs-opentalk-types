@@ -2,7 +2,10 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-use crate::{call_in::CallInInfo, streaming::StreamingLink, utils::ExampleData};
+use crate::{
+    call_in::CallInInfo, rooms::invite_codes::InviteCode, streaming::StreamingLink,
+    utils::ExampleData,
+};
 
 /// Details about meeting
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -14,6 +17,17 @@ use crate::{call_in::CallInInfo, streaming::StreamingLink, utils::ExampleData};
 )]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS), ts(export_to = "common/"))]
 pub struct MeetingDetails {
+    /// The invite code id of the event
+    #[cfg_attr(
+        feature = "serde",
+        serde(default, skip_serializing_if = "Option::is_none")
+    )]
+    // Field is non-required already, utoipa adds a `nullable: true` entry
+    // by default which creates a false positive in the spectral linter when
+    // combined with example data.
+    #[cfg_attr(feature = "utoipa", schema(nullable = false))]
+    pub invite_code_id: Option<InviteCode>,
+
     /// The call-in information for the event
     #[cfg_attr(
         feature = "serde",
@@ -33,6 +47,7 @@ pub struct MeetingDetails {
 impl ExampleData for MeetingDetails {
     fn example_data() -> Self {
         Self {
+            invite_code_id: Some(InviteCode::example_data()),
             call_in: Some(CallInInfo::example_data()),
             streaming_links: vec![StreamingLink::example_data()],
         }

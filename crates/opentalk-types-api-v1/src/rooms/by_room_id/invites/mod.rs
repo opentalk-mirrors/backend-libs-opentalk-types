@@ -10,6 +10,7 @@ mod post_invite_request_body;
 mod post_invite_verify_request_body;
 mod post_invite_verify_response_body;
 mod put_invite_request_body;
+mod room_id_and_invite_code;
 
 pub use get_rooms_invites_response_body::GetRoomsInvitesResponseBody;
 pub use invite_resource::InviteResource;
@@ -17,3 +18,4 @@ pub use post_invite_request_body::PostInviteRequestBody;
 pub use post_invite_verify_request_body::PostInviteVerifyRequestBody;
 pub use post_invite_verify_response_body::PostInviteVerifyResponseBody;
 pub use put_invite_request_body::PutInviteRequestBody;
+pub use room_id_and_invite_code::RoomIdAndInviteCode;
