@@ -63,6 +63,7 @@ pub struct ExternalEventInvite {
     pub invitee: ExternalUser,
     pub event: Event,
     pub inviter: RegisteredUser,
+    pub invite_code: String,
 }
 
 impl ExampleData for ExternalEventInvite {
@@ -71,6 +72,7 @@ impl ExampleData for ExternalEventInvite {
             invitee: ExternalUser::example_data(),
             event: Event::example_data(),
             inviter: example_inviter(),
+            invite_code: example_invite_code(),
         }
     }
 }
@@ -137,6 +139,7 @@ pub struct ExternalEventUpdate {
     pub event: Event,
     pub event_exception: Option<EventException>,
     pub inviter: RegisteredUser,
+    pub invite_code: String,
 }
 
 impl ExampleData for ExternalEventUpdate {
@@ -146,6 +149,7 @@ impl ExampleData for ExternalEventUpdate {
             event: Event::example_data(),
             event_exception: Some(EventException::example_data()),
             inviter: example_inviter(),
+            invite_code: example_invite_code(),
         }
     }
 }
@@ -296,4 +300,8 @@ fn example_inviter() -> RegisteredUser {
         last_name: "Dunn".to_string(),
         language: "en".parse().expect("valid language"),
     }
+}
+
+fn example_invite_code() -> String {
+    "5b5f9cf0-86a8-4e5a-bfac-b05c34c8a20b".to_string()
 }
