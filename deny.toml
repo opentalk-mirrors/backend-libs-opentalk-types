@@ -151,6 +151,7 @@ skip = [
   { name = "http", version = "0.2" },
   { name = "litemap", version = "0.7" },
   { name = "socket2", version = "0.5" },
+  { name = "syn", version = "2" },
   { name = "tinystr", version = "0.7" },
   { name = "writeable", version = "0.5" },
 ]
