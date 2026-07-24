@@ -50,3 +50,43 @@ impl ExampleData for EventInfo {
         }
     }
 }
+
+#[cfg(all(test, feature = "serde"))]
+mod serde_tests {
+    use pretty_assertions::assert_eq;
+    use serde_json::json;
+
+    use super::*;
+
+    #[test]
+    fn serialize_event_info() {
+        assert_eq!(
+            json!(EventInfo::example_data()),
+            json!({
+                "id": "00000000-0000-0000-0000-004433221100",
+                "room_id": "00000000-0000-0000-0000-0000abadcafe",
+                "title": "Team Event",
+                "is_adhoc": false,
+                "e2e_encryption": false,
+                "password_required": false,
+            })
+        );
+    }
+
+    #[test]
+    fn deserialize_event_info() {
+        let json = json!({
+            "id": "00000000-0000-0000-0000-004433221100",
+            "room_id": "00000000-0000-0000-0000-0000abadcafe",
+            "title": "Team Event",
+            "is_adhoc": false,
+            "e2e_encryption": false,
+            "password_required": false,
+        });
+
+        assert_eq!(
+            serde_json::from_value::<EventInfo>(json).unwrap(),
+            EventInfo::example_data()
+        );
+    }
+}
