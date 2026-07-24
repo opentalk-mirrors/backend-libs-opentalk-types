@@ -33,6 +33,9 @@ pub struct EventInfo {
 
     /// Indicates whether the meeting room should have e2e encryption enabled.
     pub e2e_encryption: bool,
+
+    /// Indicates whether the meeting room requires a password to join.
+    pub password_required: bool,
 }
 
 impl ExampleData for EventInfo {
@@ -43,6 +46,7 @@ impl ExampleData for EventInfo {
             title: EventTitle::example_data(),
             is_adhoc: false,
             e2e_encryption: false,
+            password_required: false,
         }
     }
 }
