@@ -5,7 +5,7 @@
 //! Common types related to event
 
 use crate::{
-    events::{EventId, EventTitle, MeetingDetails},
+    events::{EventId, EventTitle},
     rooms::RoomId,
     utils::ExampleData,
 };
@@ -31,26 +31,11 @@ pub struct EventInfo {
     /// True if the event was created ad-hoc
     pub is_adhoc: bool,
 
-    /// The meeting details of the event
-    // Field is non-required already, utoipa adds a `nullable: true` entry
-    // by default which creates a false positive in the spectral linter when
-    // combined with example data.
-    #[cfg_attr(feature = "utoipa", schema(nullable = false))]
-    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none"))]
-    pub meeting_details: Option<MeetingDetails>,
-
     /// Indicates whether the meeting room should have e2e encryption enabled.
     pub e2e_encryption: bool,
-}
 
-impl EventInfo {
-    /// Enriches the event info with meeting details
-    pub fn with_meeting_details(self, meeting_details: MeetingDetails) -> EventInfo {
-        EventInfo {
-            meeting_details: Some(meeting_details),
-            ..self
-        }
-    }
+    /// Indicates whether the meeting room requires a password to join.
+    pub password_required: bool,
 }
 
 impl ExampleData for EventInfo {
@@ -60,8 +45,48 @@ impl ExampleData for EventInfo {
             room_id: RoomId::example_data(),
             title: EventTitle::example_data(),
             is_adhoc: false,
-            meeting_details: Some(MeetingDetails::example_data()),
             e2e_encryption: false,
+            password_required: false,
         }
+    }
+}
+
+#[cfg(all(test, feature = "serde"))]
+mod serde_tests {
+    use pretty_assertions::assert_eq;
+    use serde_json::json;
+
+    use super::*;
+
+    #[test]
+    fn serialize_event_info() {
+        assert_eq!(
+            json!(EventInfo::example_data()),
+            json!({
+                "id": "00000000-0000-0000-0000-004433221100",
+                "room_id": "00000000-0000-0000-0000-0000abadcafe",
+                "title": "Team Event",
+                "is_adhoc": false,
+                "e2e_encryption": false,
+                "password_required": false,
+            })
+        );
+    }
+
+    #[test]
+    fn deserialize_event_info() {
+        let json = json!({
+            "id": "00000000-0000-0000-0000-004433221100",
+            "room_id": "00000000-0000-0000-0000-0000abadcafe",
+            "title": "Team Event",
+            "is_adhoc": false,
+            "e2e_encryption": false,
+            "password_required": false,
+        });
+
+        assert_eq!(
+            serde_json::from_value::<EventInfo>(json).unwrap(),
+            EventInfo::example_data()
+        );
     }
 }
