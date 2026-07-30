@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 use opentalk_types_common::{
-    rooms::{GuestAccess, RoomId, RoomPassword},
+    rooms::{GuestAccess, RoomAlias, RoomId, RoomPassword},
     utils::ExampleData,
 };
 
@@ -20,6 +20,17 @@ use super::CallInInfo;
 pub struct EventRoomInfo {
     /// ID of the room
     pub id: RoomId,
+
+    /// An alias that can be used in the URL to access the room instead of the [`RoomId`].
+    #[cfg_attr(
+        feature = "serde",
+        serde(default, skip_serializing_if = "Option::is_none")
+    )]
+    // Field is non-required already, utoipa adds a `nullable: true` entry
+    // by default which creates a false positive in the spectral linter when
+    // combined with example data.
+    #[cfg_attr(feature = "utoipa", schema(nullable = false))]
+    pub alias: Option<RoomAlias>,
 
     /// Password of the room
     #[cfg_attr(
@@ -59,6 +70,7 @@ impl ExampleData for EventRoomInfo {
     fn example_data() -> Self {
         Self {
             id: RoomId::example_data(),
+            alias: Some(RoomAlias::example_data()),
             password: Some(RoomPassword::example_data()),
             waiting_room: false,
             e2e_encryption: false,

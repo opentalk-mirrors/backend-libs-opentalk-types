@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 use opentalk_types_common::{
-    rooms::{GuestAccess, RoomId, RoomPassword},
+    rooms::{GuestAccess, RoomAlias, RoomId, RoomPassword},
     time::Timestamp,
     utils::ExampleData,
 };
@@ -26,6 +26,17 @@ use crate::users::PublicUserProfile;
 pub struct RoomResource {
     /// The ID of the room
     pub id: RoomId,
+
+    /// An optional alias for the room that can be used in room links.
+    #[cfg_attr(
+        feature = "serde",
+        serde(default, skip_serializing_if = "Option::is_none")
+    )]
+    // Field is non-required already, utoipa adds a `nullable: true` entry
+    // by default which creates a false positive in the spectral linter when
+    // combined with example data.
+    #[cfg_attr(feature = "utoipa", schema(nullable = false))]
+    pub alias: Option<RoomAlias>,
 
     /// The public user profile of the room's owner
     pub created_by: PublicUserProfile,
@@ -56,6 +67,7 @@ impl ExampleData for RoomResource {
     fn example_data() -> Self {
         Self {
             id: RoomId::nil(),
+            alias: Some(RoomAlias::example_data()),
             created_by: PublicUserProfile::example_data(),
             created_at: Timestamp::unix_epoch(),
             password: Some(RoomPassword::example_data()),
@@ -76,6 +88,7 @@ mod serde_tests {
     fn without_optional_fields() {
         let room = RoomResource {
             id: RoomId::nil(),
+            alias: None,
             created_by: PublicUserProfile::example_data(),
             created_at: Timestamp::unix_epoch(),
             password: None,
@@ -102,6 +115,7 @@ mod serde_tests {
         let room = RoomResource::example_data();
         let json = json!({
             "id": RoomId::nil(),
+            "alias": RoomAlias::example_data(),
             "created_by": serde_json::to_value(PublicUserProfile::example_data()).unwrap(),
             "created_at": serde_json::to_value(Timestamp::unix_epoch()).unwrap(),
             "password": RoomPassword::example_data(),

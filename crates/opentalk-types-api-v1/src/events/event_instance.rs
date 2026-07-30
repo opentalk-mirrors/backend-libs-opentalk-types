@@ -238,6 +238,7 @@ mod serde_tests {
                 },
                 "e2e_encryption": false,
                 "id": "00000000-0000-0000-0000-0000abadcafe",
+                "alias": "personal-room-name_0000000000000000",
                 "password": "v3rys3cr3t",
                 "waiting_room": false,
                 "guest_access": "waiting_room",
