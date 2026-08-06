@@ -21,9 +21,17 @@ pub struct CallInInfo {
     /// SIP ID which must transmitted via DTMF (number field on the phone) to identify this room
     pub id: CallInId,
 
-    /// SIP password which must be transmitted via DTMF (number field on the phone) after entering the `sip_id`
-    /// to enter the room
+    /// SIP password which must be transmitted via DTMF (number field on the phone) after entering
+    /// the `sip_id` to enter the room
     pub password: CallInPassword,
+
+    /// Mask phone numbers of call-in users.
+    pub mask_unmapped_phone_numbers: bool,
+
+    /// The default country code (CLDR region codes), which is used if a phone number does not
+    /// contain a country code.
+    #[cfg_attr(feature = "utoipa", schema(example = "DE"))]
+    pub default_country_code: String,
 }
 
 impl ExampleData for CallInInfo {
@@ -32,6 +40,8 @@ impl ExampleData for CallInInfo {
             tel: "+555-123-456-789".to_string(),
             id: "1234567890".parse().expect("valid call-in id"),
             password: "0987654321".parse().expect("valid call-in password"),
+            mask_unmapped_phone_numbers: true,
+            default_country_code: "DE".to_string(),
         }
     }
 }
