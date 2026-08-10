@@ -56,7 +56,7 @@ serde_urlencoded = "0.7"
 serde_with = "3.8"
 snafu = "0.9"
 strum = { version = "0.28", features = ["derive"] }
-syn = "2"
+syn = "3"
 trybuild = "1"
 ts-rs = { version = "12", features = ["chrono-impl", "uuid-impl"] }
 url = "2"
