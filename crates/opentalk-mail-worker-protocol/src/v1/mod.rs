@@ -5,7 +5,7 @@
 use chrono::{TimeZone, Utc};
 use opentalk_types_common::{
     events::{EventDescription, EventTitle},
-    rooms::RoomPassword,
+    rooms::{RoomAlias, RoomPassword},
     shared_folders::SharedFolder,
     streaming::RoomStreamingTarget,
     users::{Language, UserTitle},
@@ -257,6 +257,7 @@ pub enum EventExceptionKind {
 )]
 pub struct Room {
     pub id: Uuid,
+    pub alias: Option<RoomAlias>,
     pub password: Option<RoomPassword>,
 }
 
@@ -264,6 +265,7 @@ impl ExampleData for Room {
     fn example_data() -> Self {
         Self {
             id: Uuid::from_u128(0xabcdef99),
+            alias: Some(RoomAlias::example_data()),
             password: Some("v3rys3cr3t".parse().unwrap()),
         }
     }
@@ -441,6 +443,7 @@ mod tests {
                 rrule: None,
                 room: Room {
                     id: Uuid::from_u128(0),
+                    alias: Some(RoomAlias::example_data()),
                     password: Some("password123".parse().unwrap()),
                 },
                 call_in: Some(CallIn {
@@ -482,6 +485,7 @@ mod tests {
                     "end_time": {"time": "2021-12-29T15:30:00+02:00", "timezone": "Europe/Berlin"},
                     "room": {
                         "id": Uuid::from_u128(0),
+                        "alias": RoomAlias::example_data(),
                         "password": "password123"
                     },
                     "call_in": {
@@ -545,6 +549,7 @@ mod tests {
                 rrule: None,
                 room: Room {
                     id: Uuid::from_u128(0),
+                    alias: None,
                     password: None,
                 },
                 call_in: Some(CallIn {
