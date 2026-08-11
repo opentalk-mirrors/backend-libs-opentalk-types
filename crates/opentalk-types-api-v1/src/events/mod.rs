@@ -101,7 +101,7 @@ pub use get_events_query::GetEventsQuery;
 pub use instance_id::InstanceId;
 pub use instance_marker::InstanceMarker;
 pub use patch_email_invite_body::PatchEmailInviteBody;
-pub use patch_event_body::PatchEventBody;
+pub use patch_event_body::{PatchEventBody, PatchEventBodyRoom};
 pub use patch_event_date::PatchEventDate;
 pub use patch_event_date_kind::PatchEventDateKind;
 pub use patch_event_instance_body::PatchEventInstanceBody;
