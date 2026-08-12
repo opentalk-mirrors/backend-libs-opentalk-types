@@ -43,11 +43,17 @@ pub struct PatchEventBody {
     #[cfg_attr(feature = "utoipa", schema(nullable = false))]
     pub description: Option<EventDescription>,
 
-    /// Patches to the room of the event
+    // We intentionally omit a field-level doc comment here: with `#[schema(inline)]` a field description would make
+    // utoipa wrap the inlined object in a single-element `oneOf`, whereas without it the room schema is embedded
+    // directly into the `allOf`, matching serde's `flatten` behavior.
+    #[allow(missing_docs)]
     #[cfg_attr(
         feature = "serde",
         serde(flatten, skip_serializing_if = "PatchEventBodyRoom::is_empty")
     )]
+    // Inline the schema so the flattened room fields are embedded directly instead of
+    // being emitted as a `$ref` inside the `allOf`.
+    #[cfg_attr(feature = "utoipa", schema(inline))]
     pub room: PatchEventBodyRoom,
 
     /// Patch the adhoc flag.
@@ -137,11 +143,7 @@ pub struct PatchEventBody {
 /// Room related fields of the body for the `PATCH /events/{event_id}` endpoint
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[cfg_attr(feature = "utoipa", derive(utoipa::ToSchema), schema(
-    example = json!(
-        PatchEventBody::example_data()
-    )
-))]
+#[cfg_attr(feature = "utoipa", derive(utoipa::ToSchema), schema(example = json!(PatchEventBodyRoom::example_data())))]
 pub struct PatchEventBodyRoom {
     /// A custom room name that can be used as part of the URL alias to access the room instead of the [`RoomId`].
     ///
