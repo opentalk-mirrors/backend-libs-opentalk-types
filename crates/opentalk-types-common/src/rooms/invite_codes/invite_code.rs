@@ -13,6 +13,8 @@ use {
 use crate::utils::ExampleData;
 
 /// An invite code
+///
+/// Note: invite codes are no longer support and only kept for backwards compatibility.
 #[derive(
     AsRef, Display, From, FromStr, Into, Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash,
 )]
