@@ -2,11 +2,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-use opentalk_types_common::{
-    rooms::{RoomPassword, invite_codes::InviteCode},
-    roomserver::DeviceSecret,
-    utils::ExampleData,
-};
+use opentalk_types_common::{rooms::RoomPassword, roomserver::DeviceSecret, utils::ExampleData};
 
 /// The JSON body expected when making a *POST /rooms/{room_id}/start* request
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -30,17 +26,6 @@ pub struct PostRoomsRoomserverStartRequestBody {
     // combined with example data.
     #[cfg_attr(feature = "utoipa", schema(nullable = false))]
     pub password: Option<RoomPassword>,
-
-    /// The invite code
-    #[cfg_attr(
-        feature = "serde",
-        serde(default, skip_serializing_if = "Option::is_none")
-    )]
-    // Field is non-required already, utoipa adds a `nullable: true` entry
-    // by default which creates a false positive in the spectral linter when
-    // combined with example data.
-    #[cfg_attr(feature = "utoipa", schema(nullable = false))]
-    pub invite_code: Option<InviteCode>,
 }
 
 impl ExampleData for PostRoomsRoomserverStartRequestBody {
@@ -48,7 +33,6 @@ impl ExampleData for PostRoomsRoomserverStartRequestBody {
         Self {
             device_secret: DeviceSecret::example_data(),
             password: None,
-            invite_code: None,
         }
     }
 }
