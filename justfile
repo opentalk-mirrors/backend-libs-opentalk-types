@@ -28,3 +28,20 @@ generate-deps-graph: _check_cargo_depgraph _check_dot
     OUT_PATH="target/dep-graph.png"
     cargo depgraph --workspace-only --all-deps | dot -Tpng > $OUT_PATH
     echo "Created dependency graph at $OUT_PATH"
+
+# Create annotated `<crate>-<version>` tags on HEAD for all workspace crates (existing tags are skipped)
+[no-exit-message]
+tag-release:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    cargo metadata --no-deps --format-version 1 \
+        | jq -r '.packages[] | select(.publish != []) | "\(.name)-\(.version)"' \
+        | sort \
+        | while read -r tag; do
+            if git rev-parse -q --verify "refs/tags/$tag" > /dev/null; then
+                echo "Tag '$tag' already exists, skipping."
+            else
+                git tag -a "$tag" -m "$tag"
+                echo "Created tag '$tag'."
+            fi
+        done
